@@ -1,0 +1,2168 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>תרומה · הבית · הקהילה הישראלית בוינה</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;700;900&family=Heebo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #FAF6F0;
+  --bg-warm: #F2EBDF;
+  --card: #FFFFFF;
+  --gold: #C9A84C;
+  --gold-soft: #E8D5B7;
+  --gold-deep: #B08F32;
+  --gold-bright: #F2D26B;
+  --gold-glow: #FFE89A;
+  --burgundy: #8B1A1A;
+  --burgundy-soft: #A83838;
+  --ink: #1C1817;
+  --ink-soft: #4A4441;
+  --muted: #8A827C;
+  --muted-soft: #A39A92;
+  --line: #E8E0D2;
+  --shadow-soft: 0 1px 2px rgba(28, 24, 23, 0.04), 0 8px 24px rgba(28, 24, 23, 0.06);
+  --shadow-card: 0 1px 3px rgba(28, 24, 23, 0.05), 0 12px 40px rgba(28, 24, 23, 0.08);
+  --serif: 'Frank Ruhl Libre', serif;
+  --sans: 'Heebo', system-ui, sans-serif;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  height: 100%; width: 100%; overflow: hidden;
+  background: var(--bg); color: var(--ink);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+}
+body::before {
+  content: ''; position: fixed; inset: 0;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(201, 168, 76, 0.08), transparent 60%),
+    radial-gradient(ellipse 60% 40% at 100% 100%, rgba(139, 26, 26, 0.04), transparent 60%),
+    radial-gradient(ellipse 60% 40% at 0% 100%, rgba(201, 168, 76, 0.05), transparent 60%);
+  pointer-events: none; z-index: 0;
+}
+.app {
+  position: relative; z-index: 2;
+  height: 100dvh; width: 100%;
+  display: grid; grid-template-rows: 1fr auto;
+  padding: clamp(14px, 2.5vh, 28px) clamp(16px, 4vw, 40px) clamp(12px, 2vh, 20px);
+}
+
+/* WELCOME */
+.welcome-screen {
+  position: fixed; inset: 0; z-index: 50;
+  background: var(--bg);
+  display: grid; place-items: center;
+  opacity: 1;
+  transition: opacity 0.7s var(--ease), visibility 0s 0.7s;
+}
+.welcome-screen.hide { opacity: 0; visibility: hidden; }
+.welcome-screen::before {
+  content: ''; position: absolute; inset: 0;
+  background-image:
+    radial-gradient(ellipse 70% 50% at 50% 20%, rgba(201, 168, 76, 0.12), transparent 60%),
+    radial-gradient(ellipse 50% 40% at 50% 100%, rgba(139, 26, 26, 0.06), transparent 60%);
+  pointer-events: none;
+}
+.welcome-content {
+  text-align: center; padding: 0 24px;
+  max-width: 540px; position: relative; z-index: 2;
+}
+.welcome-logo {
+  width: clamp(140px, 22vh, 220px);
+  margin: 0 auto 28px; opacity: 0;
+  transform: translateY(10px) scale(0.95);
+  animation: welcomeLogo 1.1s var(--ease) 0.2s forwards;
+}
+.welcome-logo img {
+  width: 100%; height: auto;
+  filter: drop-shadow(0 8px 24px rgba(176, 143, 50, 0.2));
+}
+@keyframes welcomeLogo { to { opacity: 1; transform: translateY(0) scale(1); } }
+.welcome-title {
+  font-family: var(--serif);
+  font-size: clamp(18px, 2.6vh, 22px);
+  font-weight: 400; color: var(--ink-soft);
+  line-height: 1.5; margin-bottom: 8px;
+  opacity: 0; transform: translateY(8px);
+  animation: welcomeRise 0.8s var(--ease) 0.6s forwards;
+}
+.welcome-name {
+  font-family: var(--serif);
+  font-size: clamp(36px, 6.5vh, 60px);
+  font-weight: 700; color: var(--ink);
+  line-height: 1; margin: 4px 0 18px;
+  letter-spacing: -0.01em;
+  opacity: 0; transform: translateY(8px);
+  animation: welcomeRise 0.8s var(--ease) 0.85s forwards;
+  position: relative; display: inline-block;
+}
+.welcome-name::before, .welcome-name::after {
+  content: ''; position: absolute; top: 50%;
+  width: 30px; height: 1px;
+  background: var(--gold); opacity: 0;
+  animation: lineDraw 0.6s var(--ease) 1.4s forwards;
+}
+.welcome-name::before { right: calc(100% + 18px); }
+.welcome-name::after { left: calc(100% + 18px); }
+@keyframes lineDraw { to { opacity: 0.8; } }
+.welcome-tagline {
+  font-family: var(--sans);
+  font-size: clamp(13px, 1.7vh, 15px);
+  color: var(--muted); font-weight: 400;
+  opacity: 0; transform: translateY(8px);
+  animation: welcomeRise 0.8s var(--ease) 1.2s forwards;
+}
+@keyframes welcomeRise { to { opacity: 1; transform: translateY(0); } }
+.welcome-progress {
+  width: 60px; height: 2px;
+  background: var(--line);
+  border-radius: 2px; margin: 28px auto 0;
+  overflow: hidden; opacity: 0;
+  animation: welcomeRise 0.4s var(--ease) 1.5s forwards;
+}
+.welcome-progress::before {
+  content: ''; display: block; height: 100%;
+  background: linear-gradient(90deg, var(--gold), var(--gold-deep));
+  width: 0;
+  animation: welcomeFill 1.3s var(--ease) 1.5s forwards;
+}
+@keyframes welcomeFill { to { width: 100%; } }
+
+/* STAGE */
+.stage {
+  display: grid; place-items: center;
+  padding: 12px 0; min-height: 0;
+  opacity: 0;
+  transition: opacity 0.6s var(--ease);
+}
+.stage.show { opacity: 1; }
+.card {
+  width: 100%; max-width: 580px;
+  background: var(--card); border-radius: 20px;
+  padding: clamp(20px, 3vh, 36px) clamp(20px, 4vw, 38px);
+  box-shadow: var(--shadow-card);
+  position: relative; border: 1px solid var(--line);
+}
+.card::before, .card::after {
+  content: ''; position: absolute;
+  width: 24px; height: 24px;
+  border: 1px solid var(--gold);
+  opacity: 0.4; pointer-events: none;
+}
+.card::before {
+  top: 12px; right: 12px;
+  border-bottom: none; border-left: none;
+  border-top-right-radius: 12px;
+}
+.card::after {
+  bottom: 12px; left: 12px;
+  border-top: none; border-right: none;
+  border-bottom-left-radius: 12px;
+}
+.step-header {
+  margin-bottom: clamp(16px, 2.5vh, 24px);
+  text-align: center;
+}
+.step-title {
+  font-family: var(--serif);
+  font-size: clamp(19px, 2.6vh, 24px);
+  font-weight: 600; line-height: 1.3;
+  color: var(--ink); letter-spacing: -0.005em;
+}
+.step-title .accent { color: var(--burgundy); }
+.divider {
+  width: 32px; height: 1px;
+  background: var(--gold);
+  margin: 12px auto 0;
+  position: relative;
+}
+.divider::before, .divider::after {
+  content: ''; position: absolute; top: 50%;
+  width: 4px; height: 4px;
+  border-radius: 50%; background: var(--gold);
+  transform: translateY(-50%);
+}
+.divider::before { right: -8px; }
+.divider::after { left: -8px; }
+.steps { position: relative; min-height: 200px; }
+.step {
+  position: absolute; inset: 0;
+  opacity: 0; visibility: hidden;
+  transform: translateY(8px);
+  transition: opacity 0.4s var(--ease), transform 0.4s var(--ease), visibility 0s 0.4s;
+}
+.step.active {
+  opacity: 1; visibility: visible;
+  transform: translateY(0);
+  transition: opacity 0.5s var(--ease) 0.1s, transform 0.5s var(--ease) 0.1s, visibility 0s;
+  position: relative;
+}
+
+/* STEP 1: CURRENCY - VERTICAL STACK */
+.currency-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  max-width: 380px;
+  margin: 0 auto;
+}
+.currency-btn {
+  background: var(--card);
+  border: 1.5px solid var(--line);
+  border-radius: 14px;
+  padding: 14px 20px;
+  cursor: pointer;
+  transition: all 0.35s var(--ease);
+  font-family: var(--sans);
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 16px;
+  text-align: right;
+  min-height: 64px;
+}
+.currency-btn:hover {
+  border-color: var(--gold-soft);
+  background: var(--bg-warm);
+}
+.currency-btn.selected {
+  border-color: var(--gold);
+  background: linear-gradient(180deg, #FFFCF5 0%, #FFF8E8 100%);
+  box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.15), 0 8px 20px rgba(201, 168, 76, 0.18);
+}
+.currency-grid.has-selection .currency-btn:not(.selected) {
+  transform: scale(0.94);
+  opacity: 0.55;
+  padding: 10px 18px;
+  min-height: 52px;
+}
+.currency-symbol {
+  font-family: var(--serif);
+  font-size: clamp(28px, 3.5vh, 34px);
+  font-weight: 600; color: var(--ink);
+  line-height: 1;
+  unicode-bidi: isolate;
+  transition: all 0.3s var(--ease);
+}
+.currency-btn.selected .currency-symbol { color: var(--gold-deep); }
+.currency-grid.has-selection .currency-btn:not(.selected) .currency-symbol {
+  font-size: clamp(22px, 2.8vh, 26px);
+}
+.currency-name {
+  font-size: clamp(14px, 1.7vh, 15px);
+  color: var(--ink); font-weight: 500;
+  text-align: right;
+}
+.currency-tax {
+  font-size: clamp(10px, 1.2vh, 11px);
+  color: var(--muted); font-weight: 500;
+  letter-spacing: 0.04em;
+  unicode-bidi: isolate;
+  text-align: left;
+}
+
+/* STEP 2: FREQUENCY */
+.freq-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-top: 8px;
+}
+.freq-btn {
+  background: var(--card);
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  padding: 14px 10px;
+  cursor: pointer;
+  transition: all 0.3s var(--ease);
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  position: relative;
+  overflow: hidden;
+}
+.freq-btn:hover {
+  border-color: var(--gold-soft);
+  background: var(--bg-warm);
+}
+.freq-btn.selected {
+  border-color: var(--gold);
+  background: linear-gradient(180deg, #FFFCF5 0%, #FFF8E8 100%);
+  color: var(--gold-deep);
+  box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.15);
+}
+.freq-row.has-selection .freq-btn:not(.selected) {
+  transform: scale(0.94);
+  opacity: 0.55;
+  padding: 10px 8px;
+}
+.freq-btn-title {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 2px;
+  position: relative;
+  z-index: 2;
+}
+.freq-btn-sub {
+  display: block;
+  font-size: 10.5px;
+  font-weight: 400;
+  color: var(--muted);
+  position: relative;
+  z-index: 2;
+}
+.freq-btn.selected .freq-btn-sub {
+  color: var(--gold-deep);
+  opacity: 0.8;
+}
+
+/* GOLD SPARK - traveling on the border */
+.freq-btn.recommended { position: relative; }
+.freq-btn.recommended .spark-svg {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  border-radius: 12px;
+  z-index: 1;
+}
+.freq-btn.recommended .spark-svg .spark-path {
+  fill: none;
+  stroke: var(--gold-bright);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 12 1000;
+  stroke-dashoffset: 0;
+  filter: drop-shadow(0 0 4px var(--gold-glow)) drop-shadow(0 0 8px rgba(242, 210, 107, 0.5));
+  animation: sparkTravel 3.5s linear infinite;
+}
+@keyframes sparkTravel {
+  from { stroke-dashoffset: 0; }
+  to { stroke-dashoffset: -1012; }
+}
+
+/* AMOUNT */
+.amount-section {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  margin-top: 0;
+  transition: max-height 0.45s var(--ease), opacity 0.4s var(--ease), margin-top 0.4s var(--ease);
+}
+.amount-section.show {
+  max-height: 700px;
+  opacity: 1;
+  margin-top: 14px;
+}
+.amount-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+.amount-btn {
+  background: var(--card);
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  padding: 12px 10px;
+  cursor: pointer;
+  transition: all 0.3s var(--ease);
+  font-family: var(--serif);
+  color: var(--ink);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+.amount-btn:hover {
+  border-color: var(--gold-soft);
+  background: var(--bg-warm);
+}
+.amount-btn.selected {
+  border-color: var(--gold);
+  background: linear-gradient(180deg, #FFFCF5 0%, #FFF8E8 100%);
+  box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.15);
+}
+.amount-grid.has-selection .amount-btn:not(.selected):not(.amount-custom) {
+  transform: scale(0.92);
+  opacity: 0.5;
+  padding: 9px 8px;
+}
+.amount-primary {
+  font-family: var(--serif);
+  font-size: clamp(20px, 2.6vh, 24px);
+  font-weight: 600;
+  unicode-bidi: isolate;
+  color: var(--ink);
+  line-height: 1.1;
+  transition: all 0.3s var(--ease);
+}
+.amount-btn.selected .amount-primary { color: var(--gold-deep); }
+.amount-grid.has-selection .amount-btn:not(.selected):not(.amount-custom) .amount-primary {
+  font-size: clamp(16px, 2.2vh, 19px);
+}
+.amount-secondary {
+  font-family: var(--sans);
+  font-size: 10.5px;
+  color: var(--muted);
+  unicode-bidi: isolate;
+}
+.exchange-note {
+  text-align: center;
+  font-size: 9.5px;
+  color: var(--muted-soft);
+  margin-top: 6px;
+}
+.amount-custom {
+  grid-column: span 2;
+  display: flex;
+  align-items: center;
+  background: var(--card);
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  padding: 4px 14px;
+  transition: all 0.2s var(--ease);
+}
+.amount-custom:focus-within {
+  border-color: var(--gold);
+  background: linear-gradient(180deg, #FFFCF5 0%, #FFF8E8 100%);
+  box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.15);
+}
+.amount-custom-label {
+  font-size: 12px;
+  color: var(--muted);
+  margin-left: 8px;
+}
+.amount-custom input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: var(--serif);
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--ink);
+  padding: 10px 0;
+  text-align: center;
+  unicode-bidi: isolate;
+  direction: ltr;
+}
+
+/* DURATION */
+.duration-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-top: 12px;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: all 0.4s var(--ease);
+}
+.duration-row.show {
+  max-height: 220px;
+  opacity: 1;
+}
+.duration-btn {
+  background: var(--card);
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  padding: 9px 5px;
+  cursor: pointer;
+  transition: all 0.3s var(--ease);
+  font-family: var(--sans);
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--ink);
+  text-align: center;
+  unicode-bidi: isolate;
+}
+.duration-btn:hover {
+  border-color: var(--gold-soft);
+  background: var(--bg-warm);
+}
+.duration-btn.selected {
+  border-color: var(--gold);
+  background: linear-gradient(180deg, #FFFCF5 0%, #FFF8E8 100%);
+  color: var(--gold-deep);
+}
+.duration-row.has-selection .duration-btn:not(.selected) {
+  transform: scale(0.94);
+  opacity: 0.55;
+}
+.duration-custom {
+  grid-column: span 4;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #FFFCF5 0%, #FFF8E8 100%);
+  border: 0 solid var(--gold);
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  padding: 0 14px;
+  transition: all 0.3s var(--ease);
+}
+.duration-custom.show {
+  max-height: 60px;
+  opacity: 1;
+  padding: 8px 14px;
+  border-width: 1.5px;
+}
+.duration-custom label {
+  font-size: 12px;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+.duration-custom input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: var(--serif);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink);
+  padding: 4px 0;
+  text-align: center;
+  direction: ltr;
+}
+
+/* PERSUASION */
+.persuasion {
+  background: linear-gradient(135deg, #FFFAEC 0%, #FFF4D6 100%);
+  border-radius: 12px;
+  margin-top: 14px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  border: 0 solid var(--gold-soft);
+  padding: 0 14px;
+  transition: all 0.4s var(--ease);
+}
+.persuasion.show {
+  max-height: 240px;
+  opacity: 1;
+  padding: 12px 14px;
+  border-width: 1px;
+}
+.persuasion-icon {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--gold);
+  color: white;
+  display: grid;
+  place-items: center;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: var(--serif);
+}
+.persuasion-text {
+  flex: 1;
+  font-size: 12.5px;
+  line-height: 1.65;
+  color: var(--ink-soft);
+}
+.persuasion-text strong {
+  color: var(--burgundy);
+  font-weight: 600;
+  unicode-bidi: isolate;
+}
+.persuasion-action {
+  display: inline-block;
+  margin-top: 10px;
+  color: var(--gold-deep);
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  text-decoration: none;
+  padding: 6px 14px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid var(--gold-soft);
+  transition: all 0.25s var(--ease);
+  animation: breathe 2.4s ease-in-out infinite;
+}
+.persuasion-action:hover {
+  color: var(--burgundy);
+  border-color: var(--burgundy);
+  background: rgba(255, 255, 255, 0.9);
+  animation-play-state: paused;
+}
+@keyframes breathe {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 rgba(201, 168, 76, 0); }
+  50% { transform: scale(1.025); box-shadow: 0 2px 8px rgba(201, 168, 76, 0.2); }
+}
+
+
+/* STEP 3: DETAILS */
+.details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.field { display: flex; flex-direction: column; }
+.field.full { grid-column: span 2; }
+.field-label {
+  font-size: 11.5px;
+  color: var(--ink-soft);
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+.field-label .optional {
+  color: var(--muted);
+  font-weight: 400;
+  font-size: 10.5px;
+  margin-right: 4px;
+}
+.field input, .field textarea {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  font-family: var(--sans);
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--ink);
+  background: var(--card);
+  transition: all 0.2s var(--ease);
+  outline: none;
+}
+.field input[dir="ltr"] { text-align: left; }
+.field input:focus, .field textarea:focus {
+  border-color: var(--gold);
+  background: linear-gradient(180deg, #FFFCF5 0%, #FFF8E8 100%);
+  box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.15);
+}
+.field input.error {
+  border-color: var(--burgundy-soft);
+  box-shadow: 0 0 0 3px rgba(139, 26, 26, 0.08);
+}
+.field-hint {
+  font-size: 10.5px;
+  color: var(--muted);
+  margin-top: 4px;
+  line-height: 1.4;
+}
+.live-msg {
+  font-size: 12px;
+  margin-top: 8px;
+  border-radius: 8px;
+  background: var(--bg-warm);
+  border-right: 0 solid var(--gold);
+  color: var(--ink-soft);
+  line-height: 1.5;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  padding: 0 12px;
+  transition: all 0.35s var(--ease);
+  grid-column: span 2;
+}
+.live-msg.show {
+  max-height: 100px;
+  opacity: 1;
+  padding: 8px 12px;
+  border-right-width: 2px;
+}
+.live-msg strong {
+  color: var(--ink);
+  font-weight: 600;
+  unicode-bidi: isolate;
+}
+.live-msg.warn {
+  background: #FBF3E8;
+  border-right-color: var(--gold-deep);
+  color: var(--ink-soft);
+}
+
+/* OTHER RECIPIENT */
+.other-recipient {
+  grid-column: span 2;
+  margin-top: 6px;
+  border-top: 1px dashed var(--line);
+  padding-top: 14px;
+}
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+  padding: 6px 8px;
+  margin: -6px -8px;
+  border-radius: 8px;
+  transition: background 0.2s var(--ease);
+}
+.checkbox-row:hover { background: var(--bg-warm); }
+.checkbox-row input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--gold);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.checkbox-row label {
+  font-size: 13px;
+  color: var(--ink);
+  cursor: pointer;
+  font-weight: 500;
+}
+.checkbox-row label .small {
+  display: block;
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 400;
+  margin-top: 1px;
+}
+.other-fields {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  margin-top: 0;
+  transition: all 0.5s var(--ease);
+}
+.other-fields.show {
+  max-height: 800px;
+  opacity: 1;
+  margin-top: 14px;
+}
+.recipient-type {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.recipient-type-btn {
+  background: var(--card);
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  padding: 10px;
+  font-family: var(--sans);
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--ink);
+  cursor: pointer;
+  transition: all 0.2s var(--ease);
+}
+.recipient-type-btn:hover {
+  border-color: var(--gold-soft);
+  background: var(--bg-warm);
+}
+.recipient-type-btn.selected {
+  border-color: var(--gold);
+  background: linear-gradient(180deg, #FFFCF5 0%, #FFF8E8 100%);
+  color: var(--gold-deep);
+}
+.basic-fields-collapse {
+  transition: all 0.5s var(--ease);
+}
+.basic-fields-collapse.collapsed {
+  max-height: 0;
+  opacity: 0;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.collapsed-summary {
+  background: var(--bg-warm);
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin-bottom: 12px;
+  border: 1px solid var(--line);
+  display: none;
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.collapsed-summary.show { display: flex; }
+.collapsed-summary .name {
+  font-weight: 600;
+  color: var(--ink);
+}
+.collapsed-summary button {
+  background: transparent;
+  border: none;
+  color: var(--gold-deep);
+  font-size: 11.5px;
+  cursor: pointer;
+  font-family: var(--sans);
+  text-decoration: underline;
+  text-decoration-color: var(--gold-soft);
+  padding: 0;
+}
+textarea.notes-field {
+  resize: vertical;
+  min-height: 60px;
+  font-family: var(--sans);
+}
+
+/* PAYMENT */
+.summary {
+  background: var(--bg-warm);
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border: 1px solid var(--line);
+}
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  padding: 3px 0;
+}
+.summary-row.total {
+  border-top: 1px dashed var(--gold-soft);
+  margin-top: 5px;
+  padding-top: 8px;
+  font-weight: 700;
+  color: var(--ink);
+  font-size: 14.5px;
+}
+.summary-value {
+  font-family: var(--serif);
+  font-weight: 600;
+  unicode-bidi: isolate;
+}
+.gdpr-notice {
+  background: var(--bg-warm);
+  border-right: 3px solid var(--gold);
+  padding: 9px 12px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  font-size: 11px;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+.payment-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.pay-btn {
+  width: 100%;
+  padding: 15px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-family: var(--sans);
+  font-size: 15px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s var(--ease);
+}
+.pay-apple { background: #000; color: white; }
+.pay-apple .apple-logo {
+  display: inline-block;
+  width: 14px; height: 16px;
+  background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 384 512' fill='white'%3E%3Cpath d='M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+.pay-apple:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+}
+.pay-google {
+  background: white;
+  color: #3c4043;
+  border: 1.5px solid #dadce0;
+}
+.pay-google .g-mark {
+  font-weight: 700;
+  font-size: 18px;
+  background: linear-gradient(135deg, #4285f4 0%, #34a853 25%, #fbbc04 50%, #ea4335 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+}
+.pay-google:hover {
+  background: #f8f9fa;
+  transform: translateY(-1px);
+}
+.pay-card {
+  background: var(--card);
+  color: var(--ink);
+  border: 1.5px solid var(--line);
+}
+.pay-card:hover {
+  border-color: var(--gold-soft);
+  background: var(--bg-warm);
+}
+
+/* FOOTER NAV */
+.footer-nav {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 12px;
+  padding-top: 14px;
+}
+.btn-back {
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  font-family: var(--sans);
+  font-size: 12.5px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  transition: all 0.2s var(--ease);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  justify-self: end;
+}
+.btn-back:hover {
+  color: var(--ink);
+  background: var(--bg-warm);
+}
+.btn-back:disabled {
+  opacity: 0;
+  pointer-events: none;
+}
+.progress-pill {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  justify-self: center;
+}
+.progress-dot {
+  width: 18px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--line);
+  transition: all 0.3s var(--ease);
+}
+.progress-dot.done { background: var(--gold); }
+.progress-dot.active {
+  background: var(--gold);
+  box-shadow: 0 0 0 2px rgba(201, 168, 76, 0.2);
+  width: 26px;
+}
+.btn-next-wrap { justify-self: start; }
+.btn-next {
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-deep) 100%);
+  color: white;
+  border: none;
+  padding: 11px 24px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: var(--sans);
+  font-size: 13.5px;
+  font-weight: 600;
+  transition: all 0.25s var(--ease);
+  box-shadow: 0 4px 14px rgba(201, 168, 76, 0.35);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn-next:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(201, 168, 76, 0.5);
+}
+.btn-next:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+.btn-next .arrow {
+  display: inline-block;
+  transition: transform 0.2s var(--ease);
+}
+.btn-next:hover:not(:disabled) .arrow {
+  transform: translateX(-3px);
+}
+
+.logo-footer {
+  display: none;
+  position: fixed;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70px;
+  height: 44px;
+  opacity: 0.5;
+  pointer-events: none;
+  z-index: 1;
+}
+.logo-footer img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+@media (min-width: 900px) and (min-height: 720px) {
+  .logo-footer { display: block; }
+}
+
+/* TRANSITION + SUCCESS + ERROR */
+.transition-screen {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s var(--ease);
+}
+.transition-screen.show { opacity: 1; visibility: visible; }
+.transition-content {
+  text-align: center;
+  max-width: 360px;
+  padding: 0 24px;
+}
+.transition-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--gold-soft);
+  border-top-color: var(--gold);
+  border-radius: 50%;
+  margin: 0 auto 20px;
+  animation: spin 0.9s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.transition-title {
+  font-family: var(--serif);
+  font-size: 22px;
+  color: var(--ink);
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+.transition-text {
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.6;
+}
+.success-screen, .error-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.5s var(--ease);
+  overflow-y: auto;
+  padding: 24px 12px;
+}
+.success-screen { background: linear-gradient(180deg, var(--bg) 0%, #F5EDD8 100%); }
+.error-screen { background: linear-gradient(180deg, var(--bg) 0%, #F2E8DA 100%); }
+.success-screen.show, .error-screen.show {
+  opacity: 1;
+  visibility: visible;
+}
+.success-content, .error-content {
+  text-align: center;
+  padding: 24px;
+  max-width: 480px;
+  width: 100%;
+}
+.success-mark, .error-mark {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  margin: 0 auto 18px;
+  display: grid;
+  place-items: center;
+  color: white;
+  font-size: 36px;
+  animation: pop 0.6s var(--ease) backwards;
+  animation-delay: 0.2s;
+}
+.success-mark {
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-deep) 100%);
+  box-shadow: 0 10px 40px rgba(201, 168, 76, 0.4);
+}
+.error-mark {
+  background: linear-gradient(135deg, var(--gold-deep) 0%, var(--burgundy) 100%);
+  box-shadow: 0 10px 40px rgba(139, 26, 26, 0.25);
+}
+@keyframes pop {
+  from { transform: scale(0.4); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+.success-title, .error-title {
+  font-family: var(--serif);
+  font-size: 28px;
+  font-weight: 500;
+  margin-bottom: 10px;
+  animation: rise 0.5s var(--ease) backwards;
+  animation-delay: 0.4s;
+}
+.success-text, .error-text {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.7;
+  margin-bottom: 18px;
+  animation: rise 0.5s var(--ease) backwards;
+  animation-delay: 0.5s;
+}
+.success-text strong, .error-text strong {
+  color: var(--ink);
+  font-weight: 700;
+  unicode-bidi: isolate;
+}
+@keyframes rise {
+  from { transform: translateY(15px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+.share-section {
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid var(--gold-soft);
+  border-radius: 14px;
+  padding: 18px 18px 14px;
+  margin-top: 18px;
+  animation: rise 0.5s var(--ease) backwards;
+  animation-delay: 0.7s;
+}
+.share-title {
+  font-family: var(--serif);
+  font-size: 15.5px;
+  color: var(--ink);
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+.share-subtitle {
+  font-size: 12px;
+  color: var(--ink-soft);
+  line-height: 1.5;
+  margin-bottom: 14px;
+}
+.share-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.share-btn {
+  padding: 10px 18px;
+  background: var(--card);
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+  transition: all 0.2s var(--ease);
+  font-family: var(--sans);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.share-btn:hover {
+  border-color: var(--gold);
+  background: var(--bg-warm);
+  transform: translateY(-1px);
+}
+.share-btn.whatsapp {
+  background: #25D366;
+  color: white;
+  border-color: #25D366;
+}
+.share-btn.whatsapp:hover { background: #1FB855; }
+.share-btn.copy.copied {
+  background: var(--gold);
+  color: white;
+  border-color: var(--gold);
+}
+.success-secondary {
+  margin-top: 18px;
+  animation: rise 0.5s var(--ease) backwards;
+  animation-delay: 0.85s;
+}
+.success-link {
+  color: var(--ink-soft);
+  font-size: 13px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  border-bottom: 1px solid var(--line);
+  padding: 4px 0;
+  transition: all 0.2s var(--ease);
+  font-family: var(--sans);
+}
+.success-link:hover {
+  color: var(--gold-deep);
+  border-color: var(--gold);
+}
+.error-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+.error-actions button {
+  padding: 11px 24px;
+  border-radius: 10px;
+  border: 1.5px solid var(--line);
+  background: var(--card);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s var(--ease);
+}
+.error-actions button.primary {
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-deep) 100%);
+  color: white;
+  border-color: transparent;
+  box-shadow: 0 4px 14px rgba(201, 168, 76, 0.35);
+}
+.error-actions button:hover { transform: translateY(-1px); }
+
+.demo-toggle {
+  position: fixed;
+  bottom: 8px;
+  right: 8px;
+  z-index: 300;
+  background: rgba(0,0,0,0.7);
+  color: white;
+  font-size: 10px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-family: monospace;
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .app { padding: 8px 12px 12px; }
+  .card { padding: 20px 16px; border-radius: 16px; }
+  .step-title { font-size: 18px; }
+  .duration-row { grid-template-columns: repeat(2, 1fr); }
+  .duration-row.show { max-height: 280px; }
+  .details-grid { grid-template-columns: 1fr; }
+  .footer-nav { grid-template-columns: auto 1fr auto; gap: 8px; }
+}
+@media (max-height: 640px) {
+  .step-header { margin-bottom: 12px; }
+  .divider { margin: 8px auto 0; }
+  .card { padding: 16px 18px; }
+}
+@media (hover: none) and (pointer: coarse) {
+  input, select, textarea { font-size: 16px !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- WELCOME -->
+<div class="welcome-screen" id="welcomeScreen">
+  <div class="welcome-content">
+    <div class="welcome-logo">
+      <img src="logo.svg" alt="הבית" />
+    </div>
+    <div class="welcome-title">ברוכים הבאים לדף התרומה של<br/>הקהילה הישראלית בוינה</div>
+    <div class="welcome-name">"הבית"</div>
+    <div class="welcome-tagline">ביחד בונים בית חם בוינה</div>
+    <div class="welcome-progress"></div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div class="app">
+
+  <main class="stage" id="stage">
+    <div class="card">
+
+      <div class="step-header">
+        <h1 class="step-title" id="stepTitle">בחרו את המטבע המועדף לתרומה</h1>
+        <div class="divider"></div>
+      </div>
+
+      <div class="steps">
+
+        <!-- STEP 1: CURRENCY -->
+        <section class="step active" data-step="1">
+          <div class="currency-grid" id="currencyGrid">
+            <button class="currency-btn" data-currency="EUR">
+              <div class="currency-symbol">€</div>
+              <div class="currency-name">יורו</div>
+              <div class="currency-tax"></div>
+            </button>
+            <button class="currency-btn" data-currency="USD">
+              <div class="currency-symbol">$</div>
+              <div class="currency-name">דולר</div>
+              <div class="currency-tax"><span dir="ltr">501(c)(3)</span></div>
+            </button>
+            <button class="currency-btn" data-currency="ILS">
+              <div class="currency-symbol">₪</div>
+              <div class="currency-name">שקל</div>
+              <div class="currency-tax">סעיף 46</div>
+            </button>
+          </div>
+        </section>
+
+        <!-- STEP 2: FREQUENCY + AMOUNT -->
+        <section class="step" data-step="2">
+          <div class="freq-row" id="freqRow">
+            <button class="freq-btn" data-freq="once">
+              <span class="freq-btn-title">תרומה חד פעמית</span>
+              <span class="freq-btn-sub">מחווה משמעותית</span>
+            </button>
+            <button class="freq-btn recommended" data-freq="monthly">
+              <svg class="spark-svg" preserveAspectRatio="none" viewBox="0 0 100 100">
+                <rect x="2" y="2" width="96" height="96" rx="11" ry="11" pathLength="1000" class="spark-path"></rect>
+              </svg>
+              <span class="freq-btn-title">תרומה חודשית קבועה</span>
+              <span class="freq-btn-sub">שותפות אמיצה</span>
+            </button>
+          </div>
+
+          <div class="amount-section" id="amountSection">
+            <div class="amount-grid" id="amountGrid"></div>
+
+            <div class="exchange-note" id="exchangeNote"></div>
+
+            <div class="duration-row" id="durationRow">
+              <button class="duration-btn" data-duration="12">12 חודשים</button>
+              <button class="duration-btn" data-duration="18">18 חודשים</button>
+              <button class="duration-btn selected" data-duration="ongoing">קבוע</button>
+              <button class="duration-btn" data-duration="custom">אחר</button>
+              <div class="duration-custom" id="durationCustom">
+                <label>מספר חודשים:</label>
+                <input type="number" id="durationCustomInput" min="2" max="120" placeholder="6" />
+              </div>
+            </div>
+
+            <div class="persuasion" id="persuasion">
+              <div class="persuasion-icon">!</div>
+              <div class="persuasion-text">
+                <span id="persuasionText"></span>
+                <br/>
+                <a class="persuasion-action" id="persuasionAction">← מעבר לתרומה חודשית →</a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- STEP 3: DETAILS -->
+        <section class="step" data-step="3">
+
+          <div class="collapsed-summary" id="collapsedSummary">
+            <span><span class="name" id="collapsedName"></span> · <span id="collapsedEmail" dir="ltr"></span></span>
+            <button id="editBasicBtn">עריכה</button>
+          </div>
+
+          <div class="basic-fields-collapse" id="basicFields">
+            <div class="details-grid">
+              <div class="field">
+                <label class="field-label" for="firstName">שם פרטי</label>
+                <input type="text" id="firstName" autocomplete="given-name" />
+              </div>
+              <div class="field">
+                <label class="field-label" for="lastName">שם משפחה</label>
+                <input type="text" id="lastName" autocomplete="family-name" />
+              </div>
+
+              <div class="live-msg" id="nameMsg"></div>
+
+              <div class="field full">
+                <label class="field-label" for="emailInput">כתובת אימייל</label>
+                <input type="email" id="emailInput" autocomplete="email" dir="ltr" placeholder="name@example.com" />
+              </div>
+
+              <div class="live-msg" id="emailMsg"></div>
+
+              <div class="field full" id="idField" style="display:none;">
+                <label class="field-label" for="idInput">תעודת זהות</label>
+                <input type="text" id="idInput" inputmode="numeric" maxlength="9" dir="ltr" placeholder="123456789" />
+                <div class="field-hint">נדרש לצורך הפקת קבלה מוכרת למס לפי סעיף 46</div>
+              </div>
+
+              <div class="field full">
+                <label class="field-label" for="phoneInput">
+                  מספר טלפון <span class="optional">(אופציונלי)</span>
+                </label>
+                <input type="tel" id="phoneInput" autocomplete="tel" dir="ltr" placeholder="+43 ..." />
+              </div>
+            </div>
+          </div>
+
+          <div class="other-recipient">
+            <div class="checkbox-row">
+              <input type="checkbox" id="otherRecipientCheck" />
+              <label for="otherRecipientCheck">
+                דרושה קבלה עם פרטים אחרים
+                <span class="small">חברה, עמותה, או אדם אחר</span>
+              </label>
+            </div>
+
+            <div class="other-fields" id="otherFields">
+
+              <div class="recipient-type">
+                <button class="recipient-type-btn selected" data-rtype="person">אדם אחר</button>
+                <button class="recipient-type-btn" data-rtype="company">חברה / עמותה</button>
+              </div>
+
+              <div class="details-grid" id="personFields">
+                <div class="field full">
+                  <label class="field-label" for="recName">שם מלא של מקבל הקבלה</label>
+                  <input type="text" id="recName" />
+                </div>
+                <div class="field full" id="recIdField" style="display:none;">
+                  <label class="field-label" for="recId">תעודת זהות</label>
+                  <input type="text" id="recId" inputmode="numeric" maxlength="9" dir="ltr" />
+                  <div class="field-hint">נדרש לצורך הפקת קבלה מוכרת למס לפי סעיף 46</div>
+                </div>
+                <div class="field full">
+                  <label class="field-label" for="recAddress">כתובת מלאה</label>
+                  <input type="text" id="recAddress" />
+                </div>
+              </div>
+
+              <div class="details-grid" id="companyFields" style="display:none;">
+                <div class="field full">
+                  <label class="field-label" for="compName">שם החברה / העמותה</label>
+                  <input type="text" id="compName" />
+                </div>
+                <div class="field full" id="compIdField" style="display:none;">
+                  <label class="field-label" for="compId">ח.פ. / מספר עמותה</label>
+                  <input type="text" id="compId" inputmode="numeric" dir="ltr" />
+                  <div class="field-hint">נדרש לצורך הפקת קבלה מוכרת למס לפי סעיף 46</div>
+                </div>
+                <div class="field full">
+                  <label class="field-label" for="compAddress">כתובת מלאה</label>
+                  <input type="text" id="compAddress" />
+                </div>
+                <div class="field">
+                  <label class="field-label" for="compContact">איש קשר</label>
+                  <input type="text" id="compContact" />
+                </div>
+                <div class="field">
+                  <label class="field-label" for="compPhone">טלפון איש קשר</label>
+                  <input type="tel" id="compPhone" dir="ltr" />
+                </div>
+              </div>
+
+              <div class="field full" style="margin-top:10px;">
+                <label class="field-label" for="recNotes">
+                  הערות נוספות לקבלה <span class="optional">(אופציונלי)</span>
+                </label>
+                <textarea id="recNotes" class="notes-field" rows="2"></textarea>
+              </div>
+
+            </div>
+          </div>
+
+        </section>
+
+        <!-- STEP 4: PAYMENT -->
+        <section class="step" data-step="4">
+          <div class="summary" id="summary"></div>
+          <div class="gdpr-notice" id="gdprNotice" style="display:none;"></div>
+          <div class="payment-options" id="paymentOptions"></div>
+        </section>
+
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer-nav">
+    <button class="btn-back" id="btnBack" disabled>
+      <span>→</span> חזרה
+    </button>
+    <div class="progress-pill" id="progressPill">
+      <div class="progress-dot active"></div>
+      <div class="progress-dot"></div>
+      <div class="progress-dot"></div>
+      <div class="progress-dot"></div>
+    </div>
+    <div class="btn-next-wrap">
+      <button class="btn-next" id="btnNext" disabled>
+        המשך <span class="arrow">←</span>
+      </button>
+    </div>
+  </footer>
+
+</div>
+
+<div class="logo-footer">
+  <img src="logo.svg" alt="" />
+</div>
+
+<div class="transition-screen" id="transitionScreen">
+  <div class="transition-content">
+    <div class="transition-spinner"></div>
+    <div class="transition-title">מעבירים לעמוד התשלום</div>
+    <div class="transition-text" id="transitionText"></div>
+  </div>
+</div>
+
+<div class="success-screen" id="successScreen">
+  <div class="success-content">
+    <div class="success-mark">✓</div>
+    <h1 class="success-title">תודה מעומק הלב</h1>
+    <p class="success-text" id="successText"></p>
+
+    <div class="share-section">
+      <div class="share-title">רוצים להגדיל את ההשפעה?</div>
+      <div class="share-subtitle">
+        אפשר לשתף את דף התרומה עם אנשים נוספים שיכולים להתחבר לפעילות שלנו ולקחת חלק.
+      </div>
+      <div class="share-buttons">
+        <button class="share-btn whatsapp" id="shareWhatsApp">
+          <span>📱</span> שיתוף בוואטסאפ
+        </button>
+        <button class="share-btn copy" id="shareCopy">
+          <span>🔗</span> העתק קישור
+        </button>
+      </div>
+    </div>
+
+    <div class="success-secondary">
+      <button class="success-link" id="donateAgain">↻ לתרומה נוספת</button>
+    </div>
+  </div>
+</div>
+
+<div class="error-screen" id="errorScreen">
+  <div class="error-content">
+    <div class="error-mark">!</div>
+    <h1 class="error-title">התשלום לא הושלם</h1>
+    <p class="error-text">
+      אירעה תקלה במהלך עיבוד התשלום. ייתכן שהכרטיס נדחה או שהחיבור לאינטרנט הופרע.<br/>
+      <strong>הפרטים שנשמרו</strong> מאפשרים לנסות שוב בלי למלא הכל מחדש.
+    </p>
+    <div class="error-actions">
+      <button class="primary" id="retryBtn">נסה שוב</button>
+      <button id="contactBtn">צור קשר לעזרה</button>
+    </div>
+  </div>
+</div>
+
+<button class="demo-toggle" id="demoErrorToggle">demo: error mode OFF</button>
+
+<script>
+const state = {
+  step: 1, totalSteps: 4,
+  currency: null, amount: null, frequency: null,
+  duration: 'ongoing', durationCustom: null,
+  firstName: '', lastName: '', email: '', phone: '', idNumber: '',
+  otherRecipient: false, recipientType: 'person',
+  recName: '', recId: '', recAddress: '',
+  compName: '', compId: '', compAddress: '', compContact: '', compPhone: '',
+  recNotes: ''
+};
+let DEMO_FORCE_ERROR = false;
+let nameMsgTimer = null;
+
+const AMOUNTS = {
+  monthly: [18, 36, 72, 101],
+  once:    [36, 72, 180, 360]
+};
+const RATES = { EUR: 1, USD: 1.08, ILS: 4.05 };
+const SYMBOLS = { EUR: '€', USD: '$', ILS: '₪' };
+const NAMES = { EUR: 'יורו', USD: 'דולר', ILS: 'שקל' };
+const STEP_TITLES = {
+  1: 'בחרו את המטבע המועדף לתרומה',
+  2: 'תרומה חודשית קבועה היא <span class="accent">שותפות אמיצה</span>.<br/>הצטרפו אלינו',
+  3: 'פרטים עבור הקבלה',
+  4: 'איך נוח לבצע את התרומה?'
+};
+
+function detectDevice() {
+  const ua = navigator.userAgent;
+  if (/iPhone|iPad|iPod/i.test(ua)) return 'apple';
+  if (/Mac/i.test(ua) && /Safari/i.test(ua) && !/Chrome/i.test(ua)) return 'apple';
+  if (/Android/i.test(ua)) return 'android';
+  return 'other';
+}
+
+function formatAmount(amount, currency) {
+  const symbol = SYMBOLS[currency] || '€';
+  const rounded = Math.round(amount);
+  if (currency === 'USD') return symbol + rounded;
+  return rounded + symbol;
+}
+
+function convertFromEUR(eurAmount, toCurrency) {
+  return eurAmount * RATES[toCurrency];
+}
+
+function showStep(n) {
+  document.querySelectorAll('.step').forEach(el => {
+    el.classList.toggle('active', parseInt(el.dataset.step) === n);
+  });
+  document.getElementById('stepTitle').innerHTML = STEP_TITLES[n];
+  document.querySelectorAll('.progress-dot').forEach((dot, i) => {
+    dot.classList.remove('active', 'done');
+    if (i < n - 1) dot.classList.add('done');
+    else if (i === n - 1) dot.classList.add('active');
+  });
+  document.getElementById('btnBack').disabled = (n === 1);
+  updateNextButton();
+  document.getElementById('btnNext').style.display = (n === state.totalSteps) ? 'none' : '';
+}
+
+function updateNextButton() {
+  const btn = document.getElementById('btnNext');
+  let valid = false;
+  switch (state.step) {
+    case 1: valid = !!state.currency; break;
+    case 2:
+      valid = !!state.amount && !!state.frequency;
+      if (state.frequency === 'monthly' && state.duration === 'custom') {
+        valid = valid && state.durationCustom && state.durationCustom >= 2;
+      }
+      break;
+    case 3:
+      valid = state.firstName.trim().length >= 2 &&
+              state.lastName.trim().length >= 2 &&
+              isValidEmail(state.email);
+      if (state.currency === 'ILS') {
+        valid = valid && /^\d{5,9}$/.test(state.idNumber);
+      }
+      if (state.otherRecipient) {
+        if (state.recipientType === 'person') {
+          valid = valid && state.recName.trim().length >= 2 && state.recAddress.trim().length >= 3;
+          if (state.currency === 'ILS') {
+            valid = valid && /^\d{5,9}$/.test(state.recId);
+          }
+        } else {
+          valid = valid && state.compName.trim().length >= 2 && state.compAddress.trim().length >= 3;
+          if (state.currency === 'ILS') {
+            valid = valid && state.compId.trim().length >= 5;
+          }
+        }
+      }
+      break;
+  }
+  btn.disabled = !valid;
+  btn.innerHTML = (state.step === state.totalSteps - 1) ?
+    'לתשלום <span class="arrow">←</span>' :
+    'המשך <span class="arrow">←</span>';
+}
+
+function isValidEmail(email) {
+  return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email.trim());
+}
+
+function next() {
+  if (state.step < state.totalSteps) {
+    state.step++;
+    history.pushState({ step: state.step }, '', '#step' + state.step);
+    showStep(state.step);
+    if (state.step === 2) renderAmounts();
+    if (state.step === 3) renderDetailsStep();
+    if (state.step === 4) renderPayment();
+  }
+}
+
+function back() {
+  if (state.step > 1) {
+    state.step--;
+    showStep(state.step);
+    if (state.step === 2) renderAmounts();
+    if (state.step === 3) renderDetailsStep();
+  }
+}
+
+const currencyGrid = document.getElementById('currencyGrid');
+document.querySelectorAll('.currency-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.currency-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    currencyGrid.classList.add('has-selection');
+    state.currency = btn.dataset.currency;
+    updateNextButton();
+    setTimeout(next, 400);
+  });
+});
+
+const freqRow = document.getElementById('freqRow');
+document.querySelectorAll('.freq-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.freq-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    freqRow.classList.add('has-selection');
+    state.frequency = btn.dataset.freq;
+    document.getElementById('amountSection').classList.add('show');
+    document.getElementById('durationRow').classList.toggle('show', state.frequency === 'monthly');
+    renderAmounts();
+    updateNextButton();
+    checkPersuasion();
+  });
+});
+
+function renderAmounts() {
+  const grid = document.getElementById('amountGrid');
+  if (!state.frequency) {
+    document.getElementById('amountSection').classList.remove('show');
+    return;
+  }
+  document.getElementById('amountSection').classList.add('show');
+  document.getElementById('durationRow').classList.toggle('show', state.frequency === 'monthly');
+  const list = AMOUNTS[state.frequency];
+  const cur = state.currency;
+  grid.innerHTML = '';
+  list.forEach(eur => {
+    const localAmount = convertFromEUR(eur, cur);
+    const btn = document.createElement('button');
+    btn.className = 'amount-btn';
+    btn.dataset.eur = eur;
+    const isSelected = state.amount && Math.round(state.amount.eur) === eur;
+    if (isSelected) btn.classList.add('selected');
+    if (cur === 'EUR') {
+      btn.innerHTML = '<span class="amount-primary">' + formatAmount(eur, 'EUR') + '</span>';
+    } else {
+      btn.innerHTML = '<span class="amount-primary">' + formatAmount(eur, 'EUR') + '</span><span class="amount-secondary">' + formatAmount(localAmount, cur) + '</span>';
+    }
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      grid.classList.add('has-selection');
+      state.amount = { eur, local: localAmount };
+      checkPersuasion();
+      updateNextButton();
+    });
+    grid.appendChild(btn);
+  });
+  const custom = document.createElement('div');
+  custom.className = 'amount-custom';
+  custom.innerHTML = '<span class="amount-custom-label">סכום אחר:</span><input type="number" id="customAmount" min="5" placeholder="הקלד סכום" /><span class="amount-custom-label">' + SYMBOLS[cur] + '</span>';
+  grid.appendChild(custom);
+  document.getElementById('customAmount').addEventListener('input', (e) => {
+    const val = parseFloat(e.target.value);
+    if (val > 0) {
+      document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('selected'));
+      grid.classList.remove('has-selection');
+      const eurEquiv = val / RATES[cur];
+      state.amount = { eur: eurEquiv, local: val };
+      checkPersuasion();
+      updateNextButton();
+    }
+  });
+  if (state.amount && list.includes(Math.round(state.amount.eur))) {
+    grid.classList.add('has-selection');
+  } else {
+    grid.classList.remove('has-selection');
+  }
+  const note = document.getElementById('exchangeNote');
+  if (cur !== 'EUR') {
+    note.textContent = '* הסכום בשקל או בדולר מחושב לפי שער החליפין המעודכן';
+    note.style.display = 'block';
+  } else {
+    note.style.display = 'none';
+  }
+  document.querySelectorAll('.duration-btn').forEach(b => {
+    b.classList.toggle('selected', b.dataset.duration === state.duration);
+  });
+  document.getElementById('durationRow').classList.toggle('has-selection', !!document.querySelector('.duration-btn.selected'));
+  document.getElementById('durationCustom').classList.toggle('show', state.duration === 'custom');
+}
+
+document.querySelectorAll('.duration-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.duration-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    document.getElementById('durationRow').classList.add('has-selection');
+    state.duration = btn.dataset.duration;
+    document.getElementById('durationCustom').classList.toggle('show', state.duration === 'custom');
+    if (state.duration === 'custom') {
+      setTimeout(() => document.getElementById('durationCustomInput').focus(), 350);
+    }
+    updateNextButton();
+  });
+});
+
+document.getElementById('durationCustomInput').addEventListener('input', (e) => {
+  state.durationCustom = parseInt(e.target.value);
+  updateNextButton();
+});
+
+function checkPersuasion() {
+  const box = document.getElementById('persuasion');
+  const txt = document.getElementById('persuasionText');
+  const action = document.getElementById('persuasionAction');
+  if (state.frequency !== 'once' || !state.amount) {
+    box.classList.remove('show');
+    return;
+  }
+  const eur = state.amount.eur;
+  const cur = state.currency;
+  const localAmount = state.amount.local;
+  const isVeryLow = (cur === 'ILS' && localAmount < 50) ||
+                    (cur === 'USD' && localAmount < 13) ||
+                    (cur === 'EUR' && eur < 12);
+  let suggestedEUR;
+  let messageStyle;
+  if (isVeryLow) {
+    suggestedEUR = eur;
+    messageStyle = 'sameAmount';
+  } else {
+    suggestedEUR = Math.round(eur * 0.2);
+    if (suggestedEUR < 18) suggestedEUR = 18;
+    else if (suggestedEUR < 30) suggestedEUR = 18;
+    else if (suggestedEUR < 60) suggestedEUR = 36;
+    else if (suggestedEUR < 90) suggestedEUR = 72;
+    else suggestedEUR = Math.round(suggestedEUR / 18) * 18;
+    messageStyle = 'reducedAmount';
+  }
+  const yearlyTotalEUR = suggestedEUR * 12;
+  const monthlyLocal = convertFromEUR(suggestedEUR, cur);
+  const yearlyLocal = convertFromEUR(yearlyTotalEUR, cur);
+  let message;
+  if (messageStyle === 'sameAmount') {
+    message = 'בתרומה של <strong>' + formatAmount(monthlyLocal, cur) + '</strong> לחודש, התמיכה המצטברת מגיעה ל־<strong>' + formatAmount(yearlyLocal, cur) + '</strong> בשנה.<br/>כך אפשר ליצור השפעה משמעותית יותר, בתוספת חודשית קטנה.';
+  } else {
+    message = 'בתרומה של <strong>' + formatAmount(monthlyLocal, cur) + '</strong> לחודש, התמיכה שלך מגיעה ל־<strong>' + formatAmount(yearlyLocal, cur) + '</strong> בשנה.<br/>זו תמיכה משמעותית מאוד עבור הפעילות שלנו — בחיוב חודשי קטן ופשוט.';
+  }
+  txt.innerHTML = message;
+  action.onclick = () => {
+    state.frequency = 'monthly';
+    state.amount = { eur: suggestedEUR, local: monthlyLocal };
+    state.duration = '12';
+    document.querySelectorAll('.freq-btn').forEach(b => {
+      b.classList.toggle('selected', b.dataset.freq === 'monthly');
+    });
+    document.getElementById('durationRow').classList.add('show');
+    renderAmounts();
+    setTimeout(() => {
+      let foundButton = false;
+      document.querySelectorAll('.amount-btn').forEach(b => {
+        if (parseInt(b.dataset.eur) === suggestedEUR) {
+          b.classList.add('selected');
+          document.getElementById('amountGrid').classList.add('has-selection');
+          foundButton = true;
+        }
+      });
+      if (!foundButton) {
+        const customInput = document.getElementById('customAmount');
+        if (customInput) customInput.value = Math.round(monthlyLocal);
+      }
+      document.querySelectorAll('.duration-btn').forEach(b => {
+        b.classList.toggle('selected', b.dataset.duration === '12');
+      });
+    }, 50);
+    box.classList.remove('show');
+    updateNextButton();
+  };
+  box.classList.add('show');
+}
+
+const firstNameInput = document.getElementById('firstName');
+const lastNameInput = document.getElementById('lastName');
+const emailInput = document.getElementById('emailInput');
+const phoneInput = document.getElementById('phoneInput');
+const idInput = document.getElementById('idInput');
+const idField = document.getElementById('idField');
+const nameMsg = document.getElementById('nameMsg');
+const emailMsg = document.getElementById('emailMsg');
+const otherCheck = document.getElementById('otherRecipientCheck');
+const otherFields = document.getElementById('otherFields');
+const basicFields = document.getElementById('basicFields');
+const collapsedSummary = document.getElementById('collapsedSummary');
+
+function renderDetailsStep() {
+  idField.style.display = (state.currency === 'ILS') ? '' : 'none';
+  document.getElementById('recIdField').style.display = (state.currency === 'ILS') ? '' : 'none';
+  document.getElementById('compIdField').style.display = (state.currency === 'ILS') ? '' : 'none';
+}
+
+function scheduleNameMessage() {
+  if (nameMsgTimer) clearTimeout(nameMsgTimer);
+  nameMsg.classList.remove('show');
+  if (state.firstName.trim().length >= 2 && state.lastName.trim().length >= 2) {
+    nameMsgTimer = setTimeout(() => {
+      nameMsg.innerHTML = '<strong>' + state.firstName + ' ' + state.lastName + '</strong> — איזה שם יפה ✨';
+      nameMsg.classList.add('show');
+    }, 3000);
+  }
+}
+
+firstNameInput.addEventListener('input', e => {
+  state.firstName = e.target.value;
+  scheduleNameMessage();
+  updateNextButton();
+});
+lastNameInput.addEventListener('input', e => {
+  state.lastName = e.target.value;
+  scheduleNameMessage();
+  updateNextButton();
+});
+emailInput.addEventListener('input', e => {
+  e.target.value = e.target.value.replace(/[\u0590-\u05FF]/g, '');
+  state.email = e.target.value;
+  if (state.email.length === 0) {
+    emailMsg.classList.remove('show');
+    emailInput.classList.remove('error');
+  } else if (isValidEmail(state.email)) {
+    const isMonthly = state.frequency === 'monthly';
+    let msg;
+    if (isMonthly) {
+      msg = 'קבלה תישלח אל <strong>' + state.email + '</strong> לאחר כל חיוב חודשי. ניתן להפסיק את התרומה בכל עת בלחיצה אחת מתוך המייל.';
+    } else {
+      msg = 'הקבלה תישלח אל <strong>' + state.email + '</strong>.';
+    }
+    emailMsg.innerHTML = msg;
+    emailMsg.classList.add('show');
+    emailMsg.classList.remove('warn');
+    emailInput.classList.remove('error');
+  } else {
+    emailMsg.innerHTML = 'כתובת האימייל אינה תקינה. יש לוודא שהכתובת כתובה באנגלית בלבד.';
+    emailMsg.classList.add('show', 'warn');
+    emailInput.classList.add('error');
+  }
+  updateNextButton();
+});
+phoneInput.addEventListener('input', e => { state.phone = e.target.value; });
+idInput.addEventListener('input', e => {
+  e.target.value = e.target.value.replace(/\D/g, '');
+  state.idNumber = e.target.value;
+  updateNextButton();
+});
+
+[firstNameInput, lastNameInput, emailInput, idInput].forEach(inp => {
+  inp.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !document.getElementById('btnNext').disabled) next();
+  });
+});
+
+otherCheck.addEventListener('change', e => {
+  state.otherRecipient = e.target.checked;
+  otherFields.classList.toggle('show', state.otherRecipient);
+  if (state.otherRecipient) {
+    if (state.firstName && state.email) {
+      document.getElementById('collapsedName').textContent = (state.firstName + ' ' + state.lastName).trim();
+      document.getElementById('collapsedEmail').textContent = state.email;
+      collapsedSummary.classList.add('show');
+      basicFields.classList.add('collapsed');
+    }
+  } else {
+    collapsedSummary.classList.remove('show');
+    basicFields.classList.remove('collapsed');
+  }
+  updateNextButton();
+});
+
+document.getElementById('editBasicBtn').addEventListener('click', () => {
+  basicFields.classList.remove('collapsed');
+  collapsedSummary.classList.remove('show');
+});
+
+document.querySelectorAll('.recipient-type-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.recipient-type-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    state.recipientType = btn.dataset.rtype;
+    document.getElementById('personFields').style.display = (state.recipientType === 'person') ? '' : 'none';
+    document.getElementById('companyFields').style.display = (state.recipientType === 'company') ? '' : 'none';
+    updateNextButton();
+  });
+});
+
+document.getElementById('recName').addEventListener('input', e => { state.recName = e.target.value; updateNextButton(); });
+document.getElementById('recId').addEventListener('input', e => {
+  e.target.value = e.target.value.replace(/\D/g, '');
+  state.recId = e.target.value;
+  updateNextButton();
+});
+document.getElementById('recAddress').addEventListener('input', e => { state.recAddress = e.target.value; updateNextButton(); });
+document.getElementById('compName').addEventListener('input', e => { state.compName = e.target.value; updateNextButton(); });
+document.getElementById('compId').addEventListener('input', e => {
+  e.target.value = e.target.value.replace(/\D/g, '');
+  state.compId = e.target.value;
+  updateNextButton();
+});
+document.getElementById('compAddress').addEventListener('input', e => { state.compAddress = e.target.value; updateNextButton(); });
+document.getElementById('compContact').addEventListener('input', e => { state.compContact = e.target.value; });
+document.getElementById('compPhone').addEventListener('input', e => { state.compPhone = e.target.value; });
+document.getElementById('recNotes').addEventListener('input', e => { state.recNotes = e.target.value; });
+
+function renderPayment() {
+  const cur = state.currency;
+  const localAmount = state.amount.local;
+  const isMonthly = state.frequency === 'monthly';
+  let durationText = '';
+  if (isMonthly) {
+    if (state.duration === '12') durationText = '12 חודשים';
+    else if (state.duration === '18') durationText = '18 חודשים';
+    else if (state.duration === 'ongoing') durationText = 'תרומה קבועה';
+    else if (state.duration === 'custom') durationText = (state.durationCustom || '?') + ' חודשים';
+  }
+  document.getElementById('summary').innerHTML =
+    '<div class="summary-row"><span>סוג התרומה</span><span class="summary-value">' +
+    (isMonthly ? 'חודשית · ' + durationText : 'חד פעמית') +
+    '</span></div>' +
+    '<div class="summary-row"><span>מטבע</span><span class="summary-value">' + NAMES[cur] + '</span></div>' +
+    '<div class="summary-row total"><span>סכום החיוב</span><span class="summary-value">' + formatAmount(localAmount, cur) + '</span></div>';
+  const gdprNotice = document.getElementById('gdprNotice');
+  if (isMonthly) {
+    gdprNotice.style.display = 'block';
+    gdprNotice.innerHTML = 'החיוב יתבצע באותו התאריך בכל חודש, בהתאם למועד התרומה הראשונה. ניתן להפסיק את התרומה בכל עת בלחיצה אחת מתוך המייל.';
+  } else {
+    gdprNotice.style.display = 'none';
+  }
+  const device = detectDevice();
+  const options = document.getElementById('paymentOptions');
+  options.innerHTML = '';
+  if (device === 'apple') {
+    options.innerHTML =
+      '<button class="pay-btn pay-apple" data-pay="apple"><span class="apple-logo"></span>Pay</button>' +
+      '<button class="pay-btn pay-card" data-pay="card">תשלום בכרטיס אשראי</button>';
+  } else if (device === 'android') {
+    options.innerHTML =
+      '<button class="pay-btn pay-google" data-pay="google"><span class="g-mark">G</span>Pay</button>' +
+      '<button class="pay-btn pay-card" data-pay="card">תשלום בכרטיס אשראי</button>';
+  } else {
+    options.innerHTML =
+      '<button class="pay-btn pay-apple" data-pay="apple"><span class="apple-logo"></span>Pay</button>' +
+      '<button class="pay-btn pay-google" data-pay="google"><span class="g-mark">G</span>Pay</button>' +
+      '<button class="pay-btn pay-card" data-pay="card">תשלום בכרטיס אשראי</button>';
+  }
+  options.querySelectorAll('.pay-btn').forEach(btn => {
+    btn.addEventListener('click', () => handlePayment(btn));
+  });
+}
+
+function handlePayment(btn) {
+  const willSucceed = !DEMO_FORCE_ERROR;
+  if (state.currency === 'ILS') {
+    document.getElementById('transitionText').innerHTML = 'מיד תועברו לעמוד הסליקה המאובטח של iCount.<br/>פרטי התרומה כבר מולאו מראש.';
+    document.getElementById('transitionScreen').classList.add('show');
+    setTimeout(() => {
+      document.getElementById('transitionScreen').classList.remove('show');
+      if (willSucceed) showSuccess(); else showError();
+    }, 2000);
+  } else {
+    const originalText = btn.innerHTML;
+    btn.innerHTML = 'מעבד...';
+    btn.style.pointerEvents = 'none';
+    setTimeout(() => {
+      btn.innerHTML = originalText;
+      btn.style.pointerEvents = '';
+      if (willSucceed) showSuccess(); else showError();
+    }, 1400);
+  }
+}
+
+function showSuccess() {
+  const isMonthly = state.frequency === 'monthly';
+  const name = state.firstName || '';
+  let msg = (name ? '<strong>' + name + '</strong>, ' : '') + 'התרומה התקבלה בהצלחה.<br/>קבלה רשמית נשלחה אל ' + state.email + '.';
+  if (isMonthly) {
+    msg += '<br/><br/>תודה על הבחירה להיות שותפים קבועים בפעילות שלנו.';
+  }
+  document.getElementById('successText').innerHTML = msg;
+  document.getElementById('successScreen').classList.add('show');
+}
+
+function showError() {
+  document.getElementById('errorScreen').classList.add('show');
+}
+
+document.getElementById('shareWhatsApp').addEventListener('click', () => {
+  const url = window.location.href.split('#')[0];
+  const text = 'הצטרפו אליי לתמיכה בקהילה הישראלית בוינה — "הבית" 🏠\n' + url;
+  window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank');
+});
+
+document.getElementById('shareCopy').addEventListener('click', (e) => {
+  const url = window.location.href.split('#')[0];
+  const btn = e.currentTarget;
+  navigator.clipboard.writeText(url).then(() => {
+    const original = btn.innerHTML;
+    btn.innerHTML = '✓ הועתק!';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.innerHTML = original;
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+});
+
+document.getElementById('donateAgain').addEventListener('click', () => {
+  Object.assign(state, {
+    step: 1, currency: null, amount: null, frequency: null,
+    duration: 'ongoing', durationCustom: null,
+    firstName: '', lastName: '', email: '', phone: '', idNumber: '',
+    otherRecipient: false, recipientType: 'person',
+    recName: '', recId: '', recAddress: '',
+    compName: '', compId: '', compAddress: '', compContact: '', compPhone: '',
+    recNotes: ''
+  });
+  document.querySelectorAll('.currency-btn, .freq-btn, .amount-btn, .duration-btn').forEach(b => b.classList.remove('selected'));
+  document.querySelector('.duration-btn[data-duration="ongoing"]').classList.add('selected');
+  document.querySelectorAll('.has-selection').forEach(el => el.classList.remove('has-selection'));
+  ['firstName','lastName','emailInput','phoneInput','idInput','recName','recId','recAddress','compName','compId','compAddress','compContact','compPhone','recNotes'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  otherCheck.checked = false;
+  nameMsg.classList.remove('show');
+  emailMsg.classList.remove('show');
+  document.getElementById('amountSection').classList.remove('show');
+  document.getElementById('durationRow').classList.remove('show');
+  document.getElementById('persuasion').classList.remove('show');
+  otherFields.classList.remove('show');
+  basicFields.classList.remove('collapsed');
+  collapsedSummary.classList.remove('show');
+  document.getElementById('successScreen').classList.remove('show');
+  showStep(1);
+});
+
+document.getElementById('retryBtn').addEventListener('click', () => {
+  document.getElementById('errorScreen').classList.remove('show');
+});
+
+document.getElementById('contactBtn').addEventListener('click', () => {
+  window.location.href = 'mailto:info@example.org?subject=תקלה בתרומה';
+});
+
+document.getElementById('demoErrorToggle').addEventListener('click', (e) => {
+  DEMO_FORCE_ERROR = !DEMO_FORCE_ERROR;
+  e.currentTarget.textContent = 'demo: error mode ' + (DEMO_FORCE_ERROR ? 'ON' : 'OFF');
+});
+
+document.getElementById('btnNext').addEventListener('click', next);
+document.getElementById('btnBack').addEventListener('click', back);
+
+window.addEventListener('popstate', () => {
+  if (state.step > 1) {
+    state.step--;
+    showStep(state.step);
+    if (state.step === 2) renderAmounts();
+    if (state.step === 3) renderDetailsStep();
+  }
+});
+
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('welcomeScreen').classList.add('hide');
+    document.getElementById('stage').classList.add('show');
+  }, 2800);
+});
+
+showStep(1);
+history.replaceState({ step: 1 }, '', '#step1');
+</script>
+</body>
+</html>
