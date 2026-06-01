@@ -1,0 +1,19 @@
+# Claude Code / AI assistant artifacts (prevent accidental transcript leaks)
+.claude/
+.claude/**
+*.jsonl
+**/transcript*
+.aider*
+.cursor/
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+*.swp
+.vscode/
+.idea/
+
+# Local env / secrets (never commit credentials)
+.env
+.env.*
+*.local
