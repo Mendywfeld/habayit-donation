@@ -1,0 +1,10 @@
+{
+  "name": "habayit-donation-api",
+  "version": "1.0.0",
+  "description": "Azure Functions backend for the HaBayit Vienna donation page (Stripe, iCount, monday.com).",
+  "main": "**/index.js",
+  "engines": { "node": ">=18" },
+  "dependencies": {
+    "stripe": "^16.12.0"
+  }
+}

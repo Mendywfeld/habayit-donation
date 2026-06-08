@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<title>תרומה · הבית · הקהילה הישראלית בוינה</title>
+<meta name="description" content="תרומה לקהילת הבית בוינה — חד-פעמי או הוראת קבע חודשית. קבלה מוכרת לסעיף 46." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600;700&family=Heebo:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FDFCFA;
+  --ink:#2E2B27;
+  --ink-soft:#6E675E;
+  --muted:#A8A096;
+  --line:#ECE9E2;
+  --line-soft:#F4F2EC;
+  --field:#FBFAF7;
+  --accent:#B5824A;
+  --accent-deep:#9A6A36;
+  --accent-wash:#FBF4EA;
+  --accent-edge:#F0E3D0;
+  --warn:#9A6A36;
+  --body:'Assistant', system-ui, -apple-system, sans-serif;
+  --num:'Heebo', system-ui, sans-serif;
+  --ease:cubic-bezier(0.22,1,0.36,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%}
+body{
+  background:var(--paper);color:var(--ink);
+  font-family:var(--body);font-weight:400;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  display:grid;place-items:center;min-height:100dvh;padding:24px 20px;
+}
+.card{width:100%;max-width:480px;animation:rise .6s var(--ease)}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.card{animation:none}*{transition:none!important}}
+
+/* head */
+.head{display:flex;flex-direction:column;align-items:center;text-align:center;margin-bottom:24px}
+.mark{display:flex;align-items:center;gap:9px;margin-bottom:13px}
+.mark svg{width:26px;height:26px}
+.mark .stroke{fill:none;stroke:var(--accent);stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round}
+.mark .nm{font-size:18px;font-weight:600;letter-spacing:.02em}
+.mark .wn{font-size:10.5px;font-weight:500;color:var(--muted);letter-spacing:.28em}
+.title{font-size:25px;font-weight:300;color:var(--ink);letter-spacing:-.01em;line-height:1.2}
+.sub{margin-top:7px;font-size:13.5px;color:var(--muted)}
+
+/* segmented */
+.seg{display:flex;gap:7px;margin-bottom:14px}
+.seg.cur{justify-content:center;flex-wrap:wrap}
+.seg button{
+  flex:1;background:var(--field);border:1px solid var(--line);border-radius:12px;
+  padding:11px 8px;font-family:var(--body);font-size:13.5px;font-weight:600;color:var(--ink-soft);
+  cursor:pointer;transition:all .22s var(--ease);position:relative;
+}
+.seg.cur button{flex:0 0 auto;min-width:66px;display:flex;align-items:center;justify-content:center;gap:6px}
+.seg button .sym{font-family:var(--num);font-size:15px;font-weight:400}
+.seg button:hover:not(:disabled){border-color:#E0D6C5}
+.seg button.on{background:var(--accent-wash);border-color:var(--accent);color:var(--accent-deep)}
+.seg button:disabled{opacity:.45;cursor:not-allowed}
+.seg button .rec{
+  position:absolute;top:-8px;inset-inline-start:50%;transform:translateX(50%);
+  font-size:9.5px;font-weight:700;letter-spacing:.06em;color:#fff;background:var(--accent);
+  padding:2px 8px;border-radius:999px;white-space:nowrap;
+}
+.seg button .soon{
+  position:absolute;top:-8px;inset-inline-start:50%;transform:translateX(50%);
+  font-size:9px;font-weight:700;letter-spacing:.08em;color:var(--muted);background:var(--paper);
+  border:1px solid var(--line);padding:1px 7px;border-radius:999px;white-space:nowrap;
+}
+
+.label{font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.04em;margin:0 2px 8px}
+
+/* amounts */
+.amts{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:9px}
+.amt{
+  background:var(--field);border:1px solid var(--line);border-radius:12px;
+  padding:13px 4px;text-align:center;cursor:pointer;transition:all .22s var(--ease);
+  font-family:var(--num);font-size:17px;font-weight:400;color:var(--ink);unicode-bidi:isolate;
+  display:flex;align-items:center;justify-content:center;
+}
+.amt:hover{border-color:#E0D6C5}
+.amt.on{background:var(--accent-wash);border-color:var(--accent);color:var(--accent-deep);font-weight:500}
+.amt.other{font-family:var(--body);font-size:13.5px;font-weight:600;color:var(--ink-soft)}
+.custom-wrap{
+  display:none;align-items:center;gap:6px;background:var(--field);border:1px solid var(--accent);
+  border-radius:12px;padding:4px 14px;margin-bottom:9px;box-shadow:0 0 0 3px rgba(181,130,74,.1)
+}
+.custom-wrap.show{display:flex}
+.custom-wrap .cs{font-family:var(--num);font-size:18px;color:var(--accent-deep)}
+.custom-wrap input{
+  flex:1;border:none;outline:none;background:transparent;font-family:var(--num);
+  font-size:18px;font-weight:500;color:var(--ink);padding:9px 0;text-align:center;direction:ltr
+}
+
+/* gentle nudge */
+.nudge{
+  display:none;align-items:center;gap:8px;font-size:12.5px;color:var(--accent-deep);
+  background:var(--accent-wash);border:1px solid var(--accent-edge);border-radius:10px;
+  padding:9px 12px;margin:4px 0 18px;line-height:1.5;
+}
+.nudge.show{display:flex}
+.nudge .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0}
+.nudge b{font-weight:700;unicode-bidi:isolate}
+.nudge a{color:var(--accent-deep);font-weight:700;text-decoration:underline;cursor:pointer;text-underline-offset:2px}
+
+/* fields */
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
+.f{display:flex;flex-direction:column}
+.f.full{grid-column:span 2}
+.f.hide{display:none}
+.f input{
+  width:100%;padding:12px 13px;background:var(--field);border:1px solid var(--line);
+  border-radius:11px;font-family:var(--body);font-size:14.5px;color:var(--ink);
+  outline:none;transition:all .2s var(--ease);
+}
+.f input::placeholder{color:var(--muted)}
+.f input:focus{border-color:var(--accent);background:#fff;box-shadow:0 0 0 3px rgba(181,130,74,.1)}
+.f input.bad{border-color:var(--warn);box-shadow:0 0 0 3px rgba(154,106,54,.1)}
+.f input[dir=ltr]{text-align:right;direction:ltr}
+
+/* pay */
+.pay{
+  width:100%;padding:16px;border:none;border-radius:13px;cursor:pointer;
+  background:var(--accent);color:#fff;font-family:var(--body);font-size:15.5px;font-weight:600;
+  display:flex;align-items:center;justify-content:center;gap:9px;
+  box-shadow:0 6px 18px rgba(181,130,74,.28);transition:all .22s var(--ease);
+}
+.pay:hover:not(:disabled){background:var(--accent-deep);transform:translateY(-1px);box-shadow:0 8px 22px rgba(181,130,74,.36)}
+.pay:disabled{opacity:.5;cursor:not-allowed;box-shadow:none}
+.pay .arr{transition:transform .22s var(--ease)}
+.pay:hover:not(:disabled) .arr{transform:translateX(-4px)}
+.pay.loading{pointer-events:none}
+.pay.loading .txt,.pay.loading .arr{visibility:hidden}
+.pay .spin{display:none;position:absolute;width:20px;height:20px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite}
+.pay.loading .spin{display:block}
+@keyframes sp{to{transform:rotate(360deg)}}
+
+.msg{display:none;margin-top:12px;font-size:12.5px;line-height:1.55;text-align:center;color:var(--accent-deep);
+  background:var(--accent-wash);border:1px solid var(--accent-edge);border-radius:10px;padding:10px 12px}
+.msg.show{display:block}
+
+.foot{margin-top:14px;display:flex;align-items:center;justify-content:center;gap:7px;font-size:11.5px;color:var(--muted);flex-wrap:wrap}
+.foot .lock{width:11px;height:11px;stroke:var(--muted);fill:none;stroke-width:1.6}
+.foot .sep{opacity:.5}
+</style>
+</head>
+<body>
+<main class="card" role="main">
+
+  <header class="head">
+    <div class="mark">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><path class="stroke" d="M8 19 L20 9 L32 19 M11 19 V32 H29 V19 M17 32 V24 a3 3 0 0 1 6 0 V32"/></svg>
+      <span class="nm">הבית</span><span class="wn">WIEN</span>
+    </div>
+    <h1 class="title">תרומה לקהילת הבית</h1>
+    <p class="sub">בחרו סכום — ואנחנו נדאג לקבלה ולתודה.</p>
+  </header>
+
+  <!-- currency -->
+  <div class="seg cur" id="curSeg" role="group" aria-label="מטבע">
+    <button type="button" data-cur="ILS" class="on"><span class="sym">₪</span> שקל</button>
+    <button type="button" data-cur="USD"><span class="sym">$</span> דולר</button>
+    <button type="button" data-cur="EUR" disabled><span class="sym">€</span> אירו<span class="soon">בקרוב</span></button>
+  </div>
+
+  <!-- frequency -->
+  <div class="seg" id="freqSeg" role="group" aria-label="תדירות">
+    <button type="button" data-freq="monthly" class="on">חודשי קבוע<span class="rec">מומלץ</span></button>
+    <button type="button" data-freq="onetime">חד-פעמי</button>
+  </div>
+
+  <!-- amounts -->
+  <div class="label" id="amtLabel">סכום לחודש</div>
+  <div class="amts" id="amts"></div>
+  <div class="custom-wrap" id="customWrap">
+    <span class="cs" id="customSym">₪</span>
+    <input type="number" inputmode="numeric" min="1" id="customInput" placeholder="סכום חופשי" aria-label="סכום חופשי">
+  </div>
+  <div class="nudge" id="nudge"><span class="dot"></span><span id="nudgeText"></span></div>
+
+  <!-- details -->
+  <div class="fields">
+    <div class="f"><input type="text" id="fname" placeholder="שם פרטי" autocomplete="given-name"></div>
+    <div class="f"><input type="text" id="lname" placeholder="שם משפחה" autocomplete="family-name"></div>
+    <div class="f full"><input type="email" dir="ltr" id="email" placeholder="כתובת אימייל לקבלה" autocomplete="email"></div>
+    <div class="f full hide" id="idField"><input type="text" inputmode="numeric" id="idnum" dir="ltr" placeholder="מספר תעודת זהות (לקבלה מוכרת לסעיף 46)" autocomplete="off"></div>
+  </div>
+
+  <button type="button" class="pay" id="payBtn" disabled>
+    <span class="spin" aria-hidden="true"></span>
+    <svg class="txt" viewBox="0 0 24 24" style="width:15px;height:15px;fill:none;stroke:#fff;stroke-width:1.7" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+    <span class="txt" id="payLabel">תרומה חודשית · ₪100</span>
+    <span class="arr" aria-hidden="true">←</span>
+  </button>
+
+  <div class="msg" id="msg"></div>
+
+  <footer class="foot">
+    <svg class="lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+    <span>תשלום מאובטח</span><span class="sep">·</span><span id="taxNote">קבלה מוכרת לסעיף 46</span>
+  </footer>
+
+</main>
+
+<script>
+(function(){
+  "use strict";
+
+  var CURRENCIES = {
+    ILS:{ symbol:'₪', code:'ILS', name:'שקל', tax:'קבלה מוכרת לסעיף 46', needsId:true },
+    USD:{ symbol:'$', code:'USD', name:'דולר', tax:'עמותת 501(c)(3) · פטור ממס בארה״ב', needsId:false },
+    EUR:{ symbol:'€', code:'EUR', name:'אירו', tax:'קבלת תרומה אוסטרית', needsId:false }
+  };
+  var PRESETS = {
+    ILS:{ monthly:[50,100,200], onetime:[100,250,500] },
+    USD:{ monthly:[18,36,72],  onetime:[50,100,250] },
+    EUR:{ monthly:[18,36,72],  onetime:[50,100,250] }
+  };
+
+  var state = { currency:'ILS', freq:'monthly', amount:100, custom:false };
+
+  var $ = function(id){ return document.getElementById(id); };
+  var amtsEl=$('amts'), customWrap=$('customWrap'), customInput=$('customInput'), customSym=$('customSym');
+  var nudgeEl=$('nudge'), nudgeText=$('nudgeText'), amtLabel=$('amtLabel');
+  var idField=$('idField'), idnum=$('idnum'), taxNote=$('taxNote');
+  var payBtn=$('payBtn'), payLabel=$('payLabel'), msg=$('msg');
+  var fname=$('fname'), lname=$('lname'), email=$('email');
+
+  function cur(){ return CURRENCIES[state.currency]; }
+  function fmt(n){ return cur().symbol + Number(n).toLocaleString('he-IL'); }
+
+  function renderAmounts(){
+    var list = PRESETS[state.currency][state.freq];
+    amtsEl.innerHTML='';
+    list.forEach(function(v){
+      var b=document.createElement('div');
+      b.className='amt'+(!state.custom && state.amount===v?' on':'');
+      b.setAttribute('role','button'); b.tabIndex=0;
+      b.textContent=fmt(v);
+      b.onclick=function(){ selectAmount(v); };
+      b.onkeydown=function(e){ if(e.key==='Enter'||e.key===' '){e.preventDefault();selectAmount(v);} };
+      amtsEl.appendChild(b);
+    });
+    var other=document.createElement('div');
+    other.className='amt other'+(state.custom?' on':'');
+    other.setAttribute('role','button'); other.tabIndex=0;
+    other.textContent='אחר';
+    other.onclick=toggleCustom;
+    other.onkeydown=function(e){ if(e.key==='Enter'||e.key===' '){e.preventDefault();toggleCustom();} };
+    amtsEl.appendChild(other);
+    customSym.textContent=cur().symbol;
+  }
+
+  function selectAmount(v){
+    state.amount=v; state.custom=false;
+    customWrap.classList.remove('show');
+    renderAmounts(); update();
+  }
+  function toggleCustom(){
+    state.custom=true; state.amount=Number(customInput.value)||0;
+    customWrap.classList.add('show');
+    renderAmounts(); update(); customInput.focus();
+  }
+  customInput.addEventListener('input', function(){
+    state.amount=Number(customInput.value)||0; update();
+  });
+
+  // currency
+  $('curSeg').addEventListener('click', function(e){
+    var b=e.target.closest('button'); if(!b||b.disabled) return;
+    state.currency=b.getAttribute('data-cur');
+    [].forEach.call(this.querySelectorAll('button'),function(x){x.classList.toggle('on',x===b);});
+    var list=PRESETS[state.currency][state.freq];
+    if(!state.custom) state.amount=list[1]||list[0];
+    idField.classList.toggle('hide', !cur().needsId);
+    taxNote.textContent=cur().tax;
+    renderAmounts(); update();
+  });
+
+  // frequency
+  $('freqSeg').addEventListener('click', function(e){
+    var b=e.target.closest('button'); if(!b) return;
+    state.freq=b.getAttribute('data-freq');
+    [].forEach.call(this.querySelectorAll('button'),function(x){x.classList.toggle('on',x===b);});
+    amtLabel.textContent = state.freq==='monthly' ? 'סכום לחודש' : 'סכום התרומה';
+    var list=PRESETS[state.currency][state.freq];
+    if(!state.custom) state.amount=list[1]||list[0];
+    renderAmounts(); update();
+  });
+
+  function emailValid(v){ return /^[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}$/.test(v); }
+
+  function updateNudge(){
+    if(state.amount>0 && state.freq==='monthly'){
+      nudgeText.innerHTML='<b>'+fmt(state.amount)+' בחודש</b> = '+fmt(state.amount*12)+' בשנה שמחזיקים בית חם לקהילה. תודה.';
+      nudgeEl.classList.add('show');
+    } else if(state.amount>0 && state.freq==='onetime'){
+      nudgeText.innerHTML='אפשר גם <a id="toMonthly">להפוך לתרומה חודשית</a> — תמיכה קבועה שמאפשרת לתכנן קדימה.';
+      nudgeEl.classList.add('show');
+      var t=$('toMonthly'); if(t) t.onclick=function(){ document.querySelector('[data-freq="monthly"]').click(); };
+    } else {
+      nudgeEl.classList.remove('show');
+    }
+  }
+
+  function update(){
+    updateNudge();
+    var valid = state.amount>0 && fname.value.trim() && lname.value.trim() && emailValid(email.value.trim());
+    payBtn.disabled=!valid;
+    var freqTxt = state.freq==='monthly' ? 'תרומה חודשית' : 'תרומה';
+    payLabel.textContent = state.amount>0 ? (freqTxt+' · '+fmt(state.amount)) : 'בחרו סכום';
+  }
+  [fname,lname,email,idnum].forEach(function(el){ el.addEventListener('input',update); });
+  email.addEventListener('blur',function(){ email.classList.toggle('bad', email.value.trim()!=='' && !emailValid(email.value.trim())); });
+
+  // submit → backend creates a hosted checkout (Stripe for $, iCount for ₪) and returns a redirect url
+  payBtn.addEventListener('click', function(){
+    if(payBtn.disabled) return;
+    msg.classList.remove('show');
+    payBtn.classList.add('loading');
+    var payload={
+      currency:state.currency, frequency:state.freq, amount:state.amount,
+      firstName:fname.value.trim(), lastName:lname.value.trim(),
+      email:email.value.trim(), idNumber:(idnum.value||'').replace(/\D/g,''),
+      origin:location.origin
+    };
+    fetch('/api/create-checkout',{
+      method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload)
+    }).then(function(r){ return r.json().then(function(d){ return {ok:r.ok,d:d}; }); })
+      .then(function(res){
+        if(res.ok && res.d && res.d.url){ window.location.assign(res.d.url); return; }
+        throw new Error((res.d && res.d.message) || 'unavailable');
+      })
+      .catch(function(){
+        payBtn.classList.remove('loading');
+        msg.textContent='התשלום עדיין לא חובר (מצב הדגמה). הסכום שנבחר: '+fmt(state.amount)+(state.freq==='monthly'?' לחודש':'')+'. ברגע שהמפתחות יוגדרו — הכפתור יעביר לתשלום מאובטח.';
+        msg.classList.add('show');
+      });
+  });
+
+  // init
+  renderAmounts(); update();
+})();
+</script>
+</body>
+</html>
