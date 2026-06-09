@@ -4,495 +4,649 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 <title>תרומה · הבית · הקהילה הישראלית בוינה</title>
-<meta name="description" content="תרומה לקהילת הבית בוינה — חודשי או חד-פעמי. קבלה מוכרת לסעיף 46." />
+<meta name="description" content="להחזיק את הבית — תרומה לקהילה הישראלית בוינה. חודשי או חד-פעמי, קבלה מוכרת לסעיף 46." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600;700&family=Heebo:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Suez+One&family=Assistant:wght@400;500;600;700&family=Heebo:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --paper:#FFFDF9;
-  --ink:#211C16;
-  --ink-soft:#6B6155;
-  --muted:#A89C8B;
-  --line:#EEE8DD;
-  --line-soft:#F5F1E9;
-  --field:#FBF7F1;
-  --accent:#B5793A;
-  --accent-deep:#9A6630;
-  --accent-light:#D49A57;
-  --accent-wash:#FBF1E2;
-  --accent-edge:#EFDDC0;
-  --warn:#9A6630;
-  --body:'Assistant', system-ui, -apple-system, sans-serif;
+  --paper:#F6EFE3;        /* oat plaster */
+  --panel:#FCF8F0;        /* lifted panel */
+  --ink:#1E1813;          /* near-black brush — primary actions */
+  --ink-soft:#5C5147;
+  --muted:#9A8E7E;
+  --sand:#E0A96C;         /* the sign */
+  --sand-wash:#F6E7D0;    /* active wash */
+  --amber:#A96B2C;        /* hairline/focus accent */
+  --line:#E7DCC9;
+  --line-soft:#EFE7D8;
+  --ok:#4F7A52;
+  --disp:'Suez One', Georgia, serif;
+  --body:'Assistant', system-ui, sans-serif;
   --num:'Heebo', system-ui, sans-serif;
-  --ease:cubic-bezier(0.22,1,0.36,1);
+  --ease:cubic-bezier(.22,1,.36,1);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{min-height:100%}
 body{
-  background:
-    radial-gradient(120% 55% at 50% -10%, var(--accent-wash) 0%, rgba(251,241,226,0) 60%),
-    var(--paper);
-  color:var(--ink);font-family:var(--body);font-weight:400;
+  background:var(--paper);color:var(--ink);font-family:var(--body);font-weight:400;
   -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
-  display:grid;place-items:center;min-height:100dvh;padding:22px 18px;
+  display:grid;place-items:start center;min-height:100dvh;padding:26px 18px 40px;
+  position:relative;overflow-x:hidden;
 }
-.card{width:100%;max-width:460px;animation:rise .55s var(--ease)}
+/* crafted paper grain — departs from flat cream */
+.grain{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.04;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+.wrap{position:relative;z-index:1;width:100%;max-width:468px;animation:rise .6s var(--ease)}
 @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-@keyframes reveal{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@keyframes reveal{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 
-/* header */
-.head{display:flex;flex-direction:column;align-items:center;text-align:center;margin-bottom:18px}
-.brand-img{height:118px;width:auto;display:block}
-.brand-fallback{display:none;font-size:26px;font-weight:700;color:var(--ink)}
-.kicker{margin-top:8px;font-size:12px;font-weight:600;letter-spacing:.18em;color:var(--muted)}
+/* SIGNATURE: the logo is a hanging sign — it sways on load, then settles */
+.head{display:flex;justify-content:center;margin-bottom:22px}
+.sign{width:auto;height:130px;transform-origin:50% 4%;animation:sway 4.2s var(--ease) .3s 1}
+@keyframes sway{
+  0%{transform:rotate(0deg)} 12%{transform:rotate(2.6deg)} 30%{transform:rotate(-1.9deg)}
+  48%{transform:rotate(1.2deg)} 66%{transform:rotate(-.7deg)} 82%{transform:rotate(.3deg)} 100%{transform:rotate(0)}
+}
+.sign-fallback{display:none;font-family:var(--disp);font-size:34px;color:var(--ink)}
 
-/* steps */
-.step{margin-bottom:10px}
-.step.is-pending{display:none}
-.summary{display:none}
-.step.is-done .summary{
-  display:flex;width:100%;align-items:center;justify-content:space-between;gap:10px;
-  background:var(--field);border:1px solid var(--line);border-radius:13px;padding:13px 15px;
-  cursor:pointer;font-family:var(--body);transition:border-color .2s var(--ease);text-align:start;
-}
-.summary:hover{border-color:var(--accent-edge)}
-.summary .sl{display:flex;align-items:center;gap:9px;min-width:0}
-.summary .si{width:24px;height:24px;border-radius:7px;background:var(--accent-wash);color:var(--accent-deep);
-  display:grid;place-items:center;font-family:var(--num);font-size:14px;flex-shrink:0}
-.summary .sv{font-weight:600;font-size:14px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.summary .sv .sx{color:var(--muted);font-weight:500}
-.summary .edit{display:flex;align-items:center;gap:4px;font-size:11.5px;font-weight:600;color:var(--accent-deep);flex-shrink:0}
-.summary .edit svg{width:12px;height:12px;stroke:var(--accent-deep);fill:none;stroke-width:1.7}
+/* opening line */
+.intro{font-family:var(--disp);font-size:21px;line-height:1.35;color:var(--ink);text-align:center;
+  margin:0 6px 22px;letter-spacing:-.01em}
+.intro .em{color:var(--amber)}
 
-.body{display:none}
-.step.is-active .body{display:block;animation:reveal .42s var(--ease)}
-.q{font-size:16.5px;font-weight:600;color:var(--ink);margin:2px 2px 13px}
+/* STAGES — de-framed: hairlines + air, no boxed cards */
+.stage{border-top:1px solid var(--line-soft);padding-top:18px;margin-top:18px}
+.stage:first-of-type{border-top:none;padding-top:0;margin-top:0}
+.stage.is-future{display:none}
+.stage-body{display:none}
+.stage.is-active .stage-body{display:block;animation:reveal .44s var(--ease)}
+.q{font-family:var(--disp);font-size:17px;color:var(--ink);margin:0 2px 14px;letter-spacing:-.01em}
 
-/* currency cards */
-.cur-grid{display:flex;flex-direction:column;gap:8px}
-.cur-card{
-  display:flex;align-items:center;gap:13px;width:100%;text-align:start;
-  background:var(--field);border:1px solid var(--line);border-radius:14px;padding:13px 15px;
-  cursor:pointer;transition:all .2s var(--ease);font-family:var(--body);
-}
-.cur-card:hover{border-color:var(--accent-edge);transform:translateY(-1px)}
-.cur-card .sym{
-  width:38px;height:38px;flex-shrink:0;display:grid;place-items:center;background:#fff;
-  border:1px solid var(--line);border-radius:10px;font-family:var(--num);font-size:21px;color:var(--accent-deep);
-}
-.cur-card .cc-txt{flex:1;min-width:0}
-.cur-card .cc-name{display:block;font-weight:700;font-size:15px;color:var(--ink)}
-.cur-card .cc-tax{display:block;font-size:11.5px;color:var(--muted);margin-top:2px}
-.cur-card .chev{color:var(--muted);font-size:18px;flex-shrink:0}
+/* completed-stage summary — quiet inline line, not a boxed pill */
+.stage-sum{display:none;width:100%;align-items:center;justify-content:space-between;gap:12px;
+  background:none;border:none;padding:7px 2px;cursor:pointer;font-family:var(--body);text-align:start}
+.stage.is-done .stage-sum{display:flex;animation:reveal .3s var(--ease)}
+.stage-sum .l{display:flex;align-items:baseline;gap:9px;min-width:0}
+.stage-sum .k{font-family:var(--num);font-size:13px;color:var(--amber);font-weight:600;white-space:nowrap}
+.stage-sum .v{font-size:15px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stage-sum .v .x{color:var(--muted);font-weight:500}
+.stage-sum .ed{font-size:12px;color:var(--amber);font-weight:600;text-decoration:underline;text-underline-offset:3px;
+  text-decoration-color:var(--line);white-space:nowrap;flex-shrink:0}
+.stage-sum:hover .ed{text-decoration-color:var(--amber)}
 
-/* frequency */
-.freq{display:flex;gap:8px;margin-bottom:14px}
-.freq button{
-  flex:1;position:relative;background:var(--field);border:1px solid var(--line);border-radius:12px;
-  padding:13px 8px;font-family:var(--body);font-size:14px;font-weight:600;color:var(--ink-soft);
-  cursor:pointer;transition:all .2s var(--ease);
-}
-.freq button:hover{border-color:var(--accent-edge)}
-.freq button.on{background:var(--accent-wash);border-color:var(--accent);color:var(--accent-deep)}
-.freq button .rec{
-  position:absolute;top:-8px;inset-inline-start:50%;transform:translateX(50%);
-  font-size:9.5px;font-weight:700;letter-spacing:.05em;color:#fff;background:var(--accent);
-  padding:2px 9px;border-radius:999px;white-space:nowrap;
-}
+/* choice rows (currency) */
+.choices{display:flex;flex-direction:column;gap:9px}
+.choice{display:flex;align-items:center;gap:14px;width:100%;text-align:start;cursor:pointer;
+  background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:14px 16px;
+  transition:transform .18s var(--ease),border-color .2s,background .2s;font-family:var(--body)}
+.choice:hover{border-color:var(--sand);transform:translateY(-1px)}
+.choice.on{background:var(--sand-wash);border-color:var(--amber)}
+.choice .sym{width:42px;height:42px;flex-shrink:0;display:grid;place-items:center;background:var(--paper);
+  border:1px solid var(--line);border-radius:11px;font-family:var(--disp);font-size:22px;color:var(--ink)}
+.choice.on .sym{background:#fff;border-color:var(--sand);color:var(--amber)}
+.choice .ct{flex:1;min-width:0}
+.choice .nm{display:block;font-weight:700;font-size:15.5px;color:var(--ink)}
+.choice .tx{display:block;font-size:11.5px;color:var(--muted);margin-top:2px}
+.choice .go{color:var(--muted);font-size:19px;flex-shrink:0;transition:transform .2s var(--ease)}
+.choice:hover .go{transform:translateX(-3px);color:var(--amber)}
+
+/* frequency — two intents, monthly highlighted by craft, not by "מומלץ" */
+.freq{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:15px}
+.fbtn{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:14px;
+  padding:14px 12px;cursor:pointer;text-align:start;transition:all .2s var(--ease);font-family:var(--body);overflow:hidden}
+.fbtn:hover{border-color:var(--sand)}
+.fbtn.on{background:var(--sand-wash);border-color:var(--amber)}
+.fbtn .t{display:block;font-size:14.5px;font-weight:700;color:var(--ink)}
+.fbtn .s{display:block;font-size:11.5px;color:var(--muted);margin-top:2px}
+.fbtn.on .s{color:var(--amber)}
+/* gentle gleam that traces the monthly option (subject: a warm light kept on at home) */
+.fbtn .gleam{position:absolute;inset:0;border-radius:14px;pointer-events:none}
+.fbtn .gleam path{fill:none;stroke:none}
+.fbtn.month.on .gleam path{stroke:var(--sand);stroke-width:2;stroke-linecap:round;
+  stroke-dasharray:14 999;filter:drop-shadow(0 0 3px rgba(224,169,108,.7));animation:trace 4s linear infinite}
+@keyframes trace{to{stroke-dashoffset:-1013}}
 
 /* amounts */
-.amts{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
-.amt{
-  position:relative;background:var(--field);border:1px solid var(--line);border-radius:12px;
-  padding:15px 4px;text-align:center;cursor:pointer;transition:all .2s var(--ease);
-  font-family:var(--num);font-size:17px;font-weight:400;color:var(--ink);unicode-bidi:isolate;
-  display:flex;align-items:center;justify-content:center;
-}
-.amt:hover{border-color:var(--accent-edge)}
-.amt.on{background:var(--accent-wash);border-color:var(--accent);color:var(--accent-deep);font-weight:500}
-.amt.other{font-family:var(--body);font-size:13.5px;font-weight:600;color:var(--ink-soft)}
-.amt .pop{
-  position:absolute;top:-8px;inset-inline-start:50%;transform:translateX(50%);
-  font-size:9px;font-weight:700;letter-spacing:.03em;color:#fff;background:var(--accent-light);
-  padding:2px 7px;border-radius:999px;white-space:nowrap;
-}
-.custom-wrap{
-  display:none;align-items:center;gap:8px;background:var(--field);border:1px solid var(--accent);
-  border-radius:12px;padding:4px 6px 4px 14px;margin-top:8px;box-shadow:0 0 0 3px rgba(181,121,58,.1)
-}
-.custom-wrap.show{display:flex}
-.custom-wrap .cs{font-family:var(--num);font-size:18px;color:var(--accent-deep)}
-.custom-wrap input{
-  flex:1;border:none;outline:none;background:transparent;font-family:var(--num);
-  font-size:18px;font-weight:500;color:var(--ink);padding:9px 0;text-align:center;direction:ltr
-}
-.custom-wrap .go{
-  width:38px;height:38px;flex-shrink:0;border:none;border-radius:9px;background:var(--accent);color:#fff;
-  font-size:18px;cursor:pointer;display:grid;place-items:center;transition:background .2s
-}
-.custom-wrap .go:hover{background:var(--accent-deep)}
-.reassure{margin-top:11px;font-size:12px;color:var(--muted);text-align:center}
+.amts{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.abtn{display:flex;flex-direction:column;align-items:center;gap:1px;background:var(--panel);
+  border:1px solid var(--line);border-radius:14px;padding:13px 8px;cursor:pointer;transition:all .2s var(--ease)}
+.abtn:hover{border-color:var(--sand);transform:translateY(-1px)}
+.abtn.on{background:var(--sand-wash);border-color:var(--amber)}
+.abtn .p{font-family:var(--disp);font-size:23px;color:var(--ink);line-height:1.05;unicode-bidi:isolate}
+.abtn.on .p{color:var(--amber)}
+.abtn .sec{font-family:var(--num);font-size:11px;color:var(--muted);unicode-bidi:isolate}
+.acustom{grid-column:span 2;display:flex;align-items:center;gap:10px;background:var(--panel);
+  border:1px solid var(--line);border-radius:14px;padding:5px 8px 5px 16px;transition:all .2s var(--ease)}
+.acustom:focus-within{border-color:var(--amber);background:var(--sand-wash)}
+.acustom .lab{font-size:12.5px;color:var(--muted)}
+.acustom input{flex:1;border:none;outline:none;background:transparent;font-family:var(--disp);
+  font-size:21px;color:var(--ink);text-align:center;direction:ltr;padding:8px 0;min-width:0}
+.acustom .cur{font-family:var(--disp);font-size:19px;color:var(--amber)}
+.acustom .go{width:40px;height:40px;flex-shrink:0;border:none;border-radius:11px;background:var(--ink);
+  color:#fff;font-size:18px;cursor:pointer;transition:opacity .2s;display:grid;place-items:center}
+.acustom .go:disabled{opacity:.3;cursor:default}
+.fx{text-align:center;font-size:10.5px;color:var(--muted);margin-top:9px}
 
-/* payment methods */
-.pm{display:flex;flex-direction:column;gap:9px}
-.wallet{
-  width:100%;padding:15px;border-radius:12px;cursor:pointer;border:1px solid transparent;direction:ltr;
-  display:flex;align-items:center;justify-content:center;gap:7px;font-family:var(--body);
-  font-size:16px;font-weight:600;transition:transform .15s var(--ease),box-shadow .15s var(--ease);
-}
-.wallet:hover{transform:translateY(-1px)}
-.wallet.apple{background:#000;color:#fff}
-.wallet.apple svg{width:18px;height:18px;fill:#fff;margin-top:-2px}
-.wallet.gpay{background:#fff;color:#3c4043;border:1px solid #dadce0;box-shadow:0 1px 2px rgba(0,0,0,.05)}
-.wallet.gpay .g1{color:#4285F4}.wallet.gpay .g2{color:#EA4335}.wallet.gpay .g3{color:#FBBC05}.wallet.gpay .g4{color:#34A853}
-.pm-or{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:12px;margin:3px 0}
-.pm-or:before,.pm-or:after{content:"";flex:1;height:1px;background:var(--line)}
-.card-toggle{
-  width:100%;padding:14px;border-radius:12px;background:var(--field);border:1px solid var(--line);
-  font-family:var(--body);font-size:14.5px;font-weight:600;color:var(--ink);cursor:pointer;
-  display:flex;align-items:center;justify-content:center;gap:9px;transition:all .2s var(--ease);
-}
-.card-toggle:hover{border-color:var(--accent-edge)}
-.card-toggle.on{border-color:var(--accent);background:var(--accent-wash);color:var(--accent-deep)}
-.card-toggle svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.6}
+/* duration (monthly) */
+.dur{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:12px}
+.dbtn{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:10px 4px;cursor:pointer;
+  font-family:var(--body);font-size:12px;font-weight:600;color:var(--ink-soft);text-align:center;transition:all .2s var(--ease);unicode-bidi:isolate}
+.dbtn:hover{border-color:var(--sand)}
+.dbtn.on{background:var(--sand-wash);border-color:var(--amber);color:var(--amber)}
+.dcustom{display:none;align-items:center;gap:8px;margin-top:8px;background:var(--sand-wash);border:1px solid var(--amber);
+  border-radius:11px;padding:8px 14px}
+.dcustom.show{display:flex}
+.dcustom label{font-size:12.5px;color:var(--ink-soft)}
+.dcustom input{flex:1;border:none;outline:none;background:transparent;font-family:var(--num);font-size:16px;
+  font-weight:600;color:var(--ink);text-align:center;direction:ltr}
+
+/* monthly line + one-time nudge — gentle, never preachy */
+.note{margin-top:14px;font-size:12.5px;line-height:1.6;color:var(--ink-soft);text-align:center;
+  display:flex;align-items:center;gap:8px;justify-content:center}
+.note .dot{width:5px;height:5px;border-radius:50%;background:var(--sand);flex-shrink:0}
+.nudge{display:none;margin-top:14px;background:var(--sand-wash);border:1px solid var(--line);border-radius:12px;
+  padding:12px 14px;font-size:12.5px;line-height:1.6;color:var(--ink-soft)}
+.nudge.show{display:block;animation:reveal .35s var(--ease)}
+.nudge b{color:var(--ink);unicode-bidi:isolate}
+.nudge a{display:inline-block;margin-top:8px;color:var(--amber);font-weight:700;cursor:pointer;
+  text-decoration:underline;text-underline-offset:3px}
+
+/* continue button (ink — echoes the brush lettering) */
+.cont{width:100%;margin-top:18px;padding:15px;border:none;border-radius:13px;cursor:pointer;background:var(--ink);
+  color:#fff;font-family:var(--body);font-size:15px;font-weight:600;display:flex;align-items:center;justify-content:center;
+  gap:8px;transition:all .2s var(--ease)}
+.cont:hover:not(:disabled){background:#000;transform:translateY(-1px)}
+.cont:disabled{opacity:.4;cursor:not-allowed}
+.cont .ar{transition:transform .2s var(--ease)}
+.cont:hover:not(:disabled) .ar{transform:translateX(-4px)}
 
 /* fields */
-.fields{display:none;grid-template-columns:1fr 1fr;gap:8px;margin-top:11px}
-.fields.show{display:grid;animation:reveal .35s var(--ease)}
-.f{display:flex;flex-direction:column}
-.f.full{grid-column:span 2}
-.f.hide{display:none}
-.f input{
-  width:100%;padding:12px 13px;background:var(--field);border:1px solid var(--line);
-  border-radius:11px;font-family:var(--body);font-size:14.5px;color:var(--ink);
-  outline:none;transition:all .2s var(--ease);
-}
-.f input::placeholder{color:var(--muted)}
-.f input:focus{border-color:var(--accent);background:#fff;box-shadow:0 0 0 3px rgba(181,121,58,.1)}
-.f input.bad{border-color:var(--warn);box-shadow:0 0 0 3px rgba(154,102,48,.1)}
-.f input[dir=ltr]{text-align:right;direction:ltr}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.fld{display:flex;flex-direction:column}
+.fld.full{grid-column:span 2}
+.fld.hide{display:none}
+.fld label{font-size:11.5px;color:var(--ink-soft);font-weight:600;margin:0 2px 5px}
+.fld label .opt{color:var(--muted);font-weight:400}
+.fld input,.fld textarea{width:100%;padding:12px 13px;background:var(--panel);border:1px solid var(--line);
+  border-radius:11px;font-family:var(--body);font-size:15px;color:var(--ink);outline:none;transition:all .2s var(--ease)}
+.fld input:focus,.fld textarea:focus{border-color:var(--amber);background:#fff;box-shadow:0 0 0 3px rgba(169,107,44,.1)}
+.fld input.bad{border-color:#B0573A;box-shadow:0 0 0 3px rgba(176,87,58,.08)}
+.fld input[dir=ltr]{text-align:right;direction:ltr}
+.fld .hint{font-size:10.5px;color:var(--muted);margin-top:4px}
+.live{grid-column:span 2;font-size:12px;line-height:1.55;color:var(--ink-soft);background:var(--sand-wash);
+  border-radius:9px;padding:0 12px;max-height:0;opacity:0;overflow:hidden;transition:all .35s var(--ease)}
+.live.show{max-height:120px;opacity:1;padding:9px 12px;margin-top:2px}
+.live.warn{background:#FBF0E6;color:#8A5A2A}
+.live b{color:var(--ink);unicode-bidi:isolate}
 
-.pay{
-  width:100%;margin-top:11px;padding:16px;border:none;border-radius:13px;cursor:pointer;position:relative;
-  background:var(--accent);color:#fff;font-family:var(--body);font-size:15.5px;font-weight:600;
-  display:flex;align-items:center;justify-content:center;gap:9px;
-  box-shadow:0 6px 18px rgba(181,121,58,.28);transition:all .22s var(--ease);
-}
-.pay:hover:not(:disabled){background:var(--accent-deep);transform:translateY(-1px)}
-.pay:disabled{opacity:.5;cursor:not-allowed;box-shadow:none}
-.pay .arr{transition:transform .22s var(--ease)}
-.pay:hover:not(:disabled) .arr{transform:translateX(-4px)}
-.pay.loading .txt,.pay.loading .arr{visibility:hidden}
-.pay .spin{display:none;position:absolute;width:20px;height:20px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite}
-.pay.loading .spin{display:block}
-@keyframes sp{to{transform:rotate(360deg)}}
+/* other recipient */
+.other{grid-column:span 2;margin-top:4px;border-top:1px dashed var(--line);padding-top:13px}
+.chk{display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none;padding:5px 6px;margin:-5px -6px;border-radius:9px}
+.chk:hover{background:var(--line-soft)}
+.chk input{width:18px;height:18px;accent-color:var(--amber);cursor:pointer;flex-shrink:0}
+.chk .t{font-size:13.5px;color:var(--ink);font-weight:600}
+.chk .t .s{display:block;font-size:11px;color:var(--muted);font-weight:400;margin-top:1px}
+.otherf{max-height:0;opacity:0;overflow:hidden;transition:all .5s var(--ease)}
+.otherf.show{max-height:760px;opacity:1;margin-top:13px}
+.rtype{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:11px}
+.rtype button{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px;font-family:var(--body);
+  font-size:12.5px;font-weight:600;color:var(--ink);cursor:pointer;transition:all .2s var(--ease)}
+.rtype button.on{background:var(--sand-wash);border-color:var(--amber);color:var(--amber)}
 
-.msg{display:none;margin-top:11px;font-size:12.5px;line-height:1.55;text-align:center;color:var(--accent-deep);
-  background:var(--accent-wash);border:1px solid var(--accent-edge);border-radius:10px;padding:10px 12px}
-.msg.show{display:block}
+/* payment */
+.sum{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:13px 15px;margin-bottom:14px}
+.sum .r{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--ink-soft);padding:3px 0}
+.sum .r.tot{border-top:1px dashed var(--line);margin-top:6px;padding-top:9px;font-weight:700;color:var(--ink);font-size:15px}
+.sum .r .vv{font-family:var(--num);font-weight:600;unicode-bidi:isolate}
+.recur{background:var(--sand-wash);border-radius:10px;padding:10px 13px;margin-bottom:13px;font-size:11.5px;
+  line-height:1.55;color:var(--ink-soft)}
+.pays{display:flex;flex-direction:column;gap:10px}
+.pay{width:100%;padding:15px;border-radius:13px;border:1px solid transparent;cursor:pointer;direction:ltr;
+  display:flex;align-items:center;justify-content:center;gap:8px;font-family:var(--body);font-size:16px;font-weight:600;
+  transition:transform .15s var(--ease),box-shadow .15s}
+.pay:hover{transform:translateY(-1px)}
+.pay.apple{background:#000;color:#fff}
+.pay.apple svg{width:18px;height:18px;fill:#fff;margin-top:-2px}
+.pay.gpay{background:#fff;color:#3c4043;border:1px solid #dadce0;box-shadow:0 1px 2px rgba(0,0,0,.05)}
+.pay.gpay .b{font-weight:700;background:linear-gradient(135deg,#4285f4,#34a853 40%,#fbbc04 70%,#ea4335);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.pay.card{background:var(--ink);color:#fff}
+.pay.card svg{width:17px;height:17px;stroke:#fff;fill:none;stroke-width:1.6;direction:ltr}
 
 /* trust */
-.trust{margin-top:16px;display:flex;align-items:stretch;justify-content:center;
-  border:1px solid var(--line);border-radius:12px;background:var(--field);overflow:hidden}
-.trust .ti{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;
-  padding:11px 6px;font-size:11px;font-weight:600;color:var(--ink-soft);text-align:center;line-height:1.3}
-.trust .ti+.ti{border-inline-start:1px solid var(--line)}
-.trust .ti svg{width:16px;height:16px;stroke:var(--accent);fill:none;stroke-width:1.5}
-.trust .ti span{unicode-bidi:isolate}
+.trust{margin-top:18px;display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;
+  font-size:11px;color:var(--muted)}
+.trust .i{display:flex;align-items:center;gap:5px}
+.trust svg{width:13px;height:13px;stroke:var(--amber);fill:none;stroke-width:1.5}
+.trust .sep{width:3px;height:3px;border-radius:50%;background:var(--line)}
+.trust span{unicode-bidi:isolate}
+
+/* overlays */
+.ov{position:fixed;inset:0;z-index:40;background:var(--paper);display:grid;place-items:center;padding:28px 20px;
+  opacity:0;visibility:hidden;transition:opacity .4s var(--ease),visibility 0s .4s;overflow-y:auto}
+.ov.show{opacity:1;visibility:visible;transition:opacity .4s var(--ease)}
+.ov-in{text-align:center;max-width:400px}
+.spin{width:38px;height:38px;border:3px solid var(--line);border-top-color:var(--amber);border-radius:50%;
+  margin:0 auto 18px;animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.mark{width:68px;height:68px;border-radius:50%;margin:0 auto 16px;display:grid;place-items:center;color:#fff;font-size:32px;
+  animation:pop .5s var(--ease) .15s backwards}
+.mark.ok{background:var(--ink)} .mark.er{background:var(--amber)}
+@keyframes pop{from{transform:scale(.5);opacity:0}to{transform:scale(1);opacity:1}}
+.ov h2{font-family:var(--disp);font-size:25px;color:var(--ink);margin-bottom:10px;font-weight:400}
+.ov p{font-size:13.5px;line-height:1.65;color:var(--ink-soft);margin-bottom:18px}
+.ov p b{color:var(--ink);unicode-bidi:isolate}
+.share{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px}
+.share .st{font-weight:700;font-size:14px;color:var(--ink);margin-bottom:4px}
+.share .ss{font-size:12px;color:var(--ink-soft);line-height:1.5;margin-bottom:12px}
+.share .sb{display:flex;gap:8px}
+.share button{flex:1;padding:11px;border-radius:10px;border:1px solid var(--line);background:var(--paper);cursor:pointer;
+  font-family:var(--body);font-size:12.5px;font-weight:600;color:var(--ink);transition:all .2s var(--ease)}
+.share button:hover{border-color:var(--sand);background:var(--sand-wash)}
+.share button.wa{background:var(--ink);color:#fff;border-color:var(--ink)}
+.linkbtn{background:none;border:none;color:var(--amber);font-family:var(--body);font-size:13px;font-weight:600;
+  cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.ov .acts{display:flex;flex-direction:column;gap:9px}
+.ov .acts .primary{padding:13px;border-radius:11px;border:none;background:var(--ink);color:#fff;font-weight:600;
+  font-family:var(--body);font-size:14px;cursor:pointer}
+
+@media (max-width:430px){
+  .grid{grid-template-columns:1fr}
+  .sign{height:112px}
+  .dur{grid-template-columns:repeat(2,1fr)}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
-<main class="card" role="main">
+<div class="grain" aria-hidden="true"></div>
+
+<div class="wrap" role="main">
 
   <header class="head">
-    <img class="brand-img" src="logo.png" alt="הבית — הקהילה הישראלית בוינה"
-         onerror="this.style.display='none';document.getElementById('bf').style.display='block';">
-    <div class="brand-fallback" id="bf">הבית</div>
-    <p class="kicker">תרומה לקהילה</p>
+    <img class="sign" src="logo.png" alt="הבית — הקהילה הישראלית בוינה"
+         onerror="this.style.display='none';document.getElementById('sf').style.display='block';">
+    <div class="sign-fallback" id="sf">הבית</div>
   </header>
 
-  <!-- STEP 1 · currency -->
-  <section class="step is-active" id="s1">
-    <button type="button" class="summary" id="sum1" aria-controls="b1"></button>
-    <div class="body" id="b1">
-      <div class="q">במה תרצו לתרום?</div>
-      <div class="cur-grid" id="curGrid"></div>
+  <p class="intro">ביחד מחזיקים את <span class="em">הבית</span> בוינה.</p>
+
+  <!-- STAGE 1 · currency -->
+  <section class="stage is-active" data-stage="1" id="st1">
+    <button type="button" class="stage-sum" id="sum1"></button>
+    <div class="stage-body">
+      <div class="q">באיזה מטבע נוח לכם?</div>
+      <div class="choices" id="curChoices"></div>
     </div>
   </section>
 
-  <!-- STEP 2 · amount + frequency -->
-  <section class="step is-pending" id="s2">
-    <button type="button" class="summary" id="sum2" aria-controls="b2"></button>
-    <div class="body" id="b2">
+  <!-- STAGE 2 · frequency + amount + duration -->
+  <section class="stage is-future" data-stage="2" id="st2">
+    <button type="button" class="stage-sum" id="sum2"></button>
+    <div class="stage-body">
+      <div class="q">איזו תרומה מתאימה לכם?</div>
       <div class="freq" id="freq">
-        <button type="button" data-freq="monthly" class="on">חודשי<span class="rec">מומלץ</span></button>
-        <button type="button" data-freq="onetime">חד-פעמי</button>
-      </div>
-      <div class="amts" id="amts"></div>
-      <div class="custom-wrap" id="customWrap">
-        <span class="cs" id="customSym">₪</span>
-        <input type="number" inputmode="numeric" min="1" id="customInput" placeholder="סכום אחר" aria-label="סכום אחר">
-        <button type="button" class="go" id="customGo" aria-label="המשך">←</button>
-      </div>
-      <p class="reassure" id="reassure">אפשר לעצור בכל רגע — בלי התחייבות.</p>
-    </div>
-  </section>
-
-  <!-- STEP 3 · payment -->
-  <section class="step is-pending" id="s3">
-    <div class="body" id="b3">
-      <div class="q">איך נוח לכם?</div>
-      <div class="pm" id="payMethods"></div>
-
-      <div class="fields" id="fields">
-        <div class="f"><input type="text" id="fname" placeholder="שם פרטי" autocomplete="given-name"></div>
-        <div class="f"><input type="text" id="lname" placeholder="שם משפחה" autocomplete="family-name"></div>
-        <div class="f full"><input type="email" dir="ltr" id="email" placeholder="אימייל לקבלה" autocomplete="email"></div>
-        <div class="f full hide" id="idField"><input type="text" inputmode="numeric" id="idnum" dir="ltr" placeholder="ת״ז — לזיכוי מס (לא חובה)" autocomplete="off"></div>
-        <button type="button" class="pay f full" id="payBtn" style="grid-column:span 2">
-          <span class="spin" aria-hidden="true"></span>
-          <span class="txt" id="payLabel">תרומה</span>
-          <span class="arr txt" aria-hidden="true">←</span>
+        <button type="button" class="fbtn once" data-freq="once">
+          <span class="t">חד-פעמית</span><span class="s">מחווה משמעותית</span>
+        </button>
+        <button type="button" class="fbtn month on" data-freq="monthly">
+          <svg class="gleam" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M14,2 H86 a12,12 0 0 1 12,12 V86 a12,12 0 0 1 -12,12 H14 a12,12 0 0 1 -12,-12 V14 a12,12 0 0 1 12,-12 Z" pathLength="1000"/></svg>
+          <span class="t">חודשית קבועה</span><span class="s">שותפות אמיצה</span>
         </button>
       </div>
-
-      <div class="msg" id="msg"></div>
+      <div class="amts" id="amts"></div>
+      <div class="fx" id="fx"></div>
+      <div class="dur" id="dur">
+        <button type="button" class="dbtn" data-d="12">12 חודשים</button>
+        <button type="button" class="dbtn" data-d="18">18 חודשים</button>
+        <button type="button" class="dbtn on" data-d="ongoing">קבוע</button>
+        <button type="button" class="dbtn" data-d="custom">אחר</button>
+      </div>
+      <div class="dcustom" id="dcustom"><label>מספר חודשים</label><input type="number" id="dcustomInput" min="2" max="120" placeholder="6"></div>
+      <div class="note" id="monthNote"><span class="dot"></span><span id="monthNoteText"></span></div>
+      <div class="nudge" id="nudge"></div>
+      <button type="button" class="cont" id="cont2">המשך <span class="ar">←</span></button>
     </div>
   </section>
 
-  <footer class="trust">
-    <div class="ti">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
-      <span>תשלום מאובטח</span>
-    </div>
-    <div class="ti">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4M9.5 13h5M9.5 16.5h5"/></svg>
-      <span id="taxNote">קבלה מוכרת לסעיף 46</span>
-    </div>
-    <div class="ti">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="9" r="3.2"/><path d="M10.3 11.3 19 20M16 17l2-2M14 15l1.5-1.5"/></svg>
-      <span>100% לקהילה</span>
-    </div>
-  </footer>
+  <!-- STAGE 3 · details -->
+  <section class="stage is-future" data-stage="3" id="st3">
+    <button type="button" class="stage-sum" id="sum3"></button>
+    <div class="stage-body">
+      <div class="q">לאן לשלוח את הקבלה?</div>
+      <div class="grid">
+        <div class="fld"><label for="fname">שם פרטי</label><input type="text" id="fname" autocomplete="given-name"></div>
+        <div class="fld"><label for="lname">שם משפחה</label><input type="text" id="lname" autocomplete="family-name"></div>
+        <div class="fld full"><label for="email">אימייל</label><input type="email" id="email" dir="ltr" placeholder="name@example.com" autocomplete="email"></div>
+        <div class="live" id="emailLive"></div>
+        <div class="fld full hide" id="idFld"><label for="idnum">תעודת זהות</label><input type="text" id="idnum" inputmode="numeric" maxlength="9" dir="ltr" placeholder="123456789"><div class="hint">נדרשת להפקת קבלה מוכרת למס לפי סעיף 46</div></div>
+        <div class="fld full"><label for="phone">טלפון <span class="opt">(לא חובה)</span></label><input type="tel" id="phone" dir="ltr" placeholder="+43 / 05..." autocomplete="tel"></div>
 
-</main>
+        <div class="other">
+          <label class="chk"><input type="checkbox" id="otherChk"><span class="t">הקבלה על שם אחר<span class="s">אדם נוסף, חברה או עמותה</span></span></label>
+          <div class="otherf" id="otherf">
+            <div class="rtype" id="rtype">
+              <button type="button" class="on" data-rt="person">אדם</button>
+              <button type="button" data-rt="company">חברה / עמותה</button>
+            </div>
+            <div class="grid" id="recFields"></div>
+          </div>
+        </div>
+      </div>
+      <button type="button" class="cont" id="cont3">המשך לתשלום <span class="ar">←</span></button>
+    </div>
+  </section>
+
+  <!-- STAGE 4 · payment -->
+  <section class="stage is-future" data-stage="4" id="st4">
+    <div class="stage-body">
+      <div class="q">איך תרצו לשלם?</div>
+      <div class="sum" id="paySum"></div>
+      <div class="recur" id="recurNote" style="display:none"></div>
+      <div class="pays" id="pays"></div>
+      <div class="trust">
+        <span class="i"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span>תשלום מאובטח</span></span>
+        <span class="sep"></span>
+        <span class="i" id="trustTax"><span>קבלה מוכרת לסעיף 46</span></span>
+        <span class="sep"></span>
+        <span class="i"><span>100% לקהילה</span></span>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- overlays -->
+<div class="ov" id="ovTrans"><div class="ov-in"><div class="spin"></div><h2 style="font-size:21px">מעבירים אתכם לתשלום</h2><p id="transText"></p></div></div>
+<div class="ov" id="ovOk"><div class="ov-in">
+  <div class="mark ok">✓</div><h2>תודה מעומק הלב</h2><p id="okText"></p>
+  <div class="share">
+    <div class="st">רוצים להגדיל את ההשפעה?</div>
+    <div class="ss">אפשר לשתף את הבית עם עוד מישהו שירגיש כאן שייך.</div>
+    <div class="sb"><button class="wa" id="shareWa">שיתוף בוואטסאפ</button><button id="shareCopy">העתקת קישור</button></div>
+  </div>
+  <button class="linkbtn" id="again">לתרומה נוספת</button>
+</div></div>
+<div class="ov" id="ovErr"><div class="ov-in">
+  <div class="mark er">!</div><h2>התשלום לא הושלם</h2>
+  <p>משהו השתבש בדרך — הפרטים נשמרו, אפשר לנסות שוב בלי למלא מחדש.</p>
+  <div class="acts"><button class="primary" id="retry">לנסות שוב</button><button class="linkbtn" id="contact">צריך עזרה? דברו איתנו</button></div>
+</div></div>
 
 <script>
 (function(){
   "use strict";
-
-  var CURRENCIES = {
-    ILS:{ symbol:'₪', name:'שקל',  taxFull:'קבלה מוכרת לסעיף 46 · ישראל', taxShort:'סעיף 46',  needsId:true },
-    USD:{ symbol:'$', name:'דולר', taxFull:'פטור ממס — עמותת 501(c)(3) · ארה״ב', taxShort:'501(c)(3)', needsId:false },
-    EUR:{ symbol:'€', name:'אירו', taxFull:'קבלת תרומה מוכרת · אוסטריה', taxShort:'אוסטריה', needsId:false }
-  };
-  var CUR_ORDER = ['ILS','USD','EUR'];
-  var PRESETS = {
-    ILS:{ monthly:[50,100,200], onetime:[100,250,500] },
-    USD:{ monthly:[18,36,72],  onetime:[50,100,250] },
-    EUR:{ monthly:[18,36,72],  onetime:[50,100,250] }
-  };
-  var ANCHOR = 1; // pre-selected preset index (middle, gentle anchor)
-  var METHODS = {
-    ILS:{ onetime:['apple','google','card'], monthly:['card'] },
-    USD:{ onetime:['apple','google','card'], monthly:['apple','google','card'] },
-    EUR:{ onetime:['apple','google','card'], monthly:['apple','google','card'] }
-  };
-  var APPLE = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.365 1.43c0 1.14-.49 2.27-1.18 3.08-.74.9-1.99 1.57-2.98 1.57-.12 0-.23-.02-.3-.03-.01-.06-.04-.22-.04-.39 0-1.15.57-2.27 1.2-2.98.8-.94 2.14-1.64 3.25-1.68.03.13.05.28.05.43zM20.93 17.14c-.03.07-.46 1.58-1.52 3.12-.94 1.34-1.94 2.71-3.43 2.71-1.52 0-1.9-.88-3.63-.88-1.7 0-2.3.91-3.67.91-1.38 0-2.33-1.26-3.43-2.8C3.96 18.4 2.92 15.59 2.92 12.94c0-4.28 2.8-6.55 5.55-6.55 1.45 0 2.68.95 3.6.95.87 0 2.22-1.01 3.9-1.01.61 0 2.89.06 4.38 2.19-.13.09-2.38 1.37-2.38 4.19 0 3.26 2.85 4.42 2.96 4.45z"/></svg>';
-
-  var state = { step:1, currency:'ILS', freq:'monthly', amount:PRESETS.ILS.monthly[ANCHOR], custom:false, method:null, cardOpen:false };
-
   var $=function(id){return document.getElementById(id);};
-  var curGrid=$('curGrid'), amtsEl=$('amts'), payMethods=$('payMethods');
-  var customWrap=$('customWrap'), customInput=$('customInput'), customSym=$('customSym'), customGo=$('customGo');
-  var reassure=$('reassure'), idField=$('idField'), idnum=$('idnum'), taxNote=$('taxNote');
-  var fieldsEl=$('fields'), payBtn=$('payBtn'), payLabel=$('payLabel'), msg=$('msg');
-  var fname=$('fname'), lname=$('lname'), email=$('email');
 
-  function cur(){ return CURRENCIES[state.currency]; }
-  function fmt(n){ return cur().symbol + Number(n).toLocaleString('he-IL'); }
-  function freqWord(){ return state.freq==='monthly' ? 'לחודש' : ''; }
+  var SYMBOLS={EUR:'€',USD:'$',ILS:'₪'}, NAMES={EUR:'אירו',USD:'דולר',ILS:'שקל'};
+  var TAX={EUR:'קבלה מוכרת · אוסטריה',USD:'פטור ממס 501(c)(3) · ארה״ב',ILS:'קבלה מוכרת לסעיף 46 · ישראל'};
+  var TAXSHORT={EUR:'אוסטריה',USD:'501(c)(3)',ILS:'סעיף 46'};
+  var CUR_ORDER=['ILS','EUR','USD'];
+  var AMOUNTS={monthly:[18,36,72,101],once:[36,72,180,360]};
+  var RATES={EUR:1,USD:1.08,ILS:4.05};
+  var METHODS={ILS:{once:['apple','google','card'],monthly:['card']},
+               USD:{once:['apple','google','card'],monthly:['apple','google','card']},
+               EUR:{once:['apple','google','card'],monthly:['apple','google','card']}};
+  var APPLE='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.37 1.43c0 1.14-.49 2.27-1.18 3.08-.74.9-1.99 1.57-2.98 1.57-.12 0-.23-.02-.3-.03-.01-.06-.04-.22-.04-.39 0-1.15.57-2.27 1.2-2.98.8-.94 2.14-1.64 3.25-1.68.03.13.05.28.05.43zM20.93 17.14c-.03.07-.46 1.58-1.52 3.12-.94 1.34-1.94 2.71-3.43 2.71-1.52 0-1.9-.88-3.63-.88-1.7 0-2.3.91-3.67.91-1.38 0-2.33-1.26-3.43-2.8C3.96 18.4 2.92 15.59 2.92 12.94c0-4.28 2.8-6.55 5.55-6.55 1.45 0 2.68.95 3.6.95.87 0 2.22-1.01 3.9-1.01.61 0 2.89.06 4.38 2.19-.13.09-2.38 1.37-2.38 4.19 0 3.26 2.85 4.42 2.96 4.45z"/></svg>';
 
-  /* ---------- step machine ---------- */
-  function goToStep(n){
-    state.step=n;
-    [1,2,3].forEach(function(i){
-      var el=$('s'+i);
-      el.classList.toggle('is-active', i===n);
-      el.classList.toggle('is-done',   i<n);
-      el.classList.toggle('is-pending', i>n);
+  var MONTH_LINE='מחזיקה את הבית לאורך כל השנה — ונשארת בידיכם, לעצירה בכל רגע.';
+
+  var state={stage:1,currency:null,frequency:'monthly',amount:null,duration:'ongoing',durationCustom:null,
+    first:'',last:'',email:'',phone:'',id:'',other:false,rtype:'person',
+    recName:'',recId:'',recAddr:'',compName:'',compId:'',compAddr:'',compContact:'',compPhone:'',recNotes:''};
+
+  function sym(){return SYMBOLS[state.currency]||'€';}
+  function fmt(amt,cur){cur=cur||state.currency;var s=SYMBOLS[cur],r=Math.round(amt);return cur==='USD'?s+r:r+s;}
+  function toLocal(eur,cur){return eur*RATES[cur||state.currency];}
+
+  /* ---- stage machine: rolling reveal + collapse-to-summary ---- */
+  function goTo(n,push){
+    state.stage=n;
+    [1,2,3,4].forEach(function(i){
+      var el=$('st'+i);
+      el.classList.toggle('is-active',i===n);
+      el.classList.toggle('is-done',i<n);
+      el.classList.toggle('is-future',i>n);
     });
     renderSummaries();
-    if(n===3) renderMethods();
-    if(window.scrollTo){ try{ $('s'+n).scrollIntoView({behavior:'smooth',block:'nearest'}); }catch(e){} }
+    if(n===2) renderAmounts();
+    if(n===3) renderDetails();
+    if(n===4) renderPayment();
+    if(push!==false){ try{history.pushState({stage:n},'','#step'+n);}catch(e){} }
+    try{ $('st'+n).scrollIntoView({behavior:'smooth',block:'nearest'}); }catch(e){}
   }
 
   function renderSummaries(){
-    $('sum1').innerHTML =
-      '<span class="sl"><span class="si">'+cur().symbol+'</span>'+
-      '<span class="sv">'+cur().name+' <span class="sx">· '+cur().taxShort+'</span></span></span>'+
-      '<span class="edit">שינוי <svg viewBox="0 0 24 24"><path d="M4 20h4L18 10l-4-4L4 16z"/></svg></span>';
-    $('sum2').innerHTML =
-      '<span class="sl"><span class="si">'+(state.freq==='monthly'?'∞':'1')+'</span>'+
-      '<span class="sv">'+fmt(state.amount)+' <span class="sx">'+(state.freq==='monthly'?'לחודש':'חד-פעמי')+'</span></span></span>'+
-      '<span class="edit">שינוי <svg viewBox="0 0 24 24"><path d="M4 20h4L18 10l-4-4L4 16z"/></svg></span>';
-  }
-
-  /* ---------- step 1: currency ---------- */
-  function renderCurrencies(){
-    curGrid.innerHTML='';
-    CUR_ORDER.forEach(function(code){
-      var c=CURRENCIES[code];
-      var b=document.createElement('button');
-      b.type='button'; b.className='cur-card'+(state.currency===code?' on':''); b.setAttribute('data-cur',code);
-      b.innerHTML='<span class="sym">'+c.symbol+'</span>'+
-        '<span class="cc-txt"><span class="cc-name">'+c.name+'</span>'+
-        '<span class="cc-tax">'+c.taxFull+'</span></span><span class="chev">‹</span>';
-      b.onclick=function(){ pickCurrency(code); };
-      curGrid.appendChild(b);
-    });
-  }
-  function pickCurrency(code){
-    state.currency=code;
-    var list=PRESETS[code][state.freq];
-    if(!state.custom) state.amount=list[ANCHOR]!=null?list[ANCHOR]:list[0];
-    idField.classList.toggle('hide', !cur().needsId);
-    taxNote.textContent=cur().taxFull;
-    customSym.textContent=cur().symbol;
-    renderCurrencies(); renderAmounts();
-    goToStep(2);
-  }
-
-  /* ---------- step 2: amount + frequency ---------- */
-  function renderAmounts(){
-    var list=PRESETS[state.currency][state.freq];
-    amtsEl.innerHTML='';
-    list.forEach(function(v,i){
-      var b=document.createElement('div');
-      b.className='amt'+(!state.custom && state.amount===v?' on':'');
-      b.setAttribute('role','button'); b.tabIndex=0;
-      b.innerHTML=(i===ANCHOR?'<span class="pop">הכי נבחר</span>':'')+fmt(v);
-      b.onclick=function(){ pickAmount(v); };
-      b.onkeydown=function(e){ if(e.key==='Enter'||e.key===' '){e.preventDefault();pickAmount(v);} };
-      amtsEl.appendChild(b);
-    });
-    var other=document.createElement('div');
-    other.className='amt other'+(state.custom?' on':'');
-    other.setAttribute('role','button'); other.tabIndex=0;
-    other.textContent='אחר';
-    other.onclick=openCustom;
-    other.onkeydown=function(e){ if(e.key==='Enter'||e.key===' '){e.preventDefault();openCustom();} };
-    amtsEl.appendChild(other);
-  }
-  function pickAmount(v){
-    state.amount=v; state.custom=false;
-    customWrap.classList.remove('show');
-    renderAmounts();
-    goToStep(3);
-  }
-  function openCustom(){
-    state.custom=true; state.amount=Number(customInput.value)||0;
-    customWrap.classList.add('show'); renderAmounts(); customInput.focus();
-  }
-  customInput.addEventListener('input', function(){ state.amount=Number(customInput.value)||0; });
-  customGo.addEventListener('click', function(){ if(state.amount>0) goToStep(3); });
-  customInput.addEventListener('keydown', function(e){ if(e.key==='Enter' && state.amount>0) goToStep(3); });
-
-  $('freq').addEventListener('click', function(e){
-    var b=e.target.closest('button'); if(!b) return;
-    state.freq=b.getAttribute('data-freq');
-    [].forEach.call(this.querySelectorAll('button'),function(x){x.classList.toggle('on',x===b);});
-    var list=PRESETS[state.currency][state.freq];
-    if(!state.custom){ state.amount = (list.indexOf(state.amount)>=0)?state.amount:(list[ANCHOR]!=null?list[ANCHOR]:list[0]); }
-    reassure.textContent = state.freq==='monthly'
-      ? 'אפשר לעצור בכל רגע — בלי התחייבות.'
-      : 'תודה על הנדיבות.';
-    renderAmounts();
-  });
-
-  /* ---------- step 3: payment ---------- */
-  function renderMethods(){
-    var list=METHODS[state.currency][state.freq];
-    var onlyCard = (list.length===1 && list[0]==='card');
-    payMethods.innerHTML='';
-
-    if(!onlyCard){
-      list.forEach(function(m){
-        if(m==='apple'){
-          var a=document.createElement('button');
-          a.type='button'; a.className='wallet apple';
-          a.innerHTML=APPLE+'<span>Pay</span>';
-          a.onclick=function(){ submit('Apple Pay'); };
-          payMethods.appendChild(a);
-        } else if(m==='google'){
-          var g=document.createElement('button');
-          g.type='button'; g.className='wallet gpay';
-          g.innerHTML='<span><span class="g1">G</span><span class="g2">o</span><span class="g3">o</span><span class="g1">g</span><span class="g4">l</span><span class="g2">e</span></span><span>Pay</span>';
-          g.onclick=function(){ submit('Google Pay'); };
-          payMethods.appendChild(g);
-        }
-      });
-      var or=document.createElement('div'); or.className='pm-or'; or.textContent='או';
-      payMethods.appendChild(or);
+    if(state.currency)
+      $('sum1').innerHTML='<span class="l"><span class="k">'+sym()+'</span><span class="v">'+NAMES[state.currency]+' <span class="x">· '+TAXSHORT[state.currency]+'</span></span></span><span class="ed">שינוי</span>';
+    if(state.amount){
+      var d=state.frequency==='monthly'?(' · '+durationText()):'';
+      $('sum2').innerHTML='<span class="l"><span class="k">'+(state.frequency==='monthly'?'חודשי':'חד-פעמי')+'</span><span class="v">'+fmt(state.amount.local)+'<span class="x">'+d+'</span></span></span><span class="ed">שינוי</span>';
     }
-
-    var ct=document.createElement('button');
-    ct.type='button'; ct.className='card-toggle'+(onlyCard?' on':'');
-    ct.innerHTML='<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18"/></svg> כרטיס אשראי';
-    ct.onclick=function(){ state.cardOpen=!state.cardOpen; ct.classList.toggle('on',state.cardOpen||onlyCard); toggleFields(); };
-    payMethods.appendChild(ct);
-
-    state.cardOpen = onlyCard;            // card-only → fields open immediately
-    toggleFields();
-    updatePay();
+    if(state.first||state.email)
+      $('sum3').innerHTML='<span class="l"><span class="k">פרטים</span><span class="v">'+((state.first+' '+state.last).trim()||'—')+' <span class="x" dir="ltr">'+state.email+'</span></span></span><span class="ed">שינוי</span>';
   }
-  function toggleFields(){
-    fieldsEl.classList.toggle('show', state.cardOpen);
-    if(state.cardOpen) updatePay();
-  }
-  function emailValid(v){ return /^[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}$/.test(v); }
-  function updatePay(){
-    var valid = state.amount>0 && fname.value.trim() && lname.value.trim() && emailValid(email.value.trim());
-    payBtn.disabled=!valid;
-    payLabel.textContent = 'תרומה · '+fmt(state.amount)+(state.freq==='monthly'?' לחודש':'');
-  }
-  [fname,lname,email,idnum].forEach(function(el){ el.addEventListener('input',updatePay); });
-  email.addEventListener('blur',function(){ email.classList.toggle('bad', email.value.trim()!=='' && !emailValid(email.value.trim())); });
-  payBtn.addEventListener('click', function(){ if(!payBtn.disabled) submit('כרטיס אשראי'); });
-
-  /* ---------- submit (design phase: hosted checkout / demo) ---------- */
-  function submit(method){
-    state.method=method;
-    msg.classList.remove('show');
-    payBtn.classList.add('loading');
-    var payload={
-      currency:state.currency, frequency:state.freq, amount:state.amount, method:method,
-      firstName:fname.value.trim(), lastName:lname.value.trim(),
-      email:email.value.trim(), idNumber:(idnum.value||'').replace(/\D/g,''),
-      origin:location.origin
-    };
-    fetch('/api/create-checkout',{
-      method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload)
-    }).then(function(r){ return r.json().then(function(d){ return {ok:r.ok,d:d}; }); })
-      .then(function(res){
-        if(res.ok && res.d && res.d.url){ window.location.assign(res.d.url); return; }
-        throw new Error((res.d && res.d.message) || 'unavailable');
-      })
-      .catch(function(){
-        payBtn.classList.remove('loading');
-        msg.textContent='התשלום עדיין לא חובר (מצב הדגמה). נבחר: '+fmt(state.amount)+(state.freq==='monthly'?' לחודש':'')+' · '+method+'.';
-        msg.classList.add('show');
-      });
+  function durationText(){
+    if(state.duration==='12')return '12 חודשים';
+    if(state.duration==='18')return '18 חודשים';
+    if(state.duration==='custom')return (state.durationCustom||'?')+' חודשים';
+    return 'קבוע';
   }
 
-  /* ---------- summaries reopen ---------- */
-  $('sum1').addEventListener('click', function(){ goToStep(1); });
-  $('sum2').addEventListener('click', function(){ goToStep(2); });
+  /* ---- stage 1: currency ---- */
+  function renderCurrencies(){
+    var g=$('curChoices');g.innerHTML='';
+    CUR_ORDER.forEach(function(c){
+      var b=document.createElement('button');b.type='button';b.className='choice'+(state.currency===c?' on':'');b.setAttribute('data-cur',c);
+      b.innerHTML='<span class="sym">'+SYMBOLS[c]+'</span><span class="ct"><span class="nm">'+NAMES[c]+'</span><span class="tx">'+TAX[c]+'</span></span><span class="go">‹</span>';
+      b.onclick=function(){pickCurrency(c);};
+      g.appendChild(b);
+    });
+  }
+  function pickCurrency(c){
+    state.currency=c;
+    $('idFld').classList.toggle('hide',c!=='ILS');
+    $('trustTax').innerHTML='<span>'+TAX[c]+'</span>';
+    renderCurrencies();
+    setTimeout(function(){goTo(2);},340);
+  }
 
-  /* ---------- init ---------- */
-  renderCurrencies(); renderAmounts(); renderSummaries(); goToStep(1);
+  /* ---- stage 2: frequency + amount + duration ---- */
+  $('freq').addEventListener('click',function(e){
+    var b=e.target.closest('button');if(!b)return;
+    state.frequency=b.getAttribute('data-freq');
+    [].forEach.call(this.children,function(x){x.classList.toggle('on',x===b);});
+    $('dur').style.display=state.frequency==='monthly'?'grid':'none';
+    $('dcustom').classList.toggle('show',state.frequency==='monthly'&&state.duration==='custom');
+    if(state.amount){var list=AMOUNTS[state.frequency];if(list.indexOf(Math.round(state.amount.eur))<0)state.amount=null;}
+    renderAmounts();updateMonthNote();updateNudge();updateCont2();
+  });
+  function renderAmounts(){
+    $('dur').style.display=state.frequency==='monthly'?'grid':'none';
+    var g=$('amts');g.innerHTML='';var list=AMOUNTS[state.frequency],cur=state.currency;
+    list.forEach(function(eur){
+      var b=document.createElement('button');b.type='button';
+      var on=state.amount&&Math.round(state.amount.eur)===eur;
+      b.className='abtn'+(on?' on':'');
+      var sec=cur!=='EUR'?'<span class="sec">'+fmt(eur,'EUR')+'</span>':'';
+      b.innerHTML='<span class="p">'+(cur==='EUR'?fmt(eur,'EUR'):fmt(toLocal(eur,cur),cur))+'</span>'+sec;
+      b.onclick=function(){pickAmount(eur);};
+      g.appendChild(b);
+    });
+    var c=document.createElement('div');c.className='acustom';
+    c.innerHTML='<span class="lab">סכום אחר</span><input type="number" id="ca" min="5" inputmode="numeric"><span class="cur">'+sym()+'</span><button class="go" id="caGo" aria-label="המשך">←</button>';
+    g.appendChild(c);
+    $('ca').addEventListener('input',function(e){
+      var v=parseFloat(e.target.value);
+      if(v>0){[].forEach.call(document.querySelectorAll('.abtn'),function(x){x.classList.remove('on');});
+        state.amount={eur:v/RATES[cur],local:v};} else state.amount=null;
+      $('caGo').disabled=!(v>0);updateMonthNote();updateNudge();updateCont2();
+    });
+    $('caGo').disabled=!(state.amount&&!list.includes(Math.round(state.amount.eur)));
+    $('caGo').onclick=function(){if(state.amount)goTo(3);};
+    $('fx').textContent=cur!=='EUR'?'הסכומים בעוגן יורו; החיוב בפועל ב'+NAMES[cur]+' לפי השער המעודכן.':'';
+    [].forEach.call(document.querySelectorAll('.dbtn'),function(x){x.classList.toggle('on',x.getAttribute('data-d')===state.duration);});
+  }
+  function pickAmount(eur){
+    state.amount={eur:eur,local:toLocal(eur,state.currency)};
+    renderAmounts();updateMonthNote();updateNudge();updateCont2();
+    setTimeout(function(){goTo(3);},300);
+  }
+  $('dur').addEventListener('click',function(e){
+    var b=e.target.closest('button');if(!b)return;
+    state.duration=b.getAttribute('data-d');
+    [].forEach.call(this.children,function(x){x.classList.toggle('on',x===b);});
+    $('dcustom').classList.toggle('show',state.duration==='custom');
+    if(state.duration==='custom')setTimeout(function(){$('dcustomInput').focus();},120);
+    updateCont2();
+  });
+  $('dcustomInput').addEventListener('input',function(e){state.durationCustom=parseInt(e.target.value)||null;updateCont2();});
+
+  function updateMonthNote(){
+    if(state.frequency==='monthly'){$('monthNoteText').textContent=MONTH_LINE;$('monthNote').style.display='flex';}
+    else $('monthNote').style.display='none';
+  }
+  function updateNudge(){
+    var n=$('nudge');
+    if(state.frequency==='once'&&state.amount){
+      var sug=Math.max(18,Math.round(state.amount.eur*0.2/18)*18)||18;
+      var ml=toLocal(sug,state.currency),yl=toLocal(sug*12,state.currency);
+      n.innerHTML='גם <b>'+fmt(ml)+' לחודש</b> מצטרפים ל-<b>'+fmt(yl)+'</b> בשנה — נוכחות קבועה ושקטה שמחזיקה את הבית.<br><a id="toMonthly">להפוך לחודשית →</a>';
+      n.classList.add('show');
+      $('toMonthly').onclick=function(){
+        state.frequency='monthly';state.amount={eur:sug,local:ml};state.duration='ongoing';
+        [].forEach.call($('freq').children,function(x){x.classList.toggle('on',x.getAttribute('data-freq')==='monthly');});
+        renderAmounts();updateMonthNote();n.classList.remove('show');updateCont2();
+      };
+    } else n.classList.remove('show');
+  }
+  function valid2(){
+    if(!state.amount||!state.frequency)return false;
+    if(state.frequency==='monthly'&&state.duration==='custom')return state.durationCustom>=2;
+    return true;
+  }
+  function updateCont2(){$('cont2').disabled=!valid2();}
+  $('cont2').onclick=function(){if(valid2())goTo(3);};
+
+  /* ---- stage 3: details ---- */
+  function emailValid(v){return /^[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}$/.test(v.trim());}
+  function renderDetails(){ $('idFld').classList.toggle('hide',state.currency!=='ILS'); renderRecFields(); updateCont3(); }
+  function renderRecFields(){
+    var g=$('recFields');if(!g)return;
+    if(state.rtype==='person'){
+      g.innerHTML='<div class="fld full"><label>שם מלא</label><input type="text" id="recName" value="'+state.recName+'"></div>'+
+        (state.currency==='ILS'?'<div class="fld full"><label>תעודת זהות</label><input type="text" id="recId" dir="ltr" inputmode="numeric" maxlength="9" value="'+state.recId+'"></div>':'')+
+        '<div class="fld full"><label>כתובת מלאה</label><input type="text" id="recAddr" value="'+state.recAddr+'"></div>';
+    } else {
+      g.innerHTML='<div class="fld full"><label>שם החברה / העמותה</label><input type="text" id="compName" value="'+state.compName+'"></div>'+
+        (state.currency==='ILS'?'<div class="fld full"><label>ח.פ. / מספר עמותה</label><input type="text" id="compId" dir="ltr" inputmode="numeric" value="'+state.compId+'"></div>':'')+
+        '<div class="fld full"><label>כתובת מלאה</label><input type="text" id="compAddr" value="'+state.compAddr+'"></div>';
+    }
+    g.innerHTML+='<div class="fld full"><label>הערות לקבלה <span class="opt">(לא חובה)</span></label><textarea id="recNotes" rows="2">'+state.recNotes+'</textarea></div>';
+    bind('recName');bind('recId');bind('recAddr');bind('compName');bind('compId');bind('compAddr');bind('recNotes');
+  }
+  function bind(id){var el=$(id);if(!el)return;el.addEventListener('input',function(e){
+    if(id==='recId'||id==='compId')e.target.value=e.target.value.replace(/\D/g,'');
+    state[id]=e.target.value;updateCont3();});}
+
+  $('fname').addEventListener('input',function(e){state.first=e.target.value;updateCont3();});
+  $('lname').addEventListener('input',function(e){state.last=e.target.value;updateCont3();});
+  $('email').addEventListener('input',function(e){
+    e.target.value=e.target.value.replace(/[֐-׿]/g,'');state.email=e.target.value;
+    var L=$('emailLive');
+    if(!state.email){L.classList.remove('show');$('email').classList.remove('bad');}
+    else if(emailValid(state.email)){
+      L.innerHTML=state.frequency==='monthly'?'קבלה תישלח אל <b>'+state.email+'</b> אחרי כל חיוב. אפשר לעצור בכל עת בלחיצה אחת מתוך המייל.':'הקבלה תישלח אל <b>'+state.email+'</b>.';
+      L.className='live show';$('email').classList.remove('bad');
+    } else {L.innerHTML='כדאי לוודא שהכתובת באנגלית ותקינה.';L.className='live show warn';$('email').classList.add('bad');}
+    updateCont3();
+  });
+  $('phone').addEventListener('input',function(e){state.phone=e.target.value;});
+  $('idnum').addEventListener('input',function(e){e.target.value=e.target.value.replace(/\D/g,'');state.id=e.target.value;updateCont3();});
+
+  $('otherChk').addEventListener('change',function(e){state.other=e.target.checked;$('otherf').classList.toggle('show',state.other);updateCont3();});
+  $('rtype').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;
+    state.rtype=b.getAttribute('data-rt');[].forEach.call(this.children,function(x){x.classList.toggle('on',x===b);});renderRecFields();updateCont3();});
+
+  function valid3(){
+    var ok=state.first.trim().length>=2&&state.last.trim().length>=2&&emailValid(state.email);
+    if(state.currency==='ILS')ok=ok&&/^\d{5,9}$/.test(state.id);
+    if(state.other){
+      if(state.rtype==='person'){ok=ok&&state.recName.trim().length>=2&&state.recAddr.trim().length>=3;
+        if(state.currency==='ILS')ok=ok&&/^\d{5,9}$/.test(state.recId);}
+      else{ok=ok&&state.compName.trim().length>=2&&state.compAddr.trim().length>=3;
+        if(state.currency==='ILS')ok=ok&&state.compId.trim().length>=5;}
+    }
+    return ok;
+  }
+  function updateCont3(){$('cont3').disabled=!valid3();}
+  $('cont3').onclick=function(){if(valid3())goTo(4);};
+
+  /* ---- stage 4: payment ---- */
+  function device(){var u=navigator.userAgent;if(/iPhone|iPad|iPod/i.test(u)||(/Mac/i.test(u)&&/Safari/i.test(u)&&!/Chrome/i.test(u)))return 'apple';if(/Android/i.test(u))return 'android';return 'other';}
+  function renderPayment(){
+    var cur=state.currency,m=state.frequency==='monthly';
+    $('paySum').innerHTML=
+      '<div class="r"><span>סוג</span><span class="vv">'+(m?'חודשית · '+durationText():'חד-פעמית')+'</span></div>'+
+      '<div class="r"><span>מטבע</span><span class="vv">'+NAMES[cur]+'</span></div>'+
+      '<div class="r tot"><span>סכום החיוב</span><span class="vv">'+fmt(state.amount.local)+(m?' / חודש':'')+'</span></div>';
+    var rn=$('recurNote');
+    if(m){rn.style.display='block';rn.textContent='החיוב יתבצע באותו תאריך בכל חודש. אפשר לעצור בכל עת בלחיצה אחת מתוך המייל.';}
+    else rn.style.display='none';
+    var allowed=METHODS[cur][state.frequency],dev=device(),order=[];
+    if(allowed.indexOf('apple')>=0&&(dev==='apple'||dev==='other'))order.push('apple');
+    if(allowed.indexOf('google')>=0&&(dev==='android'||dev==='other'))order.push('google');
+    if(allowed.indexOf('card')>=0)order.push('card');
+    if(order.length===0)order=['card'];
+    var p=$('pays');p.innerHTML='';
+    order.forEach(function(k){
+      var b=document.createElement('button');b.type='button';
+      if(k==='apple'){b.className='pay apple';b.innerHTML=APPLE+'<span>Pay</span>';}
+      else if(k==='google'){b.className='pay gpay';b.innerHTML='<span class="b">G</span><span>Pay</span>';}
+      else{b.className='pay card';b.innerHTML='<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18"/></svg><span>תשלום בכרטיס אשראי</span>';}
+      b.onclick=function(){pay(k);};
+      p.appendChild(b);
+    });
+  }
+
+  /* ---- submit (design phase: demo / hosted checkout) ---- */
+  function pay(method){
+    var payload={currency:state.currency,frequency:state.frequency,amount:Math.round(state.amount.local),
+      eur:Math.round(state.amount.eur),duration:state.frequency==='monthly'?(state.duration==='custom'?state.durationCustom:state.duration):null,
+      method:method,firstName:state.first,lastName:state.last,email:state.email,phone:state.phone,idNumber:state.id,
+      other:state.other?{type:state.rtype,name:state.rtype==='person'?state.recName:state.compName}:null,origin:location.origin};
+    if(state.currency==='ILS'){
+      $('transText').innerHTML='מעבר לעמוד הסליקה המאובטח של iCount.<br>הפרטים כבר מולאו עבורכם.';
+      $('ovTrans').classList.add('show');
+      setTimeout(function(){$('ovTrans').classList.remove('show');tryCheckout(payload);},1400);
+    } else { tryCheckout(payload); }
+  }
+  function tryCheckout(payload){
+    fetch('/api/create-checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
+      .then(function(r){return r.json().then(function(d){return{ok:r.ok,d:d};});})
+      .then(function(res){ if(res.ok&&res.d&&res.d.url){window.location.assign(res.d.url);return;} showOk(); })
+      .catch(function(){ showOk(); }); /* design phase: treat as success demo */
+  }
+  function showOk(){
+    var m=state.frequency==='monthly';
+    $('okText').innerHTML=(state.first?'<b>'+state.first+'</b>, ':'')+'התרומה התקבלה. קבלה רשמית נשלחה אל '+state.email+'.'+(m?'<br><br>תודה שבחרתם להיות שותפים קבועים של הבית.':'');
+    $('ovOk').classList.add('show');
+  }
+
+  $('shareWa').onclick=function(){var u=location.href.split('#')[0];window.open('https://wa.me/?text='+encodeURIComponent('בואו נחזיק יחד את הבית — הקהילה הישראלית בוינה 🏠\n'+u),'_blank');};
+  $('shareCopy').onclick=function(e){var u=location.href.split('#')[0];navigator.clipboard.writeText(u).then(function(){var b=e.currentTarget,o=b.textContent;b.textContent='✓ הועתק';setTimeout(function(){b.textContent=o;},1800);});};
+  $('again').onclick=function(){location.hash='';location.reload();};
+  $('retry').onclick=function(){$('ovErr').classList.remove('show');};
+  $('contact').onclick=function(){location.href='mailto:rabbi@habaitwien.com?subject=עזרה בתרומה';};
+
+  /* summaries reopen + browser back */
+  $('sum1').onclick=function(){goTo(1);}; $('sum2').onclick=function(){goTo(2);}; $('sum3').onclick=function(){goTo(3);};
+  window.addEventListener('popstate',function(e){var s=(e.state&&e.state.stage)||1;if(s<state.stage)goTo(s,false);});
+
+  /* init */
+  renderCurrencies();updateMonthNote();
+  try{history.replaceState({stage:1},'','#step1');}catch(e){}
 })();
 </script>
 </body>
