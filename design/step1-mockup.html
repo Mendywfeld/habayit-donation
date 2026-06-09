@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>הבית · וינה — תרומה</title>
+<style>
+:root{
+  --paper:#FDFCFA;
+  --ink:#2E2B27;
+  --ink-soft:#6E675E;
+  --muted:#A8A096;
+  --line:#ECE9E2;
+  --line-soft:#F2F0EA;
+  --accent:#B5824A;
+  --accent-deep:#9A6A36;
+  --body:'Assistant', system-ui, sans-serif;
+  --num:'Heebo', system-ui, sans-serif;
+  --ease:cubic-bezier(0.22,1,0.36,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--body);
+  font-weight:400;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  display:grid;place-items:center;
+  min-height:100dvh;
+}
+
+.sheet{
+  position:relative;
+  width:100%;max-width:1040px;
+  min-height:100dvh;
+  display:grid;
+  grid-template-columns:1.25fr 0.75fr;
+}
+
+/* ---- left signature ---- */
+.aside{
+  position:relative;
+  padding:64px 48px;
+  display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;
+  border-inline-start:1px solid var(--line);
+}
+.brandmark{display:flex;align-items:baseline;gap:9px}
+.brandmark .bayit{font-size:21px;font-weight:600;letter-spacing:.02em;color:var(--ink)}
+.brandmark .sep{width:4px;height:4px;border-radius:50%;background:var(--accent);transform:translateY(-5px)}
+.brandmark .wien{font-size:12px;font-weight:500;color:var(--muted);letter-spacing:.3em}
+
+.house-wrap{flex:1;display:grid;place-items:center;width:100%;padding:40px 0}
+.house{width:130px;height:auto;overflow:visible}
+.house .stroke{fill:none;stroke:var(--muted);stroke-width:1;stroke-linecap:round;stroke-linejoin:round}
+.house .door{fill:none;stroke:var(--accent);stroke-width:1.4}
+
+.aside-tag{font-size:12.5px;color:var(--muted);letter-spacing:.04em;font-weight:500}
+
+/* ---- right content ---- */
+.panel{
+  padding:64px 56px 48px;
+  display:flex;flex-direction:column;
+}
+.steps-rail{
+  display:flex;align-items:center;gap:9px;
+  font-family:var(--num);font-size:11.5px;font-weight:400;color:var(--muted);
+}
+.steps-rail .tick{width:20px;height:1.5px;background:var(--line);border-radius:2px}
+.steps-rail .tick.on{background:var(--accent);width:28px}
+.steps-rail .label{margin-inline-start:6px;letter-spacing:.05em}
+
+.hero{margin:54px 0 0}
+.eyebrow{
+  font-size:12px;font-weight:600;letter-spacing:.22em;
+  color:var(--muted);margin-bottom:22px;
+}
+.headline{
+  font-size:clamp(30px,4.6vw,46px);
+  font-weight:300;line-height:1.18;color:var(--ink);
+  letter-spacing:-.005em;
+}
+.subhead{
+  margin-top:18px;font-size:15px;font-weight:400;line-height:1.7;
+  color:var(--ink-soft);max-width:34ch;
+}
+
+.regions{margin-top:50px;display:flex;flex-direction:column}
+.region{
+  display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:20px;
+  padding:20px 6px;
+  border-top:1px solid var(--line-soft);
+  cursor:pointer;
+  transition:padding .4s var(--ease),background .4s var(--ease);
+}
+.region:last-child{border-bottom:1px solid var(--line-soft)}
+.region .glyph{
+  font-family:var(--num);font-weight:300;font-size:26px;line-height:1;
+  width:34px;text-align:center;color:var(--ink-soft);
+  unicode-bidi:isolate;transition:color .3s var(--ease);
+}
+.region .rgt{display:flex;flex-direction:column;gap:4px}
+.region .place{font-size:16px;font-weight:600;color:var(--ink)}
+.region .tax{font-size:12.5px;font-weight:400;color:var(--muted)}
+.region .go{font-family:var(--num);font-size:17px;font-weight:300;color:var(--line);
+  transition:transform .3s var(--ease),color .3s var(--ease)}
+.region:hover{padding-inline:14px}
+.region:hover .glyph{color:var(--accent-deep)}
+.region:hover .go{color:var(--accent);transform:translateX(-5px)}
+
+/* active demo state — light, just an accent marker, no heavy fill */
+.region.is-active .glyph{color:var(--accent-deep)}
+.region.is-active .place{color:var(--accent-deep)}
+.region.is-active .go{color:var(--accent);transform:translateX(-5px)}
+
+.region.soon{cursor:default;opacity:.55}
+.region.soon:hover{padding-inline:6px}
+.region.soon:hover .go{transform:none;color:var(--line)}
+.region .soon-tag{font-size:10.5px;font-weight:600;letter-spacing:.14em;color:var(--muted);
+  border:1px solid var(--line);border-radius:999px;padding:3px 11px}
+
+.foot{margin-top:34px;display:flex;align-items:center;gap:8px;font-size:12px;font-weight:400;color:var(--muted)}
+.foot .lock{width:12px;height:12px;stroke:var(--muted);fill:none;stroke-width:1.5}
+
+@media(max-width:760px){
+  .sheet{grid-template-columns:1fr}
+  .aside{order:2;border-inline-start:none;border-top:1px solid var(--line);
+    flex-direction:row;align-items:center;justify-content:center;padding:20px 30px}
+  .house-wrap{flex:0 0 auto;padding:0}
+  .house{width:50px}
+  .aside .brandmark,.aside .aside-tag{display:none}
+  .panel{order:1;padding:48px 30px 30px}
+  .hero{margin-top:40px}
+  .headline{font-size:clamp(28px,8vw,38px)}
+  .subhead{max-width:none}
+  .regions{margin-top:36px}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <section class="panel">
+    <div class="steps-rail">
+      <span class="tick on"></span><span class="tick"></span><span class="tick"></span><span class="tick"></span>
+      <span class="label">צעד 1 מתוך 4</span>
+    </div>
+
+    <div class="hero">
+      <div class="eyebrow">הבית · הקהילה הישראלית בוינה</div>
+      <h1 class="headline">מאיפה תרצו לתרום?</h1>
+      <p class="subhead">בחרו את האזור, ונתאים לכם את הקבלה הנכונה.</p>
+    </div>
+
+    <div class="regions">
+      <div class="region is-active">
+        <div class="glyph">₪</div>
+        <div class="rgt">
+          <div class="place">ישראל</div>
+          <div class="tax">קבלה מוכרת לסעיף 46</div>
+        </div>
+        <div class="go">←</div>
+      </div>
+      <div class="region">
+        <div class="glyph">$</div>
+        <div class="rgt">
+          <div class="place">ארצות הברית</div>
+          <div class="tax">עמותת 501(c)(3)</div>
+        </div>
+        <div class="go">←</div>
+      </div>
+      <div class="region soon">
+        <div class="glyph">€</div>
+        <div class="rgt">
+          <div class="place">אוסטריה ואירופה</div>
+          <div class="tax">קבלת תרומה אוסטרית</div>
+        </div>
+        <div class="soon-tag">בקרוב</div>
+      </div>
+    </div>
+
+    <div class="foot">
+      <svg class="lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+      <span>תשלום מאובטח · קבלה אוטומטית למייל</span>
+    </div>
+  </section>
+
+  <aside class="aside">
+    <div class="brandmark">
+      <span class="bayit">הבית</span><span class="sep"></span><span class="wien">WIEN</span>
+    </div>
+    <div class="house-wrap">
+      <svg class="house" viewBox="0 0 200 200">
+        <path class="stroke" d="M34 92 L100 40 L166 92"/>
+        <path class="stroke" d="M48 92 V176 M152 92 V176"/>
+        <path class="stroke" d="M40 176 H160"/>
+        <path class="door" d="M88 176 V128 a12 12 0 0 1 24 0 V176"/>
+      </svg>
+    </div>
+    <span class="aside-tag">קהילה · בית · שייכות</span>
+  </aside>
+
+</div>
+</body>
+</html>

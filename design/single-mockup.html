@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>הבית · וינה — תרומה</title>
+<style>
+:root{
+  --paper:#FDFCFA;
+  --ink:#2E2B27;
+  --ink-soft:#6E675E;
+  --muted:#A8A096;
+  --line:#ECE9E2;
+  --line-soft:#F4F2EC;
+  --field:#FBFAF7;
+  --accent:#B5824A;
+  --accent-deep:#9A6A36;
+  --accent-wash:#FBF4EA;
+  --body:'Assistant', system-ui, sans-serif;
+  --num:'Heebo', system-ui, sans-serif;
+  --ease:cubic-bezier(0.22,1,0.36,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  background:var(--paper);color:var(--ink);
+  font-family:var(--body);font-weight:400;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  display:grid;place-items:center;min-height:100dvh;padding:24px;
+}
+.card{width:100%;max-width:480px}
+
+/* head */
+.head{display:flex;flex-direction:column;align-items:center;text-align:center;margin-bottom:26px}
+.mark{display:flex;align-items:center;gap:9px;margin-bottom:14px}
+.mark svg{width:26px;height:26px}
+.mark .stroke{fill:none;stroke:var(--accent);stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round}
+.mark .nm{font-size:18px;font-weight:600;letter-spacing:.02em}
+.mark .wn{font-size:10.5px;font-weight:500;color:var(--muted);letter-spacing:.28em}
+.title{font-size:25px;font-weight:300;color:var(--ink);letter-spacing:-.01em}
+.sub{margin-top:7px;font-size:13.5px;color:var(--muted)}
+
+/* segmented */
+.seg{display:flex;gap:7px;margin-bottom:14px}
+.seg.cur{justify-content:center}
+.seg button{
+  flex:1;background:var(--field);border:1px solid var(--line);border-radius:12px;
+  padding:11px 8px;font-family:var(--body);font-size:13.5px;font-weight:600;color:var(--ink-soft);
+  cursor:pointer;transition:all .22s var(--ease);position:relative;
+}
+.seg.cur button{flex:0 0 auto;min-width:64px;display:flex;align-items:center;justify-content:center;gap:6px}
+.seg button .sym{font-family:var(--num);font-size:15px;font-weight:400}
+.seg button:hover{border-color:#E0D6C5}
+.seg button.on{
+  background:var(--accent-wash);border-color:var(--accent);color:var(--accent-deep);
+  box-shadow:0 1px 0 rgba(181,130,74,.08);
+}
+.seg button .rec{
+  position:absolute;top:-8px;inset-inline-start:50%;transform:translateX(50%);
+  font-size:9.5px;font-weight:700;letter-spacing:.08em;color:#fff;background:var(--accent);
+  padding:2px 8px;border-radius:999px;white-space:nowrap;
+}
+
+.label{font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.04em;margin:0 2px 8px}
+
+/* amounts */
+.amts{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:9px}
+.amt{
+  background:var(--field);border:1px solid var(--line);border-radius:12px;
+  padding:13px 4px;text-align:center;cursor:pointer;transition:all .22s var(--ease);
+  font-family:var(--num);font-size:17px;font-weight:400;color:var(--ink);unicode-bidi:isolate;
+}
+.amt:hover{border-color:#E0D6C5}
+.amt.on{background:var(--accent-wash);border-color:var(--accent);color:var(--accent-deep);font-weight:500}
+.amt.other{font-family:var(--body);font-size:13.5px;font-weight:600;color:var(--ink-soft)}
+
+/* gentle nudge */
+.nudge{
+  display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--accent-deep);
+  background:var(--accent-wash);border:1px solid #F0E3D0;border-radius:10px;
+  padding:9px 12px;margin:4px 0 18px;line-height:1.5;
+}
+.nudge .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0}
+.nudge b{font-weight:700;unicode-bidi:isolate}
+
+/* fields */
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
+.f{display:flex;flex-direction:column}
+.f.full{grid-column:span 2}
+.f input{
+  width:100%;padding:12px 13px;background:var(--field);border:1px solid var(--line);
+  border-radius:11px;font-family:var(--body);font-size:14.5px;color:var(--ink);
+  outline:none;transition:all .2s var(--ease);
+}
+.f input::placeholder{color:var(--muted)}
+.f input:focus{border-color:var(--accent);background:#fff;box-shadow:0 0 0 3px rgba(181,130,74,.1)}
+.f input[dir=ltr]{text-align:right;direction:ltr}
+
+/* pay */
+.pay{
+  width:100%;padding:16px;border:none;border-radius:13px;cursor:pointer;
+  background:var(--accent);color:#fff;font-family:var(--body);font-size:15.5px;font-weight:600;
+  display:flex;align-items:center;justify-content:center;gap:9px;
+  box-shadow:0 6px 18px rgba(181,130,74,.28);transition:all .22s var(--ease);
+}
+.pay:hover{background:var(--accent-deep);transform:translateY(-1px);box-shadow:0 8px 22px rgba(181,130,74,.36)}
+.pay .arr{transition:transform .22s var(--ease)}
+.pay:hover .arr{transform:translateX(-4px)}
+
+.foot{margin-top:14px;display:flex;align-items:center;justify-content:center;gap:7px;font-size:11.5px;color:var(--muted)}
+.foot .lock{width:11px;height:11px;stroke:var(--muted);fill:none;stroke-width:1.6}
+.foot .sep{opacity:.5}
+</style>
+</head>
+<body>
+<div class="card">
+
+  <div class="head">
+    <div class="mark">
+      <svg viewBox="0 0 40 40"><path class="stroke" d="M8 19 L20 9 L32 19 M11 19 V32 H29 V19 M17 32 V24 a3 3 0 0 1 6 0 V32"/></svg>
+      <span class="nm">הבית</span><span class="wn">WIEN</span>
+    </div>
+    <h1 class="title">תרומה לקהילת הבית</h1>
+    <p class="sub">בחרו סכום — ואנחנו נדאג לקבלה ולתודה.</p>
+  </div>
+
+  <!-- currency -->
+  <div class="seg cur">
+    <button class="on"><span class="sym">₪</span> שקל</button>
+    <button><span class="sym">$</span> דולר</button>
+    <button><span class="sym">€</span> אירו</button>
+  </div>
+
+  <!-- frequency -->
+  <div class="seg">
+    <button class="on">חודשי קבוע<span class="rec">מומלץ</span></button>
+    <button>חד-פעמי</button>
+  </div>
+
+  <!-- amounts -->
+  <div class="label">סכום לחודש</div>
+  <div class="amts">
+    <div class="amt">₪50</div>
+    <div class="amt on">₪100</div>
+    <div class="amt">₪200</div>
+    <div class="amt other">אחר</div>
+  </div>
+  <div class="nudge">
+    <span class="dot"></span>
+    <span><b>₪100 בחודש</b> = ₪1,200 בשנה שמחזיקים בית חם לקהילה. תודה.</span>
+  </div>
+
+  <!-- details -->
+  <div class="fields">
+    <div class="f"><input type="text" placeholder="שם פרטי"></div>
+    <div class="f"><input type="text" placeholder="שם משפחה"></div>
+    <div class="f full"><input type="email" dir="ltr" placeholder="כתובת אימייל לקבלה"></div>
+  </div>
+
+  <button class="pay">
+    <svg viewBox="0 0 24 24" style="width:15px;height:15px;fill:none;stroke:#fff;stroke-width:1.7"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+    תרומה חודשית · ₪100
+    <span class="arr">←</span>
+  </button>
+
+  <div class="foot">
+    <svg class="lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+    <span>תשלום מאובטח</span><span class="sep">·</span><span>קבלה מוכרת לסעיף 46</span>
+  </div>
+
+</div>
+</body>
+</html>
