@@ -11,6 +11,9 @@ const COLS = {
   date: "date_mm1hfbcq",         // תאריך תרומה
   type: "color_mm1hat0w",        // סוג תרומה (status)
   recurring: "boolean_mm1hja12", // הוראת קבע (checkbox)
+  currency: "dropdown_mm45bpec", // מטבע
+  email: "email_mm45a93c",       // אימייל
+  reference: "text_mm45cxa0",    // אסמכתא (מספר מסמך מספק הסליקה)
   language: "dropdown_mm1hjjsd", // שפת התורם
   thanksSent: "boolean_mm1hr476",// מכתב תודה נשלח?
   notes: "long_text_mm1hnw1n"    // הערות
@@ -31,14 +34,12 @@ async function createDonationItem(d, log) {
   const fullName = [d.firstName, d.lastName].filter(Boolean).join(" ").trim() || "תורם/ת";
   const typeLabel = d.frequency === "monthly" ? "הוראת קבע" : "חד-פעמי";
 
+  const currencyLabel = CURRENCY_LABEL[d.currency] || d.currency;
   const notesLines = [
-    `מטבע: ${CURRENCY_LABEL[d.currency] || d.currency}`,
     `סכום: ${d.amount} ${d.currency}` + (d.frequency === "monthly" ? " לחודש" : ""),
-    d.email ? `אימייל: ${d.email}` : null,
     d.phone ? `טלפון: ${d.phone}` : null,
     d.idNumber ? `ת"ז/ח.פ.: ${d.idNumber}` : null,
-    d.provider ? `ספק סליקה: ${d.provider}` : null,
-    d.reference ? `אסמכתא: ${d.reference}` : null
+    d.provider ? `ספק סליקה: ${d.provider}` : null
   ].filter(Boolean);
 
   const columnValues = {
@@ -47,10 +48,13 @@ async function createDonationItem(d, log) {
     [COLS.date]: { date: today() },
     [COLS.type]: { label: typeLabel },
     [COLS.recurring]: { checked: d.frequency === "monthly" ? "true" : "false" },
+    [COLS.currency]: { labels: [currencyLabel] },
     [COLS.language]: { labels: ["עברית"] },
     [COLS.thanksSent]: { checked: "false" },
     [COLS.notes]: notesLines.join("\n")
   };
+  if (d.email) columnValues[COLS.email] = { email: d.email, text: d.email };
+  if (d.reference) columnValues[COLS.reference] = String(d.reference);
 
   const query = `
     mutation ($boardId: ID!, $itemName: String!, $cols: JSON!) {
