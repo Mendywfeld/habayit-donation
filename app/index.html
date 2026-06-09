@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 <title>תרומה · הבית · הקהילה הישראלית בוינה</title>
-<meta name="description" content="תרומה לקהילת הבית בוינה — חד-פעמי או הוראת קבע חודשית. קבלה מוכרת לסעיף 46." />
+<meta name="description" content="תרומה לקהילת הבית בוינה — חודשי או חד-פעמי. קבלה מוכרת לסעיף 46." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600;700&family=Heebo:wght@300;400;500&display=swap" rel="stylesheet">
@@ -31,74 +31,96 @@
 html,body{min-height:100%}
 body{
   background:
-    radial-gradient(120% 60% at 50% -8%, var(--accent-wash) 0%, rgba(251,241,226,0) 60%),
+    radial-gradient(120% 55% at 50% -10%, var(--accent-wash) 0%, rgba(251,241,226,0) 60%),
     var(--paper);
-  color:var(--ink);
-  font-family:var(--body);font-weight:400;
+  color:var(--ink);font-family:var(--body);font-weight:400;
   -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
-  display:grid;place-items:center;min-height:100dvh;padding:24px 20px;
+  display:grid;place-items:center;min-height:100dvh;padding:22px 18px;
 }
-.card{width:100%;max-width:480px;animation:rise .6s var(--ease)}
-@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-@media(prefers-reduced-motion:reduce){.card{animation:none}*{transition:none!important}}
+.card{width:100%;max-width:460px;animation:rise .55s var(--ease)}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes reveal{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
-/* head */
-.head{display:flex;flex-direction:column;align-items:center;text-align:center;margin-bottom:24px}
-.brand{margin-bottom:15px;display:flex;justify-content:center}
-.brand-img{height:96px;width:auto;display:block}
-.mark{display:none;flex-direction:column;align-items:center;gap:5px}
-.mark.show{display:flex}
-.mark .sign{
-  position:relative;background:var(--accent-light);border:2.5px solid var(--ink);
-  border-radius:14px;padding:12px 30px;box-shadow:inset 0 0 0 3px rgba(255,255,255,.22);
-}
-.mark .sign:before{content:"";position:absolute;top:-13px;inset-inline-end:14px;width:13px;height:13px;
-  border:2px solid var(--ink);border-radius:50%;background:var(--paper)}
-.mark .nm{font-size:30px;font-weight:700;color:var(--ink);letter-spacing:.01em;line-height:1}
-.mark .wn{font-size:11px;font-weight:600;color:var(--ink);letter-spacing:.04em;margin-top:2px}
-.title{font-size:25px;font-weight:300;color:var(--ink);letter-spacing:-.01em;line-height:1.2}
-.sub{margin-top:7px;font-size:13.5px;color:var(--muted)}
+/* header */
+.head{display:flex;flex-direction:column;align-items:center;text-align:center;margin-bottom:18px}
+.brand-img{height:118px;width:auto;display:block}
+.brand-fallback{display:none;font-size:26px;font-weight:700;color:var(--ink)}
+.kicker{margin-top:8px;font-size:12px;font-weight:600;letter-spacing:.18em;color:var(--muted)}
 
-/* segmented */
-.seg{display:flex;gap:7px;margin-bottom:14px}
-.seg.cur{justify-content:center;flex-wrap:wrap}
-.seg button{
-  flex:1;background:var(--field);border:1px solid var(--line);border-radius:12px;
-  padding:11px 8px;font-family:var(--body);font-size:13.5px;font-weight:600;color:var(--ink-soft);
-  cursor:pointer;transition:all .22s var(--ease);position:relative;
+/* steps */
+.step{margin-bottom:10px}
+.step.is-pending{display:none}
+.summary{display:none}
+.step.is-done .summary{
+  display:flex;width:100%;align-items:center;justify-content:space-between;gap:10px;
+  background:var(--field);border:1px solid var(--line);border-radius:13px;padding:13px 15px;
+  cursor:pointer;font-family:var(--body);transition:border-color .2s var(--ease);text-align:start;
 }
-.seg.cur button{flex:0 0 auto;min-width:66px;display:flex;align-items:center;justify-content:center;gap:6px}
-.seg button .sym{font-family:var(--num);font-size:15px;font-weight:400}
-.seg button:hover:not(:disabled){border-color:#E0D6C5}
-.seg button.on{background:var(--accent-wash);border-color:var(--accent);color:var(--accent-deep)}
-.seg button:disabled{opacity:.45;cursor:not-allowed}
-.seg button .rec{
+.summary:hover{border-color:var(--accent-edge)}
+.summary .sl{display:flex;align-items:center;gap:9px;min-width:0}
+.summary .si{width:24px;height:24px;border-radius:7px;background:var(--accent-wash);color:var(--accent-deep);
+  display:grid;place-items:center;font-family:var(--num);font-size:14px;flex-shrink:0}
+.summary .sv{font-weight:600;font-size:14px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.summary .sv .sx{color:var(--muted);font-weight:500}
+.summary .edit{display:flex;align-items:center;gap:4px;font-size:11.5px;font-weight:600;color:var(--accent-deep);flex-shrink:0}
+.summary .edit svg{width:12px;height:12px;stroke:var(--accent-deep);fill:none;stroke-width:1.7}
+
+.body{display:none}
+.step.is-active .body{display:block;animation:reveal .42s var(--ease)}
+.q{font-size:16.5px;font-weight:600;color:var(--ink);margin:2px 2px 13px}
+
+/* currency cards */
+.cur-grid{display:flex;flex-direction:column;gap:8px}
+.cur-card{
+  display:flex;align-items:center;gap:13px;width:100%;text-align:start;
+  background:var(--field);border:1px solid var(--line);border-radius:14px;padding:13px 15px;
+  cursor:pointer;transition:all .2s var(--ease);font-family:var(--body);
+}
+.cur-card:hover{border-color:var(--accent-edge);transform:translateY(-1px)}
+.cur-card .sym{
+  width:38px;height:38px;flex-shrink:0;display:grid;place-items:center;background:#fff;
+  border:1px solid var(--line);border-radius:10px;font-family:var(--num);font-size:21px;color:var(--accent-deep);
+}
+.cur-card .cc-txt{flex:1;min-width:0}
+.cur-card .cc-name{display:block;font-weight:700;font-size:15px;color:var(--ink)}
+.cur-card .cc-tax{display:block;font-size:11.5px;color:var(--muted);margin-top:2px}
+.cur-card .chev{color:var(--muted);font-size:18px;flex-shrink:0}
+
+/* frequency */
+.freq{display:flex;gap:8px;margin-bottom:14px}
+.freq button{
+  flex:1;position:relative;background:var(--field);border:1px solid var(--line);border-radius:12px;
+  padding:13px 8px;font-family:var(--body);font-size:14px;font-weight:600;color:var(--ink-soft);
+  cursor:pointer;transition:all .2s var(--ease);
+}
+.freq button:hover{border-color:var(--accent-edge)}
+.freq button.on{background:var(--accent-wash);border-color:var(--accent);color:var(--accent-deep)}
+.freq button .rec{
   position:absolute;top:-8px;inset-inline-start:50%;transform:translateX(50%);
-  font-size:9.5px;font-weight:700;letter-spacing:.06em;color:#fff;background:var(--accent);
-  padding:2px 8px;border-radius:999px;white-space:nowrap;
+  font-size:9.5px;font-weight:700;letter-spacing:.05em;color:#fff;background:var(--accent);
+  padding:2px 9px;border-radius:999px;white-space:nowrap;
 }
-.seg button .soon{
-  position:absolute;top:-8px;inset-inline-start:50%;transform:translateX(50%);
-  font-size:9px;font-weight:700;letter-spacing:.08em;color:var(--muted);background:var(--paper);
-  border:1px solid var(--line);padding:1px 7px;border-radius:999px;white-space:nowrap;
-}
-
-.label{font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.04em;margin:0 2px 8px}
 
 /* amounts */
-.amts{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:9px}
+.amts{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
 .amt{
-  background:var(--field);border:1px solid var(--line);border-radius:12px;
-  padding:13px 4px;text-align:center;cursor:pointer;transition:all .22s var(--ease);
+  position:relative;background:var(--field);border:1px solid var(--line);border-radius:12px;
+  padding:15px 4px;text-align:center;cursor:pointer;transition:all .2s var(--ease);
   font-family:var(--num);font-size:17px;font-weight:400;color:var(--ink);unicode-bidi:isolate;
   display:flex;align-items:center;justify-content:center;
 }
-.amt:hover{border-color:#E0D6C5}
+.amt:hover{border-color:var(--accent-edge)}
 .amt.on{background:var(--accent-wash);border-color:var(--accent);color:var(--accent-deep);font-weight:500}
 .amt.other{font-family:var(--body);font-size:13.5px;font-weight:600;color:var(--ink-soft)}
+.amt .pop{
+  position:absolute;top:-8px;inset-inline-start:50%;transform:translateX(50%);
+  font-size:9px;font-weight:700;letter-spacing:.03em;color:#fff;background:var(--accent-light);
+  padding:2px 7px;border-radius:999px;white-space:nowrap;
+}
 .custom-wrap{
-  display:none;align-items:center;gap:6px;background:var(--field);border:1px solid var(--accent);
-  border-radius:12px;padding:4px 14px;margin-bottom:9px;box-shadow:0 0 0 3px rgba(181,130,74,.1)
+  display:none;align-items:center;gap:8px;background:var(--field);border:1px solid var(--accent);
+  border-radius:12px;padding:4px 6px 4px 14px;margin-top:8px;box-shadow:0 0 0 3px rgba(181,121,58,.1)
 }
 .custom-wrap.show{display:flex}
 .custom-wrap .cs{font-family:var(--num);font-size:18px;color:var(--accent-deep)}
@@ -106,20 +128,39 @@ body{
   flex:1;border:none;outline:none;background:transparent;font-family:var(--num);
   font-size:18px;font-weight:500;color:var(--ink);padding:9px 0;text-align:center;direction:ltr
 }
-
-/* gentle nudge */
-.nudge{
-  display:none;align-items:center;gap:8px;font-size:12.5px;color:var(--accent-deep);
-  background:var(--accent-wash);border:1px solid var(--accent-edge);border-radius:10px;
-  padding:9px 12px;margin:4px 0 18px;line-height:1.5;
+.custom-wrap .go{
+  width:38px;height:38px;flex-shrink:0;border:none;border-radius:9px;background:var(--accent);color:#fff;
+  font-size:18px;cursor:pointer;display:grid;place-items:center;transition:background .2s
 }
-.nudge.show{display:flex}
-.nudge .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0}
-.nudge b{font-weight:700;unicode-bidi:isolate}
-.nudge a{color:var(--accent-deep);font-weight:700;text-decoration:underline;cursor:pointer;text-underline-offset:2px}
+.custom-wrap .go:hover{background:var(--accent-deep)}
+.reassure{margin-top:11px;font-size:12px;color:var(--muted);text-align:center}
+
+/* payment methods */
+.pm{display:flex;flex-direction:column;gap:9px}
+.wallet{
+  width:100%;padding:15px;border-radius:12px;cursor:pointer;border:1px solid transparent;direction:ltr;
+  display:flex;align-items:center;justify-content:center;gap:7px;font-family:var(--body);
+  font-size:16px;font-weight:600;transition:transform .15s var(--ease),box-shadow .15s var(--ease);
+}
+.wallet:hover{transform:translateY(-1px)}
+.wallet.apple{background:#000;color:#fff}
+.wallet.apple svg{width:18px;height:18px;fill:#fff;margin-top:-2px}
+.wallet.gpay{background:#fff;color:#3c4043;border:1px solid #dadce0;box-shadow:0 1px 2px rgba(0,0,0,.05)}
+.wallet.gpay .g1{color:#4285F4}.wallet.gpay .g2{color:#EA4335}.wallet.gpay .g3{color:#FBBC05}.wallet.gpay .g4{color:#34A853}
+.pm-or{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:12px;margin:3px 0}
+.pm-or:before,.pm-or:after{content:"";flex:1;height:1px;background:var(--line)}
+.card-toggle{
+  width:100%;padding:14px;border-radius:12px;background:var(--field);border:1px solid var(--line);
+  font-family:var(--body);font-size:14.5px;font-weight:600;color:var(--ink);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:9px;transition:all .2s var(--ease);
+}
+.card-toggle:hover{border-color:var(--accent-edge)}
+.card-toggle.on{border-color:var(--accent);background:var(--accent-wash);color:var(--accent-deep)}
+.card-toggle svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.6}
 
 /* fields */
-.fields{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
+.fields{display:none;grid-template-columns:1fr 1fr;gap:8px;margin-top:11px}
+.fields.show{display:grid;animation:reveal .35s var(--ease)}
 .f{display:flex;flex-direction:column}
 .f.full{grid-column:span 2}
 .f.hide{display:none}
@@ -129,31 +170,30 @@ body{
   outline:none;transition:all .2s var(--ease);
 }
 .f input::placeholder{color:var(--muted)}
-.f input:focus{border-color:var(--accent);background:#fff;box-shadow:0 0 0 3px rgba(181,130,74,.1)}
-.f input.bad{border-color:var(--warn);box-shadow:0 0 0 3px rgba(154,106,54,.1)}
+.f input:focus{border-color:var(--accent);background:#fff;box-shadow:0 0 0 3px rgba(181,121,58,.1)}
+.f input.bad{border-color:var(--warn);box-shadow:0 0 0 3px rgba(154,102,48,.1)}
 .f input[dir=ltr]{text-align:right;direction:ltr}
 
-/* pay */
 .pay{
-  width:100%;padding:16px;border:none;border-radius:13px;cursor:pointer;
+  width:100%;margin-top:11px;padding:16px;border:none;border-radius:13px;cursor:pointer;position:relative;
   background:var(--accent);color:#fff;font-family:var(--body);font-size:15.5px;font-weight:600;
   display:flex;align-items:center;justify-content:center;gap:9px;
-  box-shadow:0 6px 18px rgba(181,130,74,.28);transition:all .22s var(--ease);
+  box-shadow:0 6px 18px rgba(181,121,58,.28);transition:all .22s var(--ease);
 }
-.pay:hover:not(:disabled){background:var(--accent-deep);transform:translateY(-1px);box-shadow:0 8px 22px rgba(181,130,74,.36)}
+.pay:hover:not(:disabled){background:var(--accent-deep);transform:translateY(-1px)}
 .pay:disabled{opacity:.5;cursor:not-allowed;box-shadow:none}
 .pay .arr{transition:transform .22s var(--ease)}
 .pay:hover:not(:disabled) .arr{transform:translateX(-4px)}
-.pay.loading{pointer-events:none}
 .pay.loading .txt,.pay.loading .arr{visibility:hidden}
 .pay .spin{display:none;position:absolute;width:20px;height:20px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite}
 .pay.loading .spin{display:block}
 @keyframes sp{to{transform:rotate(360deg)}}
 
-.msg{display:none;margin-top:12px;font-size:12.5px;line-height:1.55;text-align:center;color:var(--accent-deep);
+.msg{display:none;margin-top:11px;font-size:12.5px;line-height:1.55;text-align:center;color:var(--accent-deep);
   background:var(--accent-wash);border:1px solid var(--accent-edge);border-radius:10px;padding:10px 12px}
 .msg.show{display:block}
 
+/* trust */
 .trust{margin-top:16px;display:flex;align-items:stretch;justify-content:center;
   border:1px solid var(--line);border-radius:12px;background:var(--field);overflow:hidden}
 .trust .ti{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;
@@ -167,57 +207,60 @@ body{
 <main class="card" role="main">
 
   <header class="head">
-    <div class="brand">
-      <img class="brand-img" src="logo.png" alt="הבית — הקהילה הישראלית בוינה"
-           onerror="this.style.display='none';document.getElementById('markFallback').classList.add('show');">
-      <!-- fallback shown only if logo.png is missing -->
-      <div class="mark" id="markFallback">
-        <div class="sign"><div class="nm">הבית</div></div>
-        <div class="wn">הקהילה הישראלית בוינה</div>
-      </div>
-    </div>
-    <h1 class="title">תרומה לקהילת הבית</h1>
-    <p class="sub">בחרו סכום — ואנחנו נדאג לקבלה ולתודה.</p>
+    <img class="brand-img" src="logo.png" alt="הבית — הקהילה הישראלית בוינה"
+         onerror="this.style.display='none';document.getElementById('bf').style.display='block';">
+    <div class="brand-fallback" id="bf">הבית</div>
+    <p class="kicker">תרומה לקהילה</p>
   </header>
 
-  <!-- currency -->
-  <div class="seg cur" id="curSeg" role="group" aria-label="מטבע">
-    <button type="button" data-cur="ILS" class="on"><span class="sym">₪</span> שקל</button>
-    <button type="button" data-cur="USD"><span class="sym">$</span> דולר</button>
-    <button type="button" data-cur="EUR" disabled><span class="sym">€</span> אירו<span class="soon">בקרוב</span></button>
-  </div>
+  <!-- STEP 1 · currency -->
+  <section class="step is-active" id="s1">
+    <button type="button" class="summary" id="sum1" aria-controls="b1"></button>
+    <div class="body" id="b1">
+      <div class="q">במה תרצו לתרום?</div>
+      <div class="cur-grid" id="curGrid"></div>
+    </div>
+  </section>
 
-  <!-- frequency -->
-  <div class="seg" id="freqSeg" role="group" aria-label="תדירות">
-    <button type="button" data-freq="monthly" class="on">חודשי קבוע<span class="rec">מומלץ</span></button>
-    <button type="button" data-freq="onetime">חד-פעמי</button>
-  </div>
+  <!-- STEP 2 · amount + frequency -->
+  <section class="step is-pending" id="s2">
+    <button type="button" class="summary" id="sum2" aria-controls="b2"></button>
+    <div class="body" id="b2">
+      <div class="freq" id="freq">
+        <button type="button" data-freq="monthly" class="on">חודשי<span class="rec">מומלץ</span></button>
+        <button type="button" data-freq="onetime">חד-פעמי</button>
+      </div>
+      <div class="amts" id="amts"></div>
+      <div class="custom-wrap" id="customWrap">
+        <span class="cs" id="customSym">₪</span>
+        <input type="number" inputmode="numeric" min="1" id="customInput" placeholder="סכום אחר" aria-label="סכום אחר">
+        <button type="button" class="go" id="customGo" aria-label="המשך">←</button>
+      </div>
+      <p class="reassure" id="reassure">אפשר לעצור בכל רגע — בלי התחייבות.</p>
+    </div>
+  </section>
 
-  <!-- amounts -->
-  <div class="label" id="amtLabel">סכום לחודש</div>
-  <div class="amts" id="amts"></div>
-  <div class="custom-wrap" id="customWrap">
-    <span class="cs" id="customSym">₪</span>
-    <input type="number" inputmode="numeric" min="1" id="customInput" placeholder="סכום חופשי" aria-label="סכום חופשי">
-  </div>
-  <div class="nudge" id="nudge"><span class="dot"></span><span id="nudgeText"></span></div>
+  <!-- STEP 3 · payment -->
+  <section class="step is-pending" id="s3">
+    <div class="body" id="b3">
+      <div class="q">איך נוח לכם?</div>
+      <div class="pm" id="payMethods"></div>
 
-  <!-- details -->
-  <div class="fields">
-    <div class="f"><input type="text" id="fname" placeholder="שם פרטי" autocomplete="given-name"></div>
-    <div class="f"><input type="text" id="lname" placeholder="שם משפחה" autocomplete="family-name"></div>
-    <div class="f full"><input type="email" dir="ltr" id="email" placeholder="כתובת אימייל לקבלה" autocomplete="email"></div>
-    <div class="f full hide" id="idField"><input type="text" inputmode="numeric" id="idnum" dir="ltr" placeholder="מספר תעודת זהות (לקבלה מוכרת לסעיף 46)" autocomplete="off"></div>
-  </div>
+      <div class="fields" id="fields">
+        <div class="f"><input type="text" id="fname" placeholder="שם פרטי" autocomplete="given-name"></div>
+        <div class="f"><input type="text" id="lname" placeholder="שם משפחה" autocomplete="family-name"></div>
+        <div class="f full"><input type="email" dir="ltr" id="email" placeholder="אימייל לקבלה" autocomplete="email"></div>
+        <div class="f full hide" id="idField"><input type="text" inputmode="numeric" id="idnum" dir="ltr" placeholder="ת״ז — לזיכוי מס (לא חובה)" autocomplete="off"></div>
+        <button type="button" class="pay f full" id="payBtn" style="grid-column:span 2">
+          <span class="spin" aria-hidden="true"></span>
+          <span class="txt" id="payLabel">תרומה</span>
+          <span class="arr txt" aria-hidden="true">←</span>
+        </button>
+      </div>
 
-  <button type="button" class="pay" id="payBtn" disabled>
-    <span class="spin" aria-hidden="true"></span>
-    <svg class="txt" viewBox="0 0 24 24" style="width:15px;height:15px;fill:none;stroke:#fff;stroke-width:1.7" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
-    <span class="txt" id="payLabel">תרומה חודשית · ₪100</span>
-    <span class="arr" aria-hidden="true">←</span>
-  </button>
-
-  <div class="msg" id="msg"></div>
+      <div class="msg" id="msg"></div>
+    </div>
+  </section>
 
   <footer class="trust">
     <div class="ti">
@@ -241,119 +284,191 @@ body{
   "use strict";
 
   var CURRENCIES = {
-    ILS:{ symbol:'₪', code:'ILS', name:'שקל', tax:'קבלה מוכרת לסעיף 46', needsId:true },
-    USD:{ symbol:'$', code:'USD', name:'דולר', tax:'עמותת 501(c)(3) · פטור ממס בארה״ב', needsId:false },
-    EUR:{ symbol:'€', code:'EUR', name:'אירו', tax:'קבלת תרומה אוסטרית', needsId:false }
+    ILS:{ symbol:'₪', name:'שקל',  taxFull:'קבלה מוכרת לסעיף 46 · ישראל', taxShort:'סעיף 46',  needsId:true },
+    USD:{ symbol:'$', name:'דולר', taxFull:'פטור ממס — עמותת 501(c)(3) · ארה״ב', taxShort:'501(c)(3)', needsId:false },
+    EUR:{ symbol:'€', name:'אירו', taxFull:'קבלת תרומה מוכרת · אוסטריה', taxShort:'אוסטריה', needsId:false }
   };
+  var CUR_ORDER = ['ILS','USD','EUR'];
   var PRESETS = {
     ILS:{ monthly:[50,100,200], onetime:[100,250,500] },
     USD:{ monthly:[18,36,72],  onetime:[50,100,250] },
     EUR:{ monthly:[18,36,72],  onetime:[50,100,250] }
   };
+  var ANCHOR = 1; // pre-selected preset index (middle, gentle anchor)
+  var METHODS = {
+    ILS:{ onetime:['apple','google','card'], monthly:['card'] },
+    USD:{ onetime:['apple','google','card'], monthly:['apple','google','card'] },
+    EUR:{ onetime:['apple','google','card'], monthly:['apple','google','card'] }
+  };
+  var APPLE = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.365 1.43c0 1.14-.49 2.27-1.18 3.08-.74.9-1.99 1.57-2.98 1.57-.12 0-.23-.02-.3-.03-.01-.06-.04-.22-.04-.39 0-1.15.57-2.27 1.2-2.98.8-.94 2.14-1.64 3.25-1.68.03.13.05.28.05.43zM20.93 17.14c-.03.07-.46 1.58-1.52 3.12-.94 1.34-1.94 2.71-3.43 2.71-1.52 0-1.9-.88-3.63-.88-1.7 0-2.3.91-3.67.91-1.38 0-2.33-1.26-3.43-2.8C3.96 18.4 2.92 15.59 2.92 12.94c0-4.28 2.8-6.55 5.55-6.55 1.45 0 2.68.95 3.6.95.87 0 2.22-1.01 3.9-1.01.61 0 2.89.06 4.38 2.19-.13.09-2.38 1.37-2.38 4.19 0 3.26 2.85 4.42 2.96 4.45z"/></svg>';
 
-  var state = { currency:'ILS', freq:'monthly', amount:100, custom:false };
+  var state = { step:1, currency:'ILS', freq:'monthly', amount:PRESETS.ILS.monthly[ANCHOR], custom:false, method:null, cardOpen:false };
 
-  var $ = function(id){ return document.getElementById(id); };
-  var amtsEl=$('amts'), customWrap=$('customWrap'), customInput=$('customInput'), customSym=$('customSym');
-  var nudgeEl=$('nudge'), nudgeText=$('nudgeText'), amtLabel=$('amtLabel');
-  var idField=$('idField'), idnum=$('idnum'), taxNote=$('taxNote');
-  var payBtn=$('payBtn'), payLabel=$('payLabel'), msg=$('msg');
+  var $=function(id){return document.getElementById(id);};
+  var curGrid=$('curGrid'), amtsEl=$('amts'), payMethods=$('payMethods');
+  var customWrap=$('customWrap'), customInput=$('customInput'), customSym=$('customSym'), customGo=$('customGo');
+  var reassure=$('reassure'), idField=$('idField'), idnum=$('idnum'), taxNote=$('taxNote');
+  var fieldsEl=$('fields'), payBtn=$('payBtn'), payLabel=$('payLabel'), msg=$('msg');
   var fname=$('fname'), lname=$('lname'), email=$('email');
 
   function cur(){ return CURRENCIES[state.currency]; }
   function fmt(n){ return cur().symbol + Number(n).toLocaleString('he-IL'); }
+  function freqWord(){ return state.freq==='monthly' ? 'לחודש' : ''; }
 
+  /* ---------- step machine ---------- */
+  function goToStep(n){
+    state.step=n;
+    [1,2,3].forEach(function(i){
+      var el=$('s'+i);
+      el.classList.toggle('is-active', i===n);
+      el.classList.toggle('is-done',   i<n);
+      el.classList.toggle('is-pending', i>n);
+    });
+    renderSummaries();
+    if(n===3) renderMethods();
+    if(window.scrollTo){ try{ $('s'+n).scrollIntoView({behavior:'smooth',block:'nearest'}); }catch(e){} }
+  }
+
+  function renderSummaries(){
+    $('sum1').innerHTML =
+      '<span class="sl"><span class="si">'+cur().symbol+'</span>'+
+      '<span class="sv">'+cur().name+' <span class="sx">· '+cur().taxShort+'</span></span></span>'+
+      '<span class="edit">שינוי <svg viewBox="0 0 24 24"><path d="M4 20h4L18 10l-4-4L4 16z"/></svg></span>';
+    $('sum2').innerHTML =
+      '<span class="sl"><span class="si">'+(state.freq==='monthly'?'∞':'1')+'</span>'+
+      '<span class="sv">'+fmt(state.amount)+' <span class="sx">'+(state.freq==='monthly'?'לחודש':'חד-פעמי')+'</span></span></span>'+
+      '<span class="edit">שינוי <svg viewBox="0 0 24 24"><path d="M4 20h4L18 10l-4-4L4 16z"/></svg></span>';
+  }
+
+  /* ---------- step 1: currency ---------- */
+  function renderCurrencies(){
+    curGrid.innerHTML='';
+    CUR_ORDER.forEach(function(code){
+      var c=CURRENCIES[code];
+      var b=document.createElement('button');
+      b.type='button'; b.className='cur-card'+(state.currency===code?' on':''); b.setAttribute('data-cur',code);
+      b.innerHTML='<span class="sym">'+c.symbol+'</span>'+
+        '<span class="cc-txt"><span class="cc-name">'+c.name+'</span>'+
+        '<span class="cc-tax">'+c.taxFull+'</span></span><span class="chev">‹</span>';
+      b.onclick=function(){ pickCurrency(code); };
+      curGrid.appendChild(b);
+    });
+  }
+  function pickCurrency(code){
+    state.currency=code;
+    var list=PRESETS[code][state.freq];
+    if(!state.custom) state.amount=list[ANCHOR]!=null?list[ANCHOR]:list[0];
+    idField.classList.toggle('hide', !cur().needsId);
+    taxNote.textContent=cur().taxFull;
+    customSym.textContent=cur().symbol;
+    renderCurrencies(); renderAmounts();
+    goToStep(2);
+  }
+
+  /* ---------- step 2: amount + frequency ---------- */
   function renderAmounts(){
-    var list = PRESETS[state.currency][state.freq];
+    var list=PRESETS[state.currency][state.freq];
     amtsEl.innerHTML='';
-    list.forEach(function(v){
+    list.forEach(function(v,i){
       var b=document.createElement('div');
       b.className='amt'+(!state.custom && state.amount===v?' on':'');
       b.setAttribute('role','button'); b.tabIndex=0;
-      b.textContent=fmt(v);
-      b.onclick=function(){ selectAmount(v); };
-      b.onkeydown=function(e){ if(e.key==='Enter'||e.key===' '){e.preventDefault();selectAmount(v);} };
+      b.innerHTML=(i===ANCHOR?'<span class="pop">הכי נבחר</span>':'')+fmt(v);
+      b.onclick=function(){ pickAmount(v); };
+      b.onkeydown=function(e){ if(e.key==='Enter'||e.key===' '){e.preventDefault();pickAmount(v);} };
       amtsEl.appendChild(b);
     });
     var other=document.createElement('div');
     other.className='amt other'+(state.custom?' on':'');
     other.setAttribute('role','button'); other.tabIndex=0;
     other.textContent='אחר';
-    other.onclick=toggleCustom;
-    other.onkeydown=function(e){ if(e.key==='Enter'||e.key===' '){e.preventDefault();toggleCustom();} };
+    other.onclick=openCustom;
+    other.onkeydown=function(e){ if(e.key==='Enter'||e.key===' '){e.preventDefault();openCustom();} };
     amtsEl.appendChild(other);
-    customSym.textContent=cur().symbol;
   }
-
-  function selectAmount(v){
+  function pickAmount(v){
     state.amount=v; state.custom=false;
     customWrap.classList.remove('show');
-    renderAmounts(); update();
+    renderAmounts();
+    goToStep(3);
   }
-  function toggleCustom(){
+  function openCustom(){
     state.custom=true; state.amount=Number(customInput.value)||0;
-    customWrap.classList.add('show');
-    renderAmounts(); update(); customInput.focus();
+    customWrap.classList.add('show'); renderAmounts(); customInput.focus();
   }
-  customInput.addEventListener('input', function(){
-    state.amount=Number(customInput.value)||0; update();
-  });
+  customInput.addEventListener('input', function(){ state.amount=Number(customInput.value)||0; });
+  customGo.addEventListener('click', function(){ if(state.amount>0) goToStep(3); });
+  customInput.addEventListener('keydown', function(e){ if(e.key==='Enter' && state.amount>0) goToStep(3); });
 
-  // currency
-  $('curSeg').addEventListener('click', function(e){
-    var b=e.target.closest('button'); if(!b||b.disabled) return;
-    state.currency=b.getAttribute('data-cur');
-    [].forEach.call(this.querySelectorAll('button'),function(x){x.classList.toggle('on',x===b);});
-    var list=PRESETS[state.currency][state.freq];
-    if(!state.custom) state.amount=list[1]||list[0];
-    idField.classList.toggle('hide', !cur().needsId);
-    taxNote.textContent=cur().tax;
-    renderAmounts(); update();
-  });
-
-  // frequency
-  $('freqSeg').addEventListener('click', function(e){
+  $('freq').addEventListener('click', function(e){
     var b=e.target.closest('button'); if(!b) return;
     state.freq=b.getAttribute('data-freq');
     [].forEach.call(this.querySelectorAll('button'),function(x){x.classList.toggle('on',x===b);});
-    amtLabel.textContent = state.freq==='monthly' ? 'סכום לחודש' : 'סכום התרומה';
     var list=PRESETS[state.currency][state.freq];
-    if(!state.custom) state.amount=list[1]||list[0];
-    renderAmounts(); update();
+    if(!state.custom){ state.amount = (list.indexOf(state.amount)>=0)?state.amount:(list[ANCHOR]!=null?list[ANCHOR]:list[0]); }
+    reassure.textContent = state.freq==='monthly'
+      ? 'אפשר לעצור בכל רגע — בלי התחייבות.'
+      : 'תודה על הנדיבות.';
+    renderAmounts();
   });
 
-  function emailValid(v){ return /^[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}$/.test(v); }
+  /* ---------- step 3: payment ---------- */
+  function renderMethods(){
+    var list=METHODS[state.currency][state.freq];
+    var onlyCard = (list.length===1 && list[0]==='card');
+    payMethods.innerHTML='';
 
-  function updateNudge(){
-    if(state.amount>0 && state.freq==='monthly'){
-      nudgeText.innerHTML='<b>'+fmt(state.amount)+' בחודש</b> = '+fmt(state.amount*12)+' בשנה שמחזיקים בית חם לקהילה. תודה.';
-      nudgeEl.classList.add('show');
-    } else if(state.amount>0 && state.freq==='onetime'){
-      nudgeText.innerHTML='אפשר גם <a id="toMonthly">להפוך לתרומה חודשית</a> — תמיכה קבועה שמאפשרת לתכנן קדימה.';
-      nudgeEl.classList.add('show');
-      var t=$('toMonthly'); if(t) t.onclick=function(){ document.querySelector('[data-freq="monthly"]').click(); };
-    } else {
-      nudgeEl.classList.remove('show');
+    if(!onlyCard){
+      list.forEach(function(m){
+        if(m==='apple'){
+          var a=document.createElement('button');
+          a.type='button'; a.className='wallet apple';
+          a.innerHTML=APPLE+'<span>Pay</span>';
+          a.onclick=function(){ submit('Apple Pay'); };
+          payMethods.appendChild(a);
+        } else if(m==='google'){
+          var g=document.createElement('button');
+          g.type='button'; g.className='wallet gpay';
+          g.innerHTML='<span><span class="g1">G</span><span class="g2">o</span><span class="g3">o</span><span class="g1">g</span><span class="g4">l</span><span class="g2">e</span></span><span>Pay</span>';
+          g.onclick=function(){ submit('Google Pay'); };
+          payMethods.appendChild(g);
+        }
+      });
+      var or=document.createElement('div'); or.className='pm-or'; or.textContent='או';
+      payMethods.appendChild(or);
     }
-  }
 
-  function update(){
-    updateNudge();
+    var ct=document.createElement('button');
+    ct.type='button'; ct.className='card-toggle'+(onlyCard?' on':'');
+    ct.innerHTML='<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18"/></svg> כרטיס אשראי';
+    ct.onclick=function(){ state.cardOpen=!state.cardOpen; ct.classList.toggle('on',state.cardOpen||onlyCard); toggleFields(); };
+    payMethods.appendChild(ct);
+
+    state.cardOpen = onlyCard;            // card-only → fields open immediately
+    toggleFields();
+    updatePay();
+  }
+  function toggleFields(){
+    fieldsEl.classList.toggle('show', state.cardOpen);
+    if(state.cardOpen) updatePay();
+  }
+  function emailValid(v){ return /^[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}$/.test(v); }
+  function updatePay(){
     var valid = state.amount>0 && fname.value.trim() && lname.value.trim() && emailValid(email.value.trim());
     payBtn.disabled=!valid;
-    var freqTxt = state.freq==='monthly' ? 'תרומה חודשית' : 'תרומה';
-    payLabel.textContent = state.amount>0 ? (freqTxt+' · '+fmt(state.amount)) : 'בחרו סכום';
+    payLabel.textContent = 'תרומה · '+fmt(state.amount)+(state.freq==='monthly'?' לחודש':'');
   }
-  [fname,lname,email,idnum].forEach(function(el){ el.addEventListener('input',update); });
+  [fname,lname,email,idnum].forEach(function(el){ el.addEventListener('input',updatePay); });
   email.addEventListener('blur',function(){ email.classList.toggle('bad', email.value.trim()!=='' && !emailValid(email.value.trim())); });
+  payBtn.addEventListener('click', function(){ if(!payBtn.disabled) submit('כרטיס אשראי'); });
 
-  // submit → backend creates a hosted checkout (Stripe for $, iCount for ₪) and returns a redirect url
-  payBtn.addEventListener('click', function(){
-    if(payBtn.disabled) return;
+  /* ---------- submit (design phase: hosted checkout / demo) ---------- */
+  function submit(method){
+    state.method=method;
     msg.classList.remove('show');
     payBtn.classList.add('loading');
     var payload={
-      currency:state.currency, frequency:state.freq, amount:state.amount,
+      currency:state.currency, frequency:state.freq, amount:state.amount, method:method,
       firstName:fname.value.trim(), lastName:lname.value.trim(),
       email:email.value.trim(), idNumber:(idnum.value||'').replace(/\D/g,''),
       origin:location.origin
@@ -367,13 +482,17 @@ body{
       })
       .catch(function(){
         payBtn.classList.remove('loading');
-        msg.textContent='התשלום עדיין לא חובר (מצב הדגמה). הסכום שנבחר: '+fmt(state.amount)+(state.freq==='monthly'?' לחודש':'')+'. ברגע שהמפתחות יוגדרו — הכפתור יעביר לתשלום מאובטח.';
+        msg.textContent='התשלום עדיין לא חובר (מצב הדגמה). נבחר: '+fmt(state.amount)+(state.freq==='monthly'?' לחודש':'')+' · '+method+'.';
         msg.classList.add('show');
       });
-  });
+  }
 
-  // init
-  renderAmounts(); update();
+  /* ---------- summaries reopen ---------- */
+  $('sum1').addEventListener('click', function(){ goToStep(1); });
+  $('sum2').addEventListener('click', function(){ goToStep(2); });
+
+  /* ---------- init ---------- */
+  renderCurrencies(); renderAmounts(); renderSummaries(); goToStep(1);
 })();
 </script>
 </body>
