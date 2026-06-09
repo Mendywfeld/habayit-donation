@@ -10,18 +10,19 @@
 <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600;700&family=Heebo:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root{
-  --paper:#FDFCFA;
-  --ink:#2E2B27;
-  --ink-soft:#6E675E;
-  --muted:#A8A096;
-  --line:#ECE9E2;
-  --line-soft:#F4F2EC;
-  --field:#FBFAF7;
-  --accent:#B5824A;
-  --accent-deep:#9A6A36;
-  --accent-wash:#FBF4EA;
-  --accent-edge:#F0E3D0;
-  --warn:#9A6A36;
+  --paper:#FFFDF9;
+  --ink:#211C16;
+  --ink-soft:#6B6155;
+  --muted:#A89C8B;
+  --line:#EEE8DD;
+  --line-soft:#F5F1E9;
+  --field:#FBF7F1;
+  --accent:#B5793A;
+  --accent-deep:#9A6630;
+  --accent-light:#D49A57;
+  --accent-wash:#FBF1E2;
+  --accent-edge:#EFDDC0;
+  --warn:#9A6630;
   --body:'Assistant', system-ui, -apple-system, sans-serif;
   --num:'Heebo', system-ui, sans-serif;
   --ease:cubic-bezier(0.22,1,0.36,1);
@@ -29,7 +30,10 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{min-height:100%}
 body{
-  background:var(--paper);color:var(--ink);
+  background:
+    radial-gradient(120% 60% at 50% -8%, var(--accent-wash) 0%, rgba(251,241,226,0) 60%),
+    var(--paper);
+  color:var(--ink);
   font-family:var(--body);font-weight:400;
   -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
   display:grid;place-items:center;min-height:100dvh;padding:24px 20px;
@@ -40,11 +44,18 @@ body{
 
 /* head */
 .head{display:flex;flex-direction:column;align-items:center;text-align:center;margin-bottom:24px}
-.mark{display:flex;align-items:center;gap:9px;margin-bottom:13px}
-.mark svg{width:26px;height:26px}
-.mark .stroke{fill:none;stroke:var(--accent);stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round}
-.mark .nm{font-size:18px;font-weight:600;letter-spacing:.02em}
-.mark .wn{font-size:10.5px;font-weight:500;color:var(--muted);letter-spacing:.28em}
+.brand{margin-bottom:15px;display:flex;justify-content:center}
+.brand-img{height:96px;width:auto;display:block}
+.mark{display:none;flex-direction:column;align-items:center;gap:5px}
+.mark.show{display:flex}
+.mark .sign{
+  position:relative;background:var(--accent-light);border:2.5px solid var(--ink);
+  border-radius:14px;padding:12px 30px;box-shadow:inset 0 0 0 3px rgba(255,255,255,.22);
+}
+.mark .sign:before{content:"";position:absolute;top:-13px;inset-inline-end:14px;width:13px;height:13px;
+  border:2px solid var(--ink);border-radius:50%;background:var(--paper)}
+.mark .nm{font-size:30px;font-weight:700;color:var(--ink);letter-spacing:.01em;line-height:1}
+.mark .wn{font-size:11px;font-weight:600;color:var(--ink);letter-spacing:.04em;margin-top:2px}
 .title{font-size:25px;font-weight:300;color:var(--ink);letter-spacing:-.01em;line-height:1.2}
 .sub{margin-top:7px;font-size:13.5px;color:var(--muted)}
 
@@ -143,18 +154,27 @@ body{
   background:var(--accent-wash);border:1px solid var(--accent-edge);border-radius:10px;padding:10px 12px}
 .msg.show{display:block}
 
-.foot{margin-top:14px;display:flex;align-items:center;justify-content:center;gap:7px;font-size:11.5px;color:var(--muted);flex-wrap:wrap}
-.foot .lock{width:11px;height:11px;stroke:var(--muted);fill:none;stroke-width:1.6}
-.foot .sep{opacity:.5}
+.trust{margin-top:16px;display:flex;align-items:stretch;justify-content:center;
+  border:1px solid var(--line);border-radius:12px;background:var(--field);overflow:hidden}
+.trust .ti{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;
+  padding:11px 6px;font-size:11px;font-weight:600;color:var(--ink-soft);text-align:center;line-height:1.3}
+.trust .ti+.ti{border-inline-start:1px solid var(--line)}
+.trust .ti svg{width:16px;height:16px;stroke:var(--accent);fill:none;stroke-width:1.5}
+.trust .ti span{unicode-bidi:isolate}
 </style>
 </head>
 <body>
 <main class="card" role="main">
 
   <header class="head">
-    <div class="mark">
-      <svg viewBox="0 0 40 40" aria-hidden="true"><path class="stroke" d="M8 19 L20 9 L32 19 M11 19 V32 H29 V19 M17 32 V24 a3 3 0 0 1 6 0 V32"/></svg>
-      <span class="nm">הבית</span><span class="wn">WIEN</span>
+    <div class="brand">
+      <img class="brand-img" src="logo.png" alt="הבית — הקהילה הישראלית בוינה"
+           onerror="this.style.display='none';document.getElementById('markFallback').classList.add('show');">
+      <!-- fallback shown only if logo.png is missing -->
+      <div class="mark" id="markFallback">
+        <div class="sign"><div class="nm">הבית</div></div>
+        <div class="wn">הקהילה הישראלית בוינה</div>
+      </div>
     </div>
     <h1 class="title">תרומה לקהילת הבית</h1>
     <p class="sub">בחרו סכום — ואנחנו נדאג לקבלה ולתודה.</p>
@@ -199,9 +219,19 @@ body{
 
   <div class="msg" id="msg"></div>
 
-  <footer class="foot">
-    <svg class="lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
-    <span>תשלום מאובטח</span><span class="sep">·</span><span id="taxNote">קבלה מוכרת לסעיף 46</span>
+  <footer class="trust">
+    <div class="ti">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+      <span>תשלום מאובטח</span>
+    </div>
+    <div class="ti">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4M9.5 13h5M9.5 16.5h5"/></svg>
+      <span id="taxNote">קבלה מוכרת לסעיף 46</span>
+    </div>
+    <div class="ti">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="9" r="3.2"/><path d="M10.3 11.3 19 20M16 17l2-2M14 15l1.5-1.5"/></svg>
+      <span>100% לקהילה</span>
+    </div>
   </footer>
 
 </main>
