@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "skills": {
+    "israeli-toshav-chozer-vatik-tax-planner": {
+      "source": "skills-il/tax-and-finance",
+      "sourceType": "github",
+      "computedHash": "d125ef3da966216cd310486ce60b74dba42c03edb9fcb4c4ff79825fbf1b6322"
+    }
+  }
+}
