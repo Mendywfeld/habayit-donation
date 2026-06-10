@@ -5,6 +5,11 @@
       "source": "skills-il/tax-and-finance",
       "sourceType": "github",
       "computedHash": "d125ef3da966216cd310486ce60b74dba42c03edb9fcb4c4ff79825fbf1b6322"
+    },
+    "make-com-israeli-automations": {
+      "source": "skills-il/developer-tools",
+      "sourceType": "github",
+      "computedHash": "493e7188c98ac6eb85f8356aa4fe6a0bd7b83a13275e9df4a5eec7c922d32ec1"
     }
   }
 }
