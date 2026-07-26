@@ -361,8 +361,8 @@ body{
   <button class="linkbtn" id="again">לתרומה נוספת</button>
 </div></div>
 <div class="ov" id="ovErr"><div class="ov-in">
-  <div class="mark er">!</div><h2>התשלום לא הושלם</h2>
-  <p>משהו השתבש בדרך — הפרטים נשמרו, אפשר לנסות שוב בלי למלא מחדש.</p>
+  <div class="mark er">!</div><h2 id="errTitle">התשלום לא הושלם</h2>
+  <p id="errText">משהו השתבש בדרך — הפרטים נשמרו, אפשר לנסות שוב בלי למלא מחדש.</p>
   <div class="acts"><button class="primary" id="retry">לנסות שוב</button><button class="linkbtn" id="contact">צריך עזרה? דברו איתנו</button></div>
 </div></div>
 
@@ -374,7 +374,11 @@ body{
   var SYMBOLS={EUR:'€',USD:'$',ILS:'₪'}, NAMES={EUR:'אירו',USD:'דולר',ILS:'שקל'};
   var TAX={EUR:'קבלה מוכרת · אוסטריה',USD:'פטור ממס 501(c)(3) · ארה״ב',ILS:'קבלה מוכרת לסעיף 46 · ישראל'};
   var TAXSHORT={EUR:'אוסטריה',USD:'501(c)(3)',ILS:'סעיף 46'};
-  var CUR_ORDER=['ILS','EUR','USD'];
+  /* Only currencies the backend can actually charge (config.enabledCurrencies).
+     EUR stays in SYMBOLS/RATES as the display anchor, but is not offered for
+     selection until an Austrian Stripe entity exists — otherwise a donor gets
+     all the way to payment and is rejected there. */
+  var CUR_ORDER=['ILS','USD'];
   var AMOUNTS={monthly:[18,36,72,101],once:[36,72,180,360]};
   var RATES={EUR:1,USD:1.08,ILS:4.05};
   var METHODS={ILS:{once:['apple','google','card'],monthly:['card']},
@@ -614,15 +618,32 @@ body{
       setTimeout(function(){$('ovTrans').classList.remove('show');tryCheckout(payload);},1400);
     } else { tryCheckout(payload); }
   }
+  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+
   function tryCheckout(payload){
     fetch('/api/create-checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
-      .then(function(r){return r.json().then(function(d){return{ok:r.ok,d:d};});})
-      .then(function(res){ if(res.ok&&res.d&&res.d.url){window.location.assign(res.d.url);return;} showOk(); })
-      .catch(function(){ showOk(); }); /* design phase: treat as success demo */
+      .then(function(r){return r.json().catch(function(){return{};}).then(function(d){return{ok:r.ok,d:d};});})
+      .then(function(res){
+        if(res.ok&&res.d&&res.d.url){window.location.assign(res.d.url);return;}
+        /* Never show success for a payment that did not happen. */
+        showErr(res.d&&res.d.message);
+      })
+      .catch(function(){ showErr(); });
   }
-  function showOk(){
+  function showErr(msg,title){
+    $('ovTrans').classList.remove('show');
+    $('errTitle').textContent=title||'התשלום לא הושלם';
+    $('errText').textContent=msg||'משהו השתבש בדרך — הפרטים נשמרו, אפשר לנסות שוב בלי למלא מחדש.';
+    $('ovErr').classList.add('show');
+  }
+  function showOk(generic){
     var m=state.frequency==='monthly';
-    $('okText').innerHTML=(state.first?'<b>'+state.first+'</b>, ':'')+'התרומה התקבלה. קבלה רשמית נשלחה אל '+state.email+'.'+(m?'<br><br>תודה שבחרתם להיות שותפים קבועים של הבית.':'');
+    if(generic||!state.email){
+      $('okText').innerHTML='התרומה התקבלה. קבלה רשמית תישלח אליכם במייל.';
+    } else {
+      $('okText').innerHTML=(state.first?'<b>'+esc(state.first)+'</b>, ':'')+'התרומה התקבלה. קבלה רשמית נשלחה אל '+esc(state.email)+'.'+(m?'<br><br>תודה שבחרתם להיות שותפים קבועים של הבית.':'');
+    }
     $('ovOk').classList.add('show');
   }
 
@@ -636,8 +657,22 @@ body{
   $('sum1').onclick=function(){goTo(1);}; $('sum2').onclick=function(){goTo(2);}; $('sum3').onclick=function(){goTo(3);};
   window.addEventListener('popstate',function(e){var s=(e.state&&e.state.stage)||1;if(s<state.stage)goTo(s,false);});
 
+  /* Donors come back from iCount/Stripe at /?status=success|cancel.
+     Without this the payer lands on an empty form and cannot tell whether
+     the donation went through — a real risk of double-paying or abandoning. */
+  function handleReturn(){
+    var s=(location.search.match(/[?&]status=([a-z]+)/i)||[])[1];
+    if(!s)return false;
+    s=s.toLowerCase();
+    try{history.replaceState({stage:1},'',location.pathname);}catch(e){}
+    if(s==='success'){showOk(true);return true;}
+    if(s==='cancel'){showErr('התשלום בוטל ולא בוצע חיוב. אפשר לנסות שוב מתי שנוח לכם.','התרומה לא הושלמה');return true;}
+    return false;
+  }
+
   /* init */
   renderCurrencies();updateMonthNote();
+  handleReturn();
   try{history.replaceState({stage:1},'','#step1');}catch(e){}
 })();
 </script>
